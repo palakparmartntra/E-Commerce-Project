@@ -1,5 +1,5 @@
 # Dash Clothes: An E-Commerce Clothing Website
-Dash clothes is an online clothing website where you can purchase attractive clothes for everyone.It is written in Python with Django and Jinja2 template system.
+Dash clothes is an online clothing website where you can purchase attractive clothes for everyone. It is written in Python with Django and Jinja2 template system.
 Dash Clothes is a fully responsive ecommerce website, in all mobile devices, built using HTML, CSS, and JavaScript.
 # Table of contents
 
@@ -61,11 +61,10 @@ This files contains over all application requirement lib.
 ```bash
  git clone https://github.com/palakparmartntra/E-Commerce-Project.git  
  ```
-2. Created a project named Dash Colthes 
+2. Install requirements
 ```bash
- django-admin startproject Dash Clothes 
- ```
- 
+pip install -r requirements.txt
+``` 
 
 
 
