@@ -4,9 +4,9 @@ Dash Clothes is a fully responsive ecommerce website, in all mobile devices, bui
 # Table of contents
 
 - [Technologies](./#Technologies)
-- [Folder structure](./#Folderstructure)
-- [Folder description](./#folderdescription)
-- [Project setup guides](./#Project-setup)
+- [Folder structure](./#Folder-Structure)
+- [Folder description](./#Folder-Description)
+- [Project setup guides](./#Project-Setup)
 
 # Technologies 
 
@@ -14,7 +14,7 @@ Dash Clothes is a fully responsive ecommerce website, in all mobile devices, bui
 - Django
 - Database - Pgadmin
 
-# Folder structure
+# Folder Structure
 ```commandline
 .
 |-- README.md
@@ -54,7 +54,7 @@ It containes all the project related congiguration. It is used to write all modu
 This files contains over all application requirement lib.
 ```
 
-# Project setup 
+# Project Setup 
 
 1. Clone the git repo
 
