@@ -5,8 +5,8 @@ Dash cloths is a online cloths website where you can puchase  attractive cloths 
 - [Technologies](./#Technologies)
 - [Folder structure](./#Folderstructure)
 - [Folder description](./#folderdescription)
-- [Project setup guides](./#Projectsetup)
-
+- [Project setup guides](./#Project-setup)
+ 
 # Technologies 
 
 - Python
