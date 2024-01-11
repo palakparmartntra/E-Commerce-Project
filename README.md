@@ -10,7 +10,8 @@ Dash cloths is a online cloths website where you can puchase  attractive cloths 
 - Python 
 - Django 
 - Database - pgadmin
-=======
+
+
 - [Technologies](./#Technologies)
 - [Folder structure](./#Folderstructure)
 - [Folder description](./#folderdescription)
@@ -25,6 +26,7 @@ Dash cloths is a online cloths website where you can puchase  attractive cloths 
 
 # Folder structure
 Tree
+
 # Folder Description 
 all folder description 
 
@@ -40,7 +42,6 @@ all folder description
 
 
 
->>>>>>> e26e5b04de21f28f1489051cd619608c133988fc
 
 
 
