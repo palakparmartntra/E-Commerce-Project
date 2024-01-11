@@ -3,9 +3,9 @@ Dash cloths is a online cloths website where you can puchase  attractive cloths 
 
 # Table of contents
 - [Technologies](./#Technologies)
-- [Folder structure(tree form)](./#Folder structure(tree form))
-- [Folder description](
-- Project setup guides
+- [Folder structure](./#Folderstructure)
+- [Folder description](./#folderdescription)
+- [Project setup guides](./#Projectsetup)
 
 # Technologies 
 
@@ -14,8 +14,10 @@ Dash cloths is a online cloths website where you can puchase  attractive cloths 
 - Database - Pgadmin
 
 
-# Directory/Folder structure
+# Folder structure
 Tree
+# Folder Description 
+all folder description 
 
 # Project setup 
 
