@@ -31,11 +31,5 @@ all folder description
 ```bash
  django-admin startproject Dash Clothes 
  ```
- 
-
-
-
->>>>>>> e26e5b04de21f28f1489051cd619608c133988fc
-
 
 
