@@ -3,20 +3,16 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 # Create your models here.
 
-''' User model'''
-
 
 class User(AbstractUser):
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
-    phone_no = models.IntegerField()
+    phone_no = models.IntegerField(null= True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         self.username
 
-
-''' Address model '''
 
 class Address(models.Model):
     reciever_name = models.CharField(max_length=25)
