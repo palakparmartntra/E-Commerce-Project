@@ -11,10 +11,11 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        self.username
+        return self.username
 
 
 class Address(models.Model):
+
     reciever_name = models.CharField(max_length=25)
     phone_no = models.IntegerField()
     house_no = models.IntegerField()
