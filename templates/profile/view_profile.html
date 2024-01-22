@@ -1,0 +1,46 @@
+{% extends 'base/header.html' %}
+{% block content %}
+<div class="my-account">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-9">
+            <div class="tab-content">
+                <div id="address-tab" role="tabpanel" >
+                <h1>{{ object.username }}</h1><br><br>
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5>{{ user.first_name }}</h5>
+                        <h5>{{ user.last_name }}</h5>
+                        <p>Phone: {{ user.phone_no }}</p><br>
+                        <button class="btn">Edit Profile</button><br><br>
+                    </div>
+                </div>
+                    <h2>Address</h2><br>
+                    {% for address in addresses %}
+                    <div class="row">
+                    <div class="col-md-6">
+                            <h3>
+                                {% if address.is_primary %}
+                                    Default Address
+                                {% elif not other_address_displayed %}
+                                    Other Address
+                                {% endif %}
+                            </h3>
+                            <p>{{ address.reciever_name }}</p>
+                            <p>{{ address.phone_no }}</p>
+                            <p>{{ address.house_no }}, {{ address.street }}</p>
+                            <p>{{ address.city }}, {{ address.state }} {{ address.zipcode }}</p>
+                            <p>Primary: {{ address.is_primary }}</p>
+                            <hr>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button class="btn">Edit Address</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
