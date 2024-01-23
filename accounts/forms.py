@@ -7,7 +7,8 @@ class AddressForm(forms.ModelForm):
 
     class Meta:
         model = Address
-        fields = ['reciever_name', 'house_no', 'phone_no', 'street', 'landmark', 'city', 'state', 'zipcode']
+        fields = ['reciever_name', 'house_no', 'phone_no',
+                  'street', 'landmark', 'city', 'state', 'zipcode']
 
 
 class UserUpdateForm(forms.ModelForm):

@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
-from .models import *
-from .forms import AddressForm,UserUpdateForm
-from django.urls import  reverse_lazy
-from  django.views.generic import  TemplateView
+from .models import User, Address
+from .forms import AddressForm, UserUpdateForm
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+
+
 # Create your views here.
 
 
@@ -28,7 +30,3 @@ class UpdateUserProfile(UpdateView):
 class Index(TemplateView):
     """view for the render index page """
     template_name = 'index.html'
-
-
-
-
