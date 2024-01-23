@@ -12,5 +12,4 @@ class ViewProfile(DetailView):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         context['addresses'] = user.address.all()
-        context['other_address_displayed'] = False
         return context
