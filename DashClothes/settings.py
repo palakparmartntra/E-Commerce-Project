@@ -19,8 +19,6 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -168,10 +166,6 @@ EMAIL_HOST_PASSWORD = 'qmnf nmvl skvq cwur'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS=True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 LOGIN_REDIRECT_URL = 'homepage'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
-
-
-
-
