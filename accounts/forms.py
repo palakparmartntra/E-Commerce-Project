@@ -1,12 +1,18 @@
 from django import forms
-from .models import Address,User
+from .models import Address, User
+
 
 class AddressForm(forms.ModelForm):
-        class Meta:
-            model = Address
-            fields = ['reciever_name','house_no','phone_no','street','landmark','city','state','zipcode']
+    """created form for update user address"""
+
+    class Meta:
+        model = Address
+        fields = ['reciever_name', 'house_no', 'phone_no', 'street', 'landmark', 'city', 'state', 'zipcode']
+
 
 class UserUpdateForm(forms.ModelForm):
+    """created form for update user profile"""
+
     class Meta:
         model = User
-        fields = ['first_name','last_name','phone_no','email']
+        fields = ['first_name', 'last_name', 'phone_no', 'email']
