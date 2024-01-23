@@ -8,5 +8,4 @@ from allauth.account.views import LoginView
 urlpatterns = [
     path('',views.HomePageView.as_view(),name='homepage'),
 
-
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
