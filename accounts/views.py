@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+
 from .models import User
+from django.views.generic import TemplateView
+
+class HomePageView(TemplateView):
+
+    template_name = 'index.html'
 
 
-def homepage(request):
-    return render(request, 'index.html')
-
-def my_account(request):
-    return render(request, 'my-account.html')
 
 
 

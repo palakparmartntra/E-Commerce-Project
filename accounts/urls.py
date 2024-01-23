@@ -6,7 +6,7 @@ from . import views
 from allauth.account.views import LoginView
 
 urlpatterns = [
-    path('',views.homepage,name='homepage'),
-    path('my_account/',views.my_account,name='my_accounts'),
+    path('',views.HomePageView.as_view(),name='homepage'),
+
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

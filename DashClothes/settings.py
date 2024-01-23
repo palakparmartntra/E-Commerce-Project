@@ -30,19 +30,6 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        # For each OAuth based provider, either add a ''SocialApp''
-        # (''socialaccount'' app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '<your_client_id>',
-            'secret': '<your_secret_key>',
-            'key': ''
-        }
-    }
-}
-
 AUTHENTICATION_BACKENDS = [
 
     'django.contrib.auth.backends.ModelBackend',
@@ -170,11 +157,10 @@ EMAIL_HOST_USER = 'yshah112002@gmail.com'
 EMAIL_HOST_PASSWORD = 'qmnf nmvl skvq cwur'
 
 
-ACCOUNT_EMAIL_REQUIRED = True #new
+ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS=True
 LOGIN_REDIRECT_URL = 'homepage'
-# LOGOUT_REDIRECT_URL = 'account_login'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 
 
