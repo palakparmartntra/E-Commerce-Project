@@ -30,6 +30,7 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            background-color:#FF6F61
         }
 
      div {
@@ -45,7 +46,7 @@
     <body>
 
        <div  >
-           <h4> Login Page </h4>
+           <h3><strong>Login Page</strong></h3>
            <br>
            <form method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
