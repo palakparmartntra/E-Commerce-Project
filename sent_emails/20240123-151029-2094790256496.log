@@ -1,0 +1,21 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: [example.com] Password Reset Email
+From: webmaster@localhost
+To: yshah112002@gmail.com
+Date: Tue, 23 Jan 2024 09:40:29 -0000
+Message-ID: <170600282928.16888.3975970635603277244@Yash.sophos.com>
+
+Hello from example.com!
+
+You're receiving this email because you or someone else has requested a password reset for your user account.
+It can be safely ignored if you did not request a password reset. Click the link below to reset your password.
+
+http://127.0.0.1:8000/password/reset/key/9-c19gth-d8768114a1019b578821b9d9b07679cd/
+
+In case you forgot, your username is Yash.
+
+Thank you for using example.com!
+example.com
+-------------------------------------------------------------------------------
