@@ -1,14 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 # Create your models here.
 
 
 class User(AbstractUser):
+    ''' model for user details '''
+
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
-    phone_no = models.IntegerField(null=True, blank=True)
+    phone_no = models.IntegerField(null= True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -16,7 +17,11 @@ class User(AbstractUser):
 
 
 class Address(models.Model):
+
     reciever_name = models.CharField(max_length=25)
+    '''model for user address '''
+
+    receiever_name = models.CharField(max_length=25)
     phone_no = models.IntegerField()
     house_no = models.IntegerField()
     street = models.CharField(max_length=150)
@@ -26,3 +31,9 @@ class Address(models.Model):
     state = models.CharField(max_length=20)
     zipcode = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
+
+
+
+
+
+
