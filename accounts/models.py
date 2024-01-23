@@ -11,7 +11,7 @@ class User(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        self.username
+       return self.username
 
 
 class Address(models.Model):
@@ -25,8 +25,6 @@ class Address(models.Model):
     state = models.CharField(max_length=20)
     zipcode = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
-
-
 
 
 
