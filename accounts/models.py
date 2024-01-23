@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxLengthValidator, MinLengthValidator
+
 # Create your models here.
 
 
 class User(AbstractUser):
+    ''' model for user details '''
+
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
     phone_no = models.IntegerField(null= True,blank=True)
@@ -15,7 +17,9 @@ class User(AbstractUser):
 
 
 class Address(models.Model):
-    reciever_name = models.CharField(max_length=25)
+    '''model for user address '''
+
+    receiever_name = models.CharField(max_length=25)
     phone_no = models.IntegerField()
     house_no = models.IntegerField()
     street = models.CharField(max_length=150)
