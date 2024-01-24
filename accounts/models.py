@@ -17,7 +17,7 @@ class User(AbstractUser):
 
 
 class Address(models.Model):
-    """ model for user address """
+    """model for user address """
 
     receiver_name = models.CharField(max_length=25)
     phone_no = models.CharField()
@@ -29,9 +29,3 @@ class Address(models.Model):
     state = models.CharField(max_length=20)
     zipcode = models.CharField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
-
-
-
-
-
-
