@@ -5,33 +5,27 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    ''' model for user details '''
+    """ model for user details """
 
     first_name = models.CharField(max_length=25)
     last_name = models.CharField(max_length=25)
-    phone_no = models.IntegerField(null= True,blank=True)
+    phone_no = models.CharField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        self.username
+        return self.username
 
 
 class Address(models.Model):
-    '''model for user address '''
+    """model for user address """
 
-    receiever_name = models.CharField(max_length=25)
-    phone_no = models.IntegerField()
-    house_no = models.IntegerField()
+    receiver_name = models.CharField(max_length=25)
+    phone_no = models.CharField()
+    house_no = models.CharField()
     street = models.CharField(max_length=150)
     is_primary = models.BooleanField(default=False)
     landmark = models.CharField(max_length=60)
     city = models.CharField(max_length=20)
     state = models.CharField(max_length=20)
-    zipcode = models.IntegerField()
+    zipcode = models.CharField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
-
-
-
-
-
-
