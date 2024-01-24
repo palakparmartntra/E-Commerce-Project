@@ -1,0 +1,25 @@
+{% extends 'base/header.html' %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+
+{% block content %}
+
+ <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+    <div class="navbar-nav mr-auto">
+        <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
+            {% csrf_token %}
+        </form>
+        <a>{{request.user}} </a>
+    </div>
+</div>
+
+''' all the required content will be here '''
+
+{% endblock %}
+
+
+    <h4> we have send you password reset email </h4>
+    <a href="{% url 'account_login' %}">login page </a>

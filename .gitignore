@@ -1,3 +1,6 @@
 venv_ecom
 __pycache__
 .idea/
+.env
+setup.cfg
+.log
