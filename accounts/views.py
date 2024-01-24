@@ -25,6 +25,7 @@ class UpdateUserProfile(UpdateView):
     form_class = UserUpdateForm
     template_name = 'update_profile.html'
     success_url = reverse_lazy('index')
+    context_object_name = 'data'
 
 
 class Index(TemplateView):

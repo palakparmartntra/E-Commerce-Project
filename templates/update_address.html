@@ -4,6 +4,17 @@
 
 {% block content %}
 
+<style>
+
+        .errorlist {
+          list-style-type: none;
+          color: red;
+          position: relative;
+          right: 31px;
+
+        }
+</style>
+
 <div class="my-account">
     <div class="container-fluid">
         <div class="row">
@@ -14,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-9">
   <h2>Update Address</h2>
-  <form method="post" enctype="multipart/form-data" action="{% url 'update' pk=address.id %}">
+  <form method="post" enctype="multipart/form-data" action="{% url 'updateaddress' pk=address.id %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary" type="submit">Update</button>
