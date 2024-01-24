@@ -62,7 +62,10 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
                                 <div class="dropdown-menu">
-
+                                    <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                    <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
+                                        {% csrf_token %}
+                                    </form>
                                     <a href="#" class="dropdown-item">Register</a>
                                 </div>
                             </div>
@@ -121,6 +124,7 @@
 
 {% endblock %}
 {% block content %}
+
 {% endblock %}
 
         <!-- Footer Start -->
