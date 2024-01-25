@@ -27,6 +27,7 @@ class UpdateUserProfile(UpdateView):
     success_url = reverse_lazy('index')
 
 
+
 class Index(TemplateView):
     """view for the render index page """
     template_name = 'index.html'

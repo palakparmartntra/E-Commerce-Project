@@ -13,7 +13,15 @@
           right: 31px;
 
         }
+me {display: inline-block; width:49%;}
+.Name .cf-medium {width:130%;}
+.Name label {display: block !important; width: 150% !important;}
+  .side-by-side {
+        display: inline-block;
+        margin-right: 10px;  /* Adjust the margin as needed */
+    }
 </style>
+
 
 <div class="my-account">
     <div class="container-fluid">
@@ -22,16 +30,21 @@
             <div class="tab-content">
                 <div id="address-tab" role="tabpanel" >
                 <h1>{{ user.username }}</h1><br><br>
-                <div class="row">
-                    <div class="col-md-9">
   <h2>Update Address</h2>
-  <form method="post" enctype="multipart/form-data" action="{% url 'updateaddress' pk=address.id %}">
+                    <br>
+<div class="Name">
+  <form style="margin:auto"  method="post" enctype="multipart/form-data" action="{% url 'updateaddress' address.pk %}">
     {% csrf_token %}
-    {{ form.as_p }}
+               <div class="row">
+                   <div class="col-md-6">
+                      {{ form.as_p }}
+                       {{ a.zipcode }}
+                   </div>
+
+       </div>
+                    </div>
     <button class="btn btn-primary" type="submit">Update</button>
   </form>
-           </div>
-                </div>
 
                 </div>
             </div>
