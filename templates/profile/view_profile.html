@@ -10,9 +10,9 @@
                 <div id="address-tab" role="tabpanel" >
                 <h1>
                     <img src="{% static 'img/default_user.png' %}" alt="default user" width="50px"> {{ user.username }}
-                </h1><br><br>
+                </h1><br><hr><br><br>
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-md-9"> <a href="{% url 'account_change_password' %}" class="btn">Update Password</a><br><br>
                         <h5>{{ user.first_name }}</h5>
                         <h5>{{ user.last_name }}</h5>
                         <p>Phone: {{ user.phone_no }}</p><br>
