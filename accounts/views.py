@@ -47,3 +47,9 @@ class ViewProfile(DetailView):
         user = self.get_object()
         context['addresses'] = user.address.all()
         return context
+
+
+class HomePageView(TemplateView):
+    """ view for rendering index page"""
+
+    template_name = 'index.html'
