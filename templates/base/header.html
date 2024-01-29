@@ -54,16 +54,15 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href class="nav-item nav-link">{{request.user}} </a>
+                            <a href="{% url 'view_profile' user.id %}" class="nav-item nav-link">{{request.user}} </a>
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto">
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
+
                                 <div class="dropdown-menu">
-                                    <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
                                         {% csrf_token %}
                                     </form>
                                     <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
