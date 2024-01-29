@@ -1,20 +1,22 @@
 {% extends 'base/header.html' %}
 
 {% block content %}
-
+{% load static %}
 <div class="my-account">
     <div class="container-fluid">
         <div class="row">
         <div class="col-md-9">
             <div class="tab-content">
                 <div id="address-tab" role="tabpanel" >
-                <h1>{{ user.username }}</h1><br><br>
+                <h1>
+                    <img src="{% static 'img/default_user.png' %}" alt="default user" width="50px"> {{ user.username }}
+                </h1><br><br>
                 <div class="row">
                     <div class="col-md-9">
                         <h5>{{ user.first_name }}</h5>
                         <h5>{{ user.last_name }}</h5>
                         <p>Phone: {{ user.phone_no }}</p><br>
-                        <button class="btn">Edit Profile</button><br><br>
+                        <a href="{% url 'updateprofile' user.id %}" class="btn">Edit Profile</a><br><br>
                     </div>
                 </div>
                 <h2>Address</h2><br>
@@ -36,7 +38,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <button class="btn">Edit Address</button>
+                    <a href="{% url 'updateaddress' user.id %}" class="btn">Edit Address</a>
                 </div>
             </div>
         </div>
