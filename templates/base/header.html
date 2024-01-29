@@ -54,7 +54,7 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href class="nav-item nav-link">{{request.user}} </a>
+                            <a href="{% url 'view_profile' user.id %}" class="nav-item nav-link">{{request.user}} </a>
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
