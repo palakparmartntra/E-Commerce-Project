@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from django.views.generic.edit import UpdateView
 from .models import User, Address
 from .forms import AddressForm, UserUpdateForm
@@ -46,3 +47,9 @@ class ViewProfile(DetailView):
         user = self.get_object()
         context['addresses'] = user.address.all()
         return context
+
+
+class HomePageView(TemplateView):
+    """ view for rendering index page"""
+
+    template_name = 'index.html'
