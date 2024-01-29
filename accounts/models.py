@@ -29,3 +29,5 @@ class Address(models.Model):
     state = models.CharField(max_length=20)
     zipcode = models.CharField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='address')
+
+
