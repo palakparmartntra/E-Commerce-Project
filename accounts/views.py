@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, CreateView
 from .models import User, Address
 from .forms import AddressForm, UserUpdateForm
 from django.urls import reverse_lazy
@@ -57,3 +57,17 @@ class HomePageView(TemplateView):
     """ view for rendering index page"""
 
     template_name = 'index.html'
+
+
+class AddAddress(CreateView):
+    model = Address
+    fields = ['receiver_name', 'house_no', 'phone_no', 'street',
+              'landmark', 'city', 'state', 'zipcode']
+    template_name = 'profile/add_address.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('view_profile', kwargs={'pk': self.request.user.pk})
