@@ -51,8 +51,11 @@
            <form method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
                               {{ form.as_p }}
+               <br>
                <button class="btn" type="submit">Login</button>
                             </form>
+           <hr>
+               Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
             </div>
         <br>
 
