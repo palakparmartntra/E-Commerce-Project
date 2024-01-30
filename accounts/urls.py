@@ -10,7 +10,7 @@ urlpatterns = [
     path('<pk>/', login_required(views.ViewProfile.as_view()), name='view_profile'),
     path('updateaddress/<int:pk>/', login_required(views.UpdateAddressView.as_view()), name='updateaddress'),
     path('updateprofile/<int:pk>/', login_required(views.UpdateUserProfile.as_view()), name='updateprofile'),
-    path('addaddress/<int:pk>', views.AddAddress.as_view(), name='add-address'),
+    path('addaddress/<int:pk>/', views.AddAddress.as_view(), name='add-address'),
 
 
     path('index', views.Index.as_view(), name='index')
