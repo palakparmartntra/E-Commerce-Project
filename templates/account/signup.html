@@ -24,24 +24,24 @@
           <link href="{% static 'css/style.css' %}" rel="stylesheet">
     </head>
 <style>
-      body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 90vh;
-            margin: 0;
-            background-color:#FF6F61
-        }
+<!--      body {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            height: 90vh;-->
+<!--            margin: 0;-->
+<!--            background-color:#FF6F61-->
+<!--        }-->
 
-     div {
-     background-color:white;
-     border:2px solid black;
-     padding:50px;
-     }
+<!--     div {-->
+<!--     background-color:white;-->
+<!--     border:2px solid black;-->
+<!--     padding:50px;-->
+<!--     }-->
 
-        form {
-            margin-top: 20px;
-        }
+<!--        form {-->
+<!--            margin-top: 20px;-->
+<!--        }-->
 </style>
     <body>
        <div>
@@ -50,37 +50,30 @@
            <form method="post">
                 {{ form.non_field_errors | safe }}
                 {% csrf_token %}
-
-               <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
                 <h4>Account Details</h4>
                 <div class="row">
-                    <div class="col-md-6">
-                        {{ form.login }}
-                        <label for="{{form.login.id_for_label}}">Email</label>
-                        {{ form.login.errors|safe }}
+                    <div class="form-control">
+                        {{ form.username }}
+                        <label for="{{form.username.id_for_label}}">Email: </label>
+                        {{ form.username.errors|safe }}
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="text" placeholder="Last Name">
+                        {{ form.password1 }}
+                        <label for="{{form.password1.id_for_label}}">Password: </label>
+                        {{ form.password1.errors|safe }}
                     </div>
                     <div class="col-md-6">
-                        <input class="form-control" type="text" placeholder="Mobile">
+                        {{ form.password2 }}
+                        <label for="{{form.password2.id_for_label}}">Password (again): </label>
+                        {{ form.password2.errors|safe }}
                     </div>
-                    <div class="col-md-6">
-                        <input class="form-control" type="text" placeholder="Email">
-                    </div>
+
                     <div class="col-md-12">
-                        <input class="form-control" type="text" placeholder="Address">
-                    </div>
-                    <div class="col-md-12">
-                        <button class="btn">Update Account</button>
+                        <button class="btn" type="submit">Sign Up</button><br><br>
                         <br><br>
                     </div>
                 </div>
-
-
-
-                <button class="btn" type="submit">Sign Up</button><br><br>
-                Already have an account? <a href="{% url 'account_login' %}"> Login</a>
+               Already have an account? <a href="{% url 'account_login' %}"> Login</a>
            </form>
            <hr>
                Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
