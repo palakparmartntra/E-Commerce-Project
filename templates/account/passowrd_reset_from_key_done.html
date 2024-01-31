@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base/header.html' %}
 
-</body>
-</html>
+{% block content %}
+
+<div class="my-account">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-9">
+            <div class="tab-content">
+                <div id="address-tab" role="tabpanel" >
+                    <div class="row">
+                    <div class="col-md-6">
+                        successfully changed password
+                        <form method="post" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn" type="submit">Save</button>
+                        </form>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
