@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.views.generic.edit import UpdateView, CreateView
 from .models import User, Address
 from .forms import AddressForm, UserUpdateForm
@@ -7,9 +6,12 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from .models import User
+from allauth.account.views import SignupView
+from .forms import CustomSignupForm
 
 
 # Create your views here.
+
 
 class UpdateAddressView(UpdateView):
     """view for the update user address"""
@@ -46,7 +48,7 @@ class ViewProfile(DetailView):
     template_name = 'profile/view_profile.html'
     context_object_name = 'user'
 
-    def get_context_data(self,  *args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         context['addresses'] = user.address.all()
@@ -71,3 +73,7 @@ class AddAddress(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('view_profile', kwargs={'pk': self.request.user.pk})
+
+
+class CustomSignupView(SignupView):
+    form_class = CustomSignupForm
