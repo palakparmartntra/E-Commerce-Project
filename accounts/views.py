@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from .models import User
+from django.http import Http404
 
 
 # Create your views here.
@@ -51,6 +52,12 @@ class ViewProfile(DetailView):
         user = self.get_object()
         context['addresses'] = user.address.all()
         return context
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        if self.request.user != obj:
+            raise Http404("Profile not found")
+        return obj
 
 
 class HomePageView(TemplateView):

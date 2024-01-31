@@ -54,24 +54,30 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="{% url 'view_profile' user.id %}" class="nav-item nav-link">{{request.user}} </a>
-                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="{% url 'homepage' %}" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto">
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
+    {%  if request.user.is_authenticated %}
 
-                                <div class="dropdown-menu">
-                                    <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
-                                        {% csrf_token %}
-                                    </form>
-                                    <a href="#" class="dropdown-item">Register</a>
-                                </div>
+    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
 
-
-                            </div>
+    <div class="dropdown-menu">
+         <a href="{% url 'view_profile' user.id %}" class="dropdown-item">{{request.user}} </a>
+        <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
+            {% csrf_token %}
+        </form>
+        {% else %}
+         <div class="nav-item dropdown">
+      <a href="{% url 'account_login' %}" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
+                <div class="dropdown-menu">
+        <a href="{% url 'account_login' %}" class="dropdown-item">Sign in</a>
+        <a href="{% url 'account_signup' %}" class="dropdown-item">Sign up</a>
+    </div>
+             </div>
+    {% endif %}
                         </div>
                     </div>
                 </nav>
@@ -85,8 +91,8 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="img/logo.png" alt="Logo">
+                            <a href="{% url 'homepage' %}">
+                             <img src="{% static 'img/Dash Clothes1.png' %}" alt="Logo">
                             </a>
                         </div>
                     </div>
@@ -127,10 +133,6 @@
 
 {% endblock %}
 {% block content %}
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/common
 {% endblock %}
 
         <!-- Footer Start -->
