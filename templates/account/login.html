@@ -47,16 +47,16 @@
           color: red;
           position: relative;
           right: 31px;
-          border:2px solid red;
-
         }
+
 </style>
     <body>
+
 
        <div  >
            <h3><strong>Login Page</strong></h3>
            <br>
-           <form method="post" action="{% url 'account_login' %}">
+           <form  method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
                               {{ form.as_p }}
                <br>
