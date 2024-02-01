@@ -2216,12 +2216,13 @@ h2 {
     position: relative;
     padding: 30px 0 0 0;
     background: #ffffff;
+    margin-top:30px;
 }
 
 .footer .footer-widget {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;
+
 }
 
 .footer .footer-widget h2 {

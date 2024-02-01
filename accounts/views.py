@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 
 from django.views.generic.edit import UpdateView, CreateView
 from .models import User, Address
@@ -47,7 +47,7 @@ class ViewProfile(DetailView):
     template_name = 'profile/view_profile.html'
     context_object_name = 'user'
 
-    def get_context_data(self,  *args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.get_object()
         context['addresses'] = user.address.all()
@@ -56,7 +56,7 @@ class ViewProfile(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
         if self.request.user != obj:
-            raise Http404("Profile not found")
+            raise Http404('not found')
         return obj
 
 
@@ -78,3 +78,5 @@ class AddAddress(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('view_profile', kwargs={'pk': self.request.user.pk})
+
+
