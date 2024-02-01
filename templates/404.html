@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        img{
+        margin-left:350px;
+        }
+
+.btn{
+    color: #FF6F61;
+    background: #ffffff;
+    border: 1px solid #FF6F61;
+    margin-left:600px;
+}
+    </style>
+</head>
+<body>
+ <img src="https://shorturl.at/ceLMX" alt="logo">
+ <br>
+ <button class="btn"  type="submit" onclick="window.location.href='{% url 'homepage'%}'">Back to Home</button>
+</body>
+</html>
