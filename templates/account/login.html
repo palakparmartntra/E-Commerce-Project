@@ -42,13 +42,21 @@
         form {
             margin-top: 20px;
         }
+        .errorlist {
+          list-style-type: none;
+          color: red;
+          position: relative;
+          right: 31px;
+        }
+
 </style>
     <body>
+
 
        <div  >
            <h3><strong>Login Page</strong></h3>
            <br>
-           <form method="post" action="{% url 'account_login' %}">
+           <form  method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
                               {{ form.as_p }}
                <br>
