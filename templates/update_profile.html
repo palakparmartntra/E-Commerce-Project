@@ -30,12 +30,12 @@
                 <div id="address-tab" role="tabpanel" >
                 <h1>{{ user.username }}</h1><br><br>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-9">
 
 
                          <h2>Update Profile</h2>
                     <div class="Name" >
-                      <form style="margin:auto display:grid" method="post" enctype="multipart/form-data" action="{% url 'updateprofile' user.pk %}">
+                      <form style="margin:auto" method="post" enctype="multipart/form-data" action="{% url 'updateprofile' user.pk %}">
                         {% csrf_token %}
                           <div>
                         {{  form.as_p }}

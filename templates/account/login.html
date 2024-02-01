@@ -48,7 +48,10 @@
           position: relative;
           right: 31px;
         }
-
+.error_show{
+	color: red;
+	margin-left: 10px;
+}
 </style>
     <body>
 
@@ -56,11 +59,11 @@
        <div  >
            <h3><strong>Login Page</strong></h3>
            <br>
-           <form  method="post" action="{% url 'account_login' %}">
+           <form method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
                               {{ form.as_p }}
                <br>
-               <button class="btn" type="submit">Login</button>
+               <button class="btn" id="login" type="submit">Login</button>
                             </form>
            <hr>
                Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
@@ -77,6 +80,7 @@
         <script src="lib/slick/slick.min.js"></script>
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script src="{% static 'js/main.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}" ></script>
     </body>
 </html>
