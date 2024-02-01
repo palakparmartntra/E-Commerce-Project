@@ -46,7 +46,7 @@ def profile(request, username, pk=None):
         address_form = AddressForm()
         """ check url whether it is 'update-profile' or 'update-address' """
         current_url = request.path
-        current_url = current_url.split("/")[2]
+        current_url = current_url.split("/")[1]
 
         """ This if condition saves user updated data if form is submitted else it shows the user profile data. 
         Internal if condition is executed when update-profile url is hit """
