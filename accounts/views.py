@@ -40,7 +40,7 @@ def profile(request, username, pk=None):
         if pk is not None:
             address_to_update = get_object_or_404(Address, user=request.user.id, pk=pk)
         else:
-            address_to_update = address[0]
+            address_to_update = address
 
         user_form = UserUpdateForm()
         address_form = AddressForm()

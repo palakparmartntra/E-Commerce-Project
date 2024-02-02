@@ -38,8 +38,8 @@
                         </form>
                     </div>
                 </div>
-                <h2>Address</h2>&nbsp;
-                    <a href="{% url 'add-address' user.id %}" class="btn">+</a><br>
+                    {% if addresses %}
+                    <h2>Address <a href="{% url 'add-address' user.id %}" class="btn">+</a> </h2>
                     {% for address in addresses %}
                     <div class="row" style="margin:40px">
                     <div class="col-md-6">
@@ -69,6 +69,9 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <a href="{% url 'add-address' user.id %}" class="btn">Add New Address</a><br>
+                    {% endif %}
                 </div>
             </div>
         </div>
