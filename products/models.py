@@ -16,7 +16,7 @@ class Category(models.Model):
 
     name = models.CharField(max_length=100, null=True, blank=True)
     image = models.ImageField(upload_to='static/img/category')
-    parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
