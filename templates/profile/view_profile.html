@@ -1,17 +1,14 @@
-
 {% extends 'base/header.html' %}
 {% block content %}
 
 {% load static %}
 <style>
-
-        .errorlist {
-          list-style-type: none;
-          color: red;
-          position: relative;
-          right: 10px;
-
-        }
+       input.error {
+           border: 2px solid red;
+       }
+       .error {
+           color: red;
+       }
         .address {display: inline-block; width:49%;}
         .address .cf-medium {width:130%;}
         .address label {display: block !important; width: 150% !important;}
@@ -19,58 +16,75 @@
 <div class="my-account">
     <div class="container-fluid">
         <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="tab-content">
-                <div id="address-tab" role="tabpanel" >
+                <div style="margin-left:70px;" id="address-tab" role="tabpanel" >
                 <h1>
                     <img src="{% static 'img/default_user.png' %}" alt="default user" width="50px"> {{ user.username }}
                 </h1><br><hr><br><br>
                 <div class="row">
-                    <div class="col-md-12">
-                        <form style="margin:40px"  method="post" enctype="multipart/form-data" action="{% url 'update-profile' user.username %}">
+                    <div class="col-md-6">
+                        <form id="update_profile_form" style="margin:auto;" method="post" enctype="multipart/form-data" action="{% url 'update-profile' user.username %}">
                         {% csrf_token %}
-                           <div class="row">
-                               <div class="col-md-6">
-                                  {{ user_form.as_p }}
-                               </div>
-                           </div>
-                        <button class="btn btn-primary" type="submit">Update</button>
+<!--                           <div class="col-md-6">-->
+<!--                               <div class="row">-->
+                                   {{ user_form.as_p }}
+<!--                               </div>-->
+<!--                           </div>-->
+                        <br><button class="btn btn-primary" type="submit">Update</button>
                         </form>
                     </div>
                 </div>
                     {% if addresses %}
-                    <h2>Address <a href="{% url 'add-address' user.id %}" class="btn">+</a> </h2>
+                    <br><hr><br>
+                    <h2>Address {% if addresses.count < 3 %}<a href="{% url 'add-address' user.id %}" class="btn">+</a>{% endif %} </h2>
                     {% for address in addresses %}
-                    <div class="row" style="margin:40px">
-                    <div class="col-md-6">
-                        <h4>
+                    <div class="row">
+                    <div class="col-md-12">
+                        <br><h5>
                             {% if address.is_primary %}
                                 Default Address
                             {% else %}
                                 Other Address
                             {% endif %}
-                        </h4>
-                        <form style="margin:auto;"  method="post" enctype="multipart/form-data" action="{% url 'update-address' user.username address.id %}">
+                        </h5>
+                        <form id="update_address_form" style="margin: 0;"  method="post" enctype="multipart/form-data" action="{% url 'update-address' user.username address.id %}">
                         {% csrf_token %}
                            <div class="row">
-                               <b>Receiver: </b><input class="form-control" type="text" value="{{ address.receiver_name }}" name="receiver_name"><br>
-                               <b>Mobile: </b><input class="form-control" type="text" value="{{ address.phone_no }}" name="phone_no"><br>
-                               <b>House no: </b><input class="form-control" type="text" value="{{ address.house_no }}" name="house_no"><br>
-                               <b>Street: </b><input class="form-control" type="text" value="{{ address.street }}" name="street"><br>
-                               <b>Landmark: </b><input class="form-control" type="text" value="{{ address.landmark }}" name="landmark"><br>
-                               <b>City: </b><input class="form-control" type="text" value="{{ address.city }}" name="city"><br>
-                               <b>State: </b><input class="form-control" type="text" value="{{ address.state }}" name="state"><br>
-                               <b>Zipcode: </b><input class="form-control" type="text" value="{{ address.zipcode }}" name="zipcode"><br>
+                               <div class="col-md-6">
+                                   <p>Receiver: </p><input class="form-control" type="text" value="{{ address.receiver_name }}" name="receiver_name">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>Mobile: </p><input class="form-control" type="text" value="{{ address.phone_no }}" name="phone_no">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>House no: </p><input class="form-control" type="text" value="{{ address.house_no }}" name="house_no">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>Street: </p><input class="form-control" type="text" value="{{ address.street }}" name="street">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>Landmark: </p><input class="form-control" type="text" value="{{ address.landmark }}" name="landmark">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>City: </p><input class="form-control" type="text" value="{{ address.city }}" name="city">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>State: </p><input class="form-control" type="text" value="{{ address.state }}" name="state">
+                               </div>
+                               <div class="col-md-6">
+                                   <p>Zipcode: </p><input class="form-control" type="text" value="{{ address.zipcode }}" name="zipcode">
+                               </div>
 
                            </div>
-                        <button class="btn btn-primary" type="submit">Update</button>
+                        <button class="btn btn-primary" type="submit">Update</button><br><br>
                         </form>
                         <hr>
                         </div>
                     </div>
                     {% endfor %}
                     {% else %}
-                    <a href="{% url 'add-address' user.id %}" class="btn">Add New Address</a><br>
+                    <br><br><a href="{% url 'add-address' user.id %}" class="btn">Add New Address</a><br>
                     {% endif %}
                 </div>
             </div>
@@ -78,5 +92,11 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>-->
+<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/address.js' %}"></script>
 
 {% endblock %}

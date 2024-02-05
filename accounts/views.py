@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 
 from .models import User, Address
-from .forms import AddressForm, UserUpdateForm
+from .forms import AddressForm, UserUpdateForm, AddAddressForm
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from .models import User
@@ -18,9 +18,8 @@ class HomePageView(TemplateView):
 
 class AddAddress(CreateView):
     model = Address
-    fields = ['receiver_name', 'house_no', 'phone_no', 'street',
-              'landmark', 'city', 'state', 'zipcode']
     template_name = 'profile/add_address.html'
+    form_class = AddAddressForm
 
     def form_valid(self, form):
         form.instance.user = self.request.user
