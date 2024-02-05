@@ -13,7 +13,13 @@
                     <div class="col-md-9">
                          <form method="post">
                         {% csrf_token %}
-                        {{ form.as_p }}
+
+
+
+
+
+
+
                         <button class="btn" type="submit">Sign Up</button><br><br>
                         Already have an account? <a href="{% url 'account_login' %}"> Login</a>
                       </form>
@@ -25,4 +31,32 @@
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>>
+<script >
+   $(document).ready(function () {
+            $("#loginform").validate({
+                rules: {
+                    login: {
+                    required: true,
+                     minlength: 8
+                    },
+                    password:{
+                     required: true,
+
+                    }
+
+                },
+                messages: {
+                    login: {
+                        required: "Please enter username",
+                        minlength: 'require minimum 8 char'
+                    },
+                    password:{
+                       required: "Please enter password",
+                        }
+                },
+            });
+        });
+</script>
 {% endblock %}

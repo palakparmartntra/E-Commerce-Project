@@ -22,6 +22,7 @@
 
         <!-- Template Stylesheet -->
           <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
     </head>
 <style>
       body {
@@ -48,39 +49,75 @@
           position: relative;
           right: 31px;
         }
-.error_show{
-	color: red;
-	margin-left: 10px;
+      .error {
+            color: #ff0000;
+            margin-top: 5px;
+            margin-right:20px;
+
+        }
+       input.error {
+   border: 2px solid red;
 }
 </style>
     <body>
-
-
-       <div  >
+       <div>
            <h3><strong>Login Page</strong></h3>
            <br>
-           <form method="post" action="{% url 'account_login' %}">
+           <form  id="loginform" method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
-                              {{ form.as_p }}
+               <p>
+    <label for="id_login">Username:</label>
+    <input type="text" name="login"  placeholder="Username" autocomplete="username" maxlength="150" required id="id_login">
+
+
+  </p>
+               <p>
+    <label for="id_password">Password:</label>
+    <input type="password" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password">
+
+                   <br>
+      <span class="helptext" id="id_password_helptext"><a href="/password/reset/">Forgot your password?</a></span>
+
+
+  </p>
                <br>
-               <button class="btn" id="login" type="submit">Login</button>
+               <button class="btn" type="submit">Login</button>
                             </form>
            <hr>
                Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
             </div>
         <br>
 
-        <!-- Back to Top -->
-        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
 
         <!-- Template Javascript -->
-        <script src="{% static 'js/main.js' %}" ></script>
-    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}" ></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+        <script src="js/main.js"></script>
+     <script>
+        $(document).ready(function () {
+            $("#loginform").validate({
+                rules: {
+                    login: {
+                    required: true,
+                     minlength: 8
+                    },
+                    password:{
+                     required: true,
+
+                    }
+
+                },
+                messages: {
+                    login: {
+                        required: "Please enter username",
+                        minlength: 'require minimum 8 char'
+                    },
+                    password:{
+                       required: "Please enter password",
+                        }
+                },
+            });
+        });
+    </script>
     </body>
 </html>

@@ -235,5 +235,16 @@
         }
     });
 
+    $("#loginform").validate({
+                rules: {
+                    login: 'required'
+                },
+                messages: {
+                    login: {
+                        required: "Please enter username",
+                    }
+                },
+            });
+
 })(jQuery);
 
