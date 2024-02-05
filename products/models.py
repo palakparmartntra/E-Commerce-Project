@@ -4,7 +4,7 @@ from django.db import models
 class Brand(models.Model):
     """ this model contains details of products brand """
 
-    name = models.CharField(max_length=40, null=True, blank=True)
+    name = models.CharField(max_length=40, null=True, blank=True, unique=True)
     image = models.ImageField(upload_to='static/img/brand')
 
     def __str__(self):

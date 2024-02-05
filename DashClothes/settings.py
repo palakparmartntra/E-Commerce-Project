@@ -51,6 +51,7 @@ DEFAULT_APPS = [
 
 CUSTOM_APP = [
     'accounts',
+    'products',
 ]
 
 ALLAUTH_APPS = [
