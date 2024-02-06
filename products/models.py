@@ -40,5 +40,7 @@ class Brand(models.Model):
 
 
 class BrandProduct(models.Model):
+    """ this models is through table for brand and product """
+
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
