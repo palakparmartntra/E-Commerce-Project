@@ -23,7 +23,7 @@ class UpdateAddressView(UpdateView):
 
 
 class UpdateUserProfile(UpdateView):
-    """view for the update user profile"""
+    """ view for the update user profile"""
 
     model = User
     form_class = UserUpdateForm
@@ -35,7 +35,7 @@ class UpdateUserProfile(UpdateView):
 
 
 class Index(TemplateView):
-    """view for the render index page """
+    """ view for the render index page """
     template_name = 'index.html'
 
 
@@ -53,7 +53,7 @@ class ViewProfile(DetailView):
 
 
 class HomePageView(TemplateView):
-    """ view for rendering index page"""
+    """ view for rendering index page """
 
     template_name = 'index.html'
 
