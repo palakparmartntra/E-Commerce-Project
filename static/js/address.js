@@ -1,6 +1,5 @@
 function initializeAddressValidation(addressId) {
         $("#update_address_form_${addressId}").validate({
-
         rules: {
             receiver_name: {
                 required:true
@@ -60,5 +59,4 @@ function initializeAddressValidation(addressId) {
             }
         },
     });
-
 }

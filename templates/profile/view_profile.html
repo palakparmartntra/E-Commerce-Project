@@ -1,18 +1,7 @@
 {% extends 'base/header.html' %}
 {% block content %}
-
 {% load static %}
-<style>
-       input.error {
-           border: 2px solid red;
-       }
-       .error {
-           color: red;
-       }
-        .address {display: inline-block; width:49%;}
-        .address .cf-medium {width:130%;}
-        .address label {display: block !important; width: 150% !important;}
-</style>
+
 <div class="my-account">
     <div class="container-fluid">
         <div class="row">
@@ -26,11 +15,7 @@
                     <div class="col-md-6">
                         <form id="update_profile_form" style="margin:auto;" method="post" enctype="multipart/form-data" action="{% url 'update-profile' user.username %}">
                         {% csrf_token %}
-<!--                           <div class="col-md-6">-->
-<!--                               <div class="row">-->
-                                   {{ user_form.as_p }}
-<!--                               </div>-->
-<!--                           </div>-->
+                            {{ user_form.as_p }}
                         <br><button class="btn btn-primary" type="submit">Update</button>
                         </form>
                     </div>
@@ -94,22 +79,13 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>-->
 <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/address.js' %}"></script>
 {% for address in addresses %}
     <script>
-
-
-    function change(e){
-        debugger
-        console.log(e)
-    }
-
-<!--        $(document).ready(function ($) {-->
-<!--            initializeAddressValidation({{ address.id }});-->
-<!--        });-->
+        $(document).ready(function ($) {
+            initializeAddressValidation({{ address.id }});
+        });
     </script>
 {% endfor %}
 

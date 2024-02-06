@@ -6,15 +6,19 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from .models import User
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class HomePageView(TemplateView):
-    """ view for rendering index page"""
+    """ view for rendering index page """
 
     template_name = 'index.html'
 
 
+@method_decorator(login_required, name='dispatch')
 class AddAddress(CreateView):
+    """ To create a new address """
     model = Address
     template_name = 'profile/add_address.html'
     form_class = AddAddressForm
@@ -27,28 +31,27 @@ class AddAddress(CreateView):
         return reverse_lazy('view_profile', kwargs={'username': self.request.user.username})
 
 
+@login_required
 def profile(request, username, pk=None):
     """" To show and update user details of current login user """
 
     if request.user.username == username:
-
         user = get_object_or_404(User, username=username)
         address = Address.objects.filter(user=request.user.id)
         if pk is not None:
-            address_to_update = get_object_or_404(Address, user=request.user.id, pk=pk)
+            address_to_update = Address.objects.get(Address, user=request.user.id, pk=pk)
         else:
             address_to_update = address
-
         user_form = UserUpdateForm()
         address_form = AddressForm()
-        """ check url whether it is 'update-profile' or 'update-address' """
+
+        # check url whether it is 'update-profile' or 'update-address'
         current_url = request.path
         current_url = current_url.split("/")[1]
 
-        """ This if condition saves user updated data if form is submitted
-        else it shows the user profile data.
-        Internal if condition is executed when update-profile url is hit """
-
+        # This if condition saves user updated data if form is submitted
+        # else it shows the user profile data.
+        # Internal if condition is executed when update-profile url is hit
         if request.method == "POST":
             if current_url == "update-profile":
                 updated_first_name = request.POST.get('first_name')
@@ -62,7 +65,7 @@ def profile(request, username, pk=None):
                     user.email = updated_email
                     user.save()
 
-                """ To show updated user details in form after saving data """
+            # To show updated user details in form after saving data
             user_form = UserUpdateForm(initial={
                 'first_name': user.first_name,
                 'last_name': user.last_name,
@@ -91,8 +94,7 @@ def profile(request, username, pk=None):
                     address_to_update.zipcode = updated_zipcode
                     address_to_update.save()
 
-                """ To show updated user details in form after saving data """
-
+            # To show updated user details in form after saving data
             def get_success_url(self):
                 return reverse_lazy('view_profile',
                                     kwargs={'username': self.request.user.username})
