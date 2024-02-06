@@ -36,12 +36,12 @@
      div {
      background-color:white;
      border:2px solid black;
-     padding:100px;
+     padding:60px;
+     height:700px;
+      width:700px;
      }
 
-        form {
-            margin-top: 20px;
-        }
+
         .errorlist {
           list-style-type: none;
           color: red;
@@ -51,7 +51,6 @@
 
           .error {
             color: #ff0000;
-            margin-top: 5px;
             margin-right:20px;
 
         }
@@ -69,21 +68,17 @@
            <form  id="signupform" method="post">
             {% csrf_token %}
                <p>
-                <label for="id_email">Email:</label>
-                <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" id="id_email">
+                <input class="form-control" type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" id="id_email">
               </p>
                <p>
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="15" id="id_username">
+                <input type="text"  class="form-control" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="15" id="id_username">
               </p>
                <p>
-                <label for="id_password1">Password:</label>
-                <input type="password" name="password1" placeholder="Password" autocomplete="new-password" aria-describedby="id_password1_helptext" id="id_password1" aria-autocomplete="list">
+                <input type="password" class="form-control" name="password1" placeholder="Password" autocomplete="new-password" aria-describedby="id_password1_helptext" id="id_password1" aria-autocomplete="list">
                 <span class="helptext" id="id_password1_helptext"></span>
                </p>
                <p>
-                <label for="id_password2">Password (again):</label>
-                <input type="password" name="password2" placeholder="Password (again)" autocomplete="new-password" id="id_password2">
+                <input type="password" class="form-control" name="password2" placeholder="Password (again)" autocomplete="new-password" id="id_password2">
               </p>
 <!--            {{ form.as_p }}-->
             <button class="btn" type="submit">Sign Up</button><br><br>
