@@ -52,10 +52,10 @@
                         {% csrf_token %}
                            <div class="row">
                                <div class="col-md-6">
-                                   <p>Receiver: </p><input class="form-control" type="text" value="{{ address.receiver_name }}" name="receiver_name">
+                                   <p>Receiver: </p><input class="form-control" type="text" value="{{ address.receiver_name }}" name="receiver_name" onkeypress="change(this)" >
                                </div>
                                <div class="col-md-6">
-                                   <p>Mobile: </p><input class="form-control" type="text" value="{{ address.phone_no }}" name="phone_no">
+                                   <p>Mobile: </p><input class="form-control" type="text" value="{{ address.phone_no }}" name="phone_no" onkeypress="change(this)" >
                                </div>
                                <div class="col-md-6">
                                    <p>House no: </p><input class="form-control" type="text" value="{{ address.house_no }}" name="house_no">
@@ -98,5 +98,19 @@
 <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>-->
 <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/address.js' %}"></script>
+{% for address in addresses %}
+    <script>
+
+
+    function change(e){
+        debugger
+        console.log(e)
+    }
+
+<!--        $(document).ready(function ($) {-->
+<!--            initializeAddressValidation({{ address.id }});-->
+<!--        });-->
+    </script>
+{% endfor %}
 
 {% endblock %}

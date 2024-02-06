@@ -1,14 +1,13 @@
 from django import forms
 from .models import Address, User
-from allauth.account.forms import SignupForm
-from django.core.validators import EmailValidator
+from .const import EMAIL_REGEX, ZIPCODE_REGEX, NAME, PHONE_NO
 
 
 class AddressForm(forms.ModelForm):
     """created form for update user address"""
-    phone_no = forms.RegexField(min_length=10, max_length=10, regex=r'^\d+$',
+    phone_no = forms.RegexField(min_length=10, max_length=10, regex=EMAIL_REGEX,
                                 error_messages={'invalid': 'Enter a valid integer.'})
-    zipcode = forms.RegexField(max_length=6, min_length=6, regex=r'^\d+$',
+    zipcode = forms.RegexField(max_length=6, min_length=6, regex=ZIPCODE_REGEX,
                                error_messages={'invalid': 'Enter a valid integer.'})
 
     class Meta:
@@ -20,23 +19,23 @@ class AddressForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     """created form for update user profile"""
 
-    first_name = forms.RegexField(max_length=30, regex='^[a-zA-Z._%+-]+$',
+    first_name = forms.RegexField(max_length=30, regex=NAME,
                                   error_messages={'invalid': 'Enter a valid integer.'},
                                   widget=forms.TextInput
                                   (attrs={'placeholder': 'First Name', 'class': 'form-control'})
                                   )
 
-    last_name = forms.RegexField(max_length=30, regex=r'^\d+$',
+    last_name = forms.RegexField(max_length=30, regex=NAME,
                                  error_messages={'invalid': 'Enter a valid integer.'},
                                  widget=forms.TextInput
                                  (attrs={'placeholder': 'Last Name', 'class': 'form-control'})
                                  )
-    phone_no = forms.RegexField(min_length=10, max_length=10, regex='^([987]{1})(\d{1})(\d{8})',
+    phone_no = forms.RegexField(min_length=10, max_length=10, regex=PHONE_NO,
                                 error_messages={'invalid': 'Enter a valid integer.'},
                                 widget=forms.TextInput
                                 (attrs={'placeholder': 'Contact', 'class': 'form-control'})
                                 )
-    email = forms.RegexField(regex='^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    email = forms.RegexField(regex=EMAIL_REGEX,
                              error_messages={'invalid': 'Enter a valid email address'},
                              widget=forms.EmailInput
                              (attrs={'placeholder': 'Email address', 'class': 'form-control'})
@@ -47,35 +46,14 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'phone_no', 'email']
 
 
-class CustomSignupForm(SignupForm):
-    """ created form for user signup """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        email_validator = EmailValidator(message="Enter a valid email address.")
-        email_validator(email)
-        return email
-
-    def clean_password1(self):
-        password1 = self.cleaned_data.get("password1")
-        # Your custom password validation logic here
-        if len(password1) < 8:
-            raise forms.ValidationError("Password must be at least 8 characters long.")
-        return password1
-
-
 class AddAddressForm(forms.ModelForm):
     """created form for update user profile"""
 
     receiver_name = forms.CharField(max_length=30,
                                     widget=forms.TextInput
-                                    (attrs={'placeholder': 'Receiver Name', 'class': 'form-control'})
+                                    (attrs={
+                                        'placeholder': 'Receiver Name',
+                                        'class': 'form-control'})
                                     )
 
     house_no = forms.CharField(max_length=30,
@@ -83,7 +61,7 @@ class AddAddressForm(forms.ModelForm):
                                (attrs={'placeholder': 'House no.', 'class': 'form-control'})
                                )
 
-    phone_no = forms.RegexField(min_length=10, max_length=10, regex='^([987]{1})(\d{1})(\d{8})',
+    phone_no = forms.RegexField(min_length=10, max_length=10, regex=PHONE_NO,
                                 error_messages={'invalid': 'Enter a valid Phone number.'},
                                 widget=forms.TextInput
                                 (attrs={'placeholder': 'Contact', 'class': 'form-control'})

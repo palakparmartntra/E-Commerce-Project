@@ -1,8 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
-
-from django.views.generic.edit import UpdateView, CreateView, DeleteView
-
-from .models import User, Address
+from django.shortcuts import render, get_object_or_404
+from django.views.generic.edit import CreateView
+from .models import Address
 from .forms import AddressForm, UserUpdateForm, AddAddressForm
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -47,7 +45,8 @@ def profile(request, username, pk=None):
         current_url = request.path
         current_url = current_url.split("/")[1]
 
-        """ This if condition saves user updated data if form is submitted else it shows the user profile data. 
+        """ This if condition saves user updated data if form is submitted
+        else it shows the user profile data.
         Internal if condition is executed when update-profile url is hit """
 
         if request.method == "POST":
@@ -73,7 +72,6 @@ def profile(request, username, pk=None):
             })
 
             if current_url == "update-address" and pk is not None:
-                print("=================== Update Address ====================== ")
                 updated_receiver_name = request.POST.get('receiver_name')
                 updated_house_no = request.POST.get('house_no')
                 updated_phone_no = request.POST.get('phone_no')
@@ -96,7 +94,8 @@ def profile(request, username, pk=None):
                 """ To show updated user details in form after saving data """
 
             def get_success_url(self):
-                return reverse_lazy('view_profile', kwargs={'username': self.request.user.username})
+                return reverse_lazy('view_profile',
+                                    kwargs={'username': self.request.user.username})
         else:
             user_form = UserUpdateForm(initial={
                 'first_name': user.first_name,
@@ -107,7 +106,8 @@ def profile(request, username, pk=None):
             })
 
             def get_success_url(self):
-                return reverse_lazy('view_profile', kwargs={'username': self.request.user.username})
+                return reverse_lazy('view_profile',
+                                    kwargs={'username': self.request.user.username})
     else:
         raise Http404('not found')
     return render(request, 'profile/view_profile.html',
