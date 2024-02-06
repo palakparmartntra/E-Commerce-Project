@@ -225,8 +225,7 @@
             $('.checkout .shipping-address').slideUp();
         }
     });
-    
-    
+
     // Payment methods show hide
     $('.checkout .payment-method .custom-control-input').change(function () {
         if ($(this).prop('checked')) {
@@ -235,5 +234,17 @@
             $('#' + checkbox_id + '-show').slideDown();
         }
     });
+
+    $("#loginform").validate({
+                rules: {
+                    login: 'required'
+                },
+                messages: {
+                    login: {
+                        required: "Please enter username",
+                    }
+                },
+            });
+
 })(jQuery);
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        .img-404{
+        img{
         margin-left:350px;
         }
 
@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
- <img class="img-404" src="https://shorturl.at/ceLMX" alt="logo">
+ <img src="{% static 'img/500.jpeg' %}" alt="logo">
  <br>
  <button class="btn"  type="submit" onclick="window.location.href='{% url 'homepage'%}'">Back to Home</button>
 </body>
