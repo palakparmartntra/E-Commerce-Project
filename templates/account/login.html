@@ -24,50 +24,16 @@
           <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
     </head>
-<style>
-      body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color:#FF6F61
-        }
 
-     div {
-     background-color:white;
-     border:2px solid black;
-     padding:100px;
-     width:500px;
-     }
-
-        form {
-            margin-top: 20px;
-        }
-        .errorlist {
-          list-style-type: none;
-          color: red;
-          position: relative;
-          right: 31px;
-        }
-      .error {
-            color: #ff0000;
-            margin-right:20px;
-
-        }
-       input.error {
-   border: 2px solid red;
-}
 </style>
-    <body>
-       <div>
+    <body class="body-login">
+       <div class="login-div">
            <h3><strong>Login Page</strong></h3>
            <br>
-           <form  id="loginform" method="post" action="{% url 'account_login' %}">
+           <form  class="login-form" id="loginform" method="post" action="{% url 'account_login' %}">
                               {% csrf_token %}
                <p>
     <input type="text" name="login"  class="form-control" placeholder="Username" autocomplete="username" maxlength="150" required id="id_login">
-
 
   </p>
                <p>
@@ -75,7 +41,6 @@
 
                    <br>
       <span class="helptext" id="id_password_helptext"><a href="/password/reset/">Forgot your password?</a></span>
-
 
   </p>
                <br>
@@ -85,7 +50,6 @@
                Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
             </div>
         <br>
-
 
         <!-- Template Javascript -->
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -97,13 +61,10 @@
                 rules: {
                     login: {
                     required: true,
-
                     },
                     password:{
                      required: true,
-
                     }
-
                 },
                 messages: {
                     login: {

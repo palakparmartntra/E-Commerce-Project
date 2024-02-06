@@ -1,70 +1,26 @@
 
-from django.views.generic.edit import UpdateView, CreateView
-from .models import User, Address
-from .forms import AddressForm, UserUpdateForm
+from django.views.generic.edit import CreateView
+from .models import Address
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from django.views.generic.detail import DetailView
-from django.http import Http404
-
 
 # Create your views here.
 
-class UpdateAddressView(UpdateView):
-    """view for the update user address"""
-
-    model = Address
-    form_class = AddressForm
-    template_name = 'update_address.html'
-
-    def get_success_url(self):
-        user_id = self.object.user.pk
-        return reverse_lazy('view_profile', kwargs={'pk': user_id})
-
-
-class UpdateUserProfile(UpdateView):
-    """view for the update user profile"""
-
-    model = User
-    form_class = UserUpdateForm
-    template_name = 'update_profile.html'
-
-    def get_success_url(self):
-        user_id = self.object.pk
-        return reverse_lazy('view_profile', kwargs={'pk': user_id})
-
 
 class Index(TemplateView):
-    """view for the render index page """
+    """ view for the render index page """
     template_name = 'index.html'
 
 
-class ViewProfile(DetailView):
-    """ To view user details """
-    model = User
-    template_name = 'profile/view_profile.html'
-    context_object_name = 'user'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.get_object()
-        context['addresses'] = user.address.all()
-        return context
-
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset=queryset)
-        if self.request.user != obj:
-            raise Http404('not found')
-        return obj
-
-
 class HomePageView(TemplateView):
-    """ view for rendering index page"""
+    """ view for rendering index page """
 
     template_name = 'index.html'
 
 
 class AddAddress(CreateView):
+    """ view for add address """
+
     model = Address
     fields = ['receiver_name', 'house_no', 'phone_no', 'street',
               'landmark', 'city', 'state', 'zipcode']
