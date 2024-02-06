@@ -14,7 +14,7 @@ class Brand(models.Model):
 class Category(models.Model):
     """ this model contains details of product category """
 
-    name = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True, unique=True)
     image = models.ImageField(upload_to='static/img/category')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
@@ -26,9 +26,9 @@ class Product(models.Model):
     """ this model contains all product details """
 
     name = models.CharField(max_length=100, null=True, blank=True)
-    desc = models.TextField()
+    description = models.TextField()
     quantity = models.IntegerField()
-    price = models.CharField(max_length=100000)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='static/img/product')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, blank=True)
