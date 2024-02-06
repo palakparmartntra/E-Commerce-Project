@@ -23,32 +23,27 @@
         <!-- Template Stylesheet -->
           <link href="{% static 'css/style.css' %}" rel="stylesheet">
     </head>
-    <body>
 
-
-       <div>
+    <body class="signup-body">
+       <div class="signup-div">
            <h3><strong>Signup Page</strong></h3>
            <br>
-           <form method="post" id >
+           <form  id="signupform" method="post">
             {% csrf_token %}
                <p>
-                <label for="id_email">Email:</label>
-                <input type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" id="id_email">
+                <input class="form-control" type="email" name="email" placeholder="Email address" autocomplete="email" maxlength="320" id="id_email">
               </p>
                <p>
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="15" id="id_username">
+                <input type="text"  class="form-control" name="username" placeholder="Username" autocomplete="username" minlength="1" maxlength="15" id="id_username">
               </p>
                <p>
-                <label for="id_password1">Password:</label>
-                <input type="password" name="password1" placeholder="Password" aria-describedby="id_password1_helptext" id="id_password1" aria-autocomplete="list">
+                <input type="password" class="form-control" name="password1" placeholder="Password" autocomplete="new-password" aria-describedby="id_password1_helptext" id="id_password1" aria-autocomplete="list">
                 <span class="helptext" id="id_password1_helptext"></span>
                </p>
                <p>
-                <label for="id_password2">Password (again):</label>
-                <input type="password" name="password2" placeholder="Password (again)" id="id_password2">
+                <input type="password" class="form-control" name="password2" placeholder="Password (again)" autocomplete="new-password" id="id_password2">
               </p>
-<!--            {{ form.as_p }}-->
+
             <button class="btn" type="submit">Sign Up</button><br><br>
            </form>
            <hr>
@@ -56,53 +51,53 @@
             </div>
         <br>
 
-        <!-- Back to Top -->
-        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
-
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+       <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function () {
         $("#signupform").validate({
             rules: {
                 email: {
-                    required: true,
+                     required: true,
+                     email: true
                 },
-                name: {
+                username: {
                     required: true,
+                    minlength: 3,
+                    maxlength: 10
                 },
                 password1: {
-                    required: true,
+                     required: true,
+                     pwcheck: true,
+                     minlength: 8,
                 },
                 password2: {
                     required: true,
+                     equalTo: "#id_password1"
                 }
             },
             messages: {
                 email: {
-                    required: "Please enter email",
+                  required: "Specify email address",
+                  email: "invalid email format"
                 },
-                name: {
+                username: {
                     required: "Please enter username",
                 },
                 password1: {
-                    required: "Please enter password",
+                    required: "Specify password",
+                    pwcheck: "The password does not match the criteria!",
+                    minlength: "The password does not meet the criteria!"
                 },
                 password2: {
-                    required: "Please enter password again",
+                    required: "Repeat password",
+                    equalTo: "The passwords do not match"
                 },
             },
         });
     });
 </script>
+    </body>
 </html>

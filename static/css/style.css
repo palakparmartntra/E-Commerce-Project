@@ -2395,3 +2395,92 @@ h2 {
         text-align: center; 
     } 
 }
+
+/* login css */
+
+.body-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color:#FF6F61
+        }
+
+     .login-div {
+     background-color:white;
+     border:2px solid black;
+     padding:100px;
+     width:500px;
+     }
+
+        .login-form {
+            margin-top: 20px;
+        }
+
+  /* password reset  css */
+
+ .password {
+     background-color:white;
+     border:2px solid black;
+     padding:30px;
+     }
+
+        .pr-form {
+            margin-top: 20px;
+        }
+
+
+  /* password reset form  css */
+
+.prf-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color:#FF6F61
+        }
+
+     .prf-div {
+     background-color:white;
+     border:2px solid black;
+     padding:100px;
+     }
+
+        .prf-form {
+            margin-top: 20px;
+        }
+
+
+  /* signup css */
+
+.signup-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color:#FF6F61
+        }
+     .signup-div {
+     background-color:white;
+     border:2px solid black;
+     padding:60px;
+     height:700px;
+      width:700px;
+     }
+    .errorlist {
+      list-style-type: none;
+      color: red;
+      position: relative;
+      right: 31px;
+    }
+      .error {
+        color: #ff0000;
+        margin-right:20px;
+    }
+
+   input.error {
+   border: 2px solid red;
+}
