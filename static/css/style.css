@@ -2484,3 +2484,28 @@ h2 {
    input.error {
    border: 2px solid red;
 }
+
+/* comming soon image */
+.coming-soon-img {
+    height: 500px;
+    width: 500px;
+    margin-left: 400px;
+}
+
+.btn-404 {
+    color: #FF6F61;
+    background: white;
+    border: 1px solid #FF6F61;
+    margin-left: 300px;
+    padding: 20px;
+}
+
+.body-404 {
+    background: #FFFFFF;
+}
+
+#user-profile {
+    height: 70px;
+    width: 70px;
+    margin-left: 400px;
+}

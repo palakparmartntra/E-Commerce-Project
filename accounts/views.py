@@ -38,10 +38,6 @@ def profile(request, username, pk=None):
     if request.user.username == username:
         user = get_object_or_404(User, username=username)
         address = Address.objects.filter(user=request.user.id)
-        if pk is not None:
-            address_to_update = Address.objects.get(Address, user=request.user.id, pk=pk)
-        else:
-            address_to_update = address
         user_form = UserUpdateForm()
         address_form = AddressForm()
 
@@ -84,6 +80,7 @@ def profile(request, username, pk=None):
                 updated_state = request.POST.get('state')
                 updated_zipcode = request.POST.get('zipcode')
                 if address_form.is_valid:
+                    address_to_update = get_object_or_404(Address, user=request.user.id, pk=pk)
                     address_to_update.receiver_name = updated_receiver_name
                     address_to_update.house_no = updated_house_no
                     address_to_update.phone_no = updated_phone_no
