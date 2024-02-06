@@ -17,13 +17,13 @@ $(document).ready(function () {
             },
             password2: {
                 required: true,
-                 equalTo: "#id_password1"
+                equalTo: "#id_password1"
             }
         },
         messages: {
             email: {
-              required: "Specify email address",
-              email: "invalid email format"
+                required: "Specify email address",
+                email: "invalid email format"
             },
             username: {
                 required: "Please enter username",
