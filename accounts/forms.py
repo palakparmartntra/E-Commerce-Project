@@ -20,8 +20,7 @@ class UserUpdateForm(forms.ModelForm):
 
     phone_no = forms.RegexField(min_length=10, max_length=10, regex=r'^\d+$',
                                 error_messages={'invalid': 'Enter a valid integer.'})
-    email = forms.RegexField(regex= '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-                             ,
+    email = forms.RegexField(regex= '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                              error_messages={'invalid': 'Enter a valid email address.'})
 
     class Meta:

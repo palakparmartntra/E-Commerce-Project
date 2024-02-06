@@ -1,12 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
 
-from django.views.generic.edit import UpdateView, CreateView,DeleteView
+from django.views.generic.edit import UpdateView, CreateView
 from .models import User, Address
 from .forms import AddressForm, UserUpdateForm
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
-from .models import User
 from django.http import Http404
 
 
@@ -55,7 +53,6 @@ class ViewProfile(DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
-        print(obj,'------------------------------------------')
         if self.request.user != obj:
             raise Http404('not found')
         return obj
@@ -79,5 +76,3 @@ class AddAddress(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('view_profile', kwargs={'pk': self.request.user.pk})
-
-
