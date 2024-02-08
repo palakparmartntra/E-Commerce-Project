@@ -2,6 +2,8 @@
 {% block content %}
 {% load static %}
 
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+
 <div class="my-account">
     <div class="container-fluid">
         <div class="row">
@@ -24,12 +26,10 @@
                     {% if address_form %}<hr><br>
                     <div class="row">
                     <div class="col-md-12">
-                        <form id="update_address_form" style="margin: 0;"  method="post" enctype="multipart/form-data" action="{% url 'address'  %}">
+                        <form id="update_address_form" style="margin: 0;"  method="post" enctype="multipart/form-data" action="{% url 'address' %}">
                            <div class="col-md-6">
                                {% csrf_token %}
-                               {% for address in address_form %}
-                                   {{ address.as_p }}
-                               {% endfor %}
+                               {{ address_form.as_p }}
                            </div>
                         <button class="btn btn-primary" type="submit">Update</button><br><br>
                         </form><hr>
@@ -48,12 +48,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/address.js' %}"></script>
-{% for address in addresses %}
-    <script>
-        $(document).ready(function ($) {
-            initializeAddressValidation({{ address.id }});
-        });
-    </script>
-{% endfor %}
 
 {% endblock %}

@@ -1,11 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import redirect, render
 from django.views.generic.edit import CreateView
 from .models import Address
-from .forms import AddressForm, UserUpdateForm, AddAddressForm
+from .forms import UserUpdateForm, AddAddressForm
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from .models import User
-from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.forms import modelformset_factory
@@ -27,8 +26,10 @@ class AddAddress(CreateView):
     form_class = AddAddressForm
 
     def form_valid(self, form):
-        if Address.objects.filter(user=self.request.user).count() == 0:
+        if Address.objects.filter(user=self.request.user).count() < 1:
             form.instance.is_primary = True
+        else:
+            form.instance.is_primary = False
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -43,10 +44,11 @@ def address(request):
     address_form = AddressFormSet(request.POST)
     addresses = Address.objects.filter(user=request.user)
     if request.method == 'POST':
+
         if address_form.is_valid():
             address_form.save()
             messages.success(request, "Address updated successfully")
-            return redirect(to="profile")
+        return redirect(to="profile")
     else:
         address_form = AddressFormSet(queryset=addresses)
     profile_form = UserUpdateForm(instance=User.objects.get(username=request.user))

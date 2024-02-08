@@ -1,27 +1,7 @@
 from django import forms
 from .models import Address, User
 from .constant import FormRegex
-
-
-class AddressForm(forms.ModelForm):
-    """created form for update user address"""
-    phone_no = forms.RegexField(
-        min_length=10,
-        max_length=10,
-        regex=FormRegex.EMAIL_REGEX,
-        error_messages={'invalid': 'Enter a valid integer.'})
-    zipcode = forms.RegexField(
-        max_length=6,
-        min_length=6,
-        regex=FormRegex.ZIPCODE_REGEX,
-        error_messages={'invalid': 'Enter a valid integer.'})
-
-    class Meta:
-        model = Address
-        fields = [
-            'receiver_name', 'house_no', 'phone_no',
-            'street', 'landmark', 'city', 'state', 'zipcode'
-        ]
+from .messages import UserFormErrorMessages
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -30,7 +10,7 @@ class UserUpdateForm(forms.ModelForm):
     first_name = forms.RegexField(
         max_length=25,
         regex=FormRegex.NAME,
-        error_messages={'invalid': 'Enter a valid name.'},
+        error_messages={'invalid': UserFormErrorMessages.NAME},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'First Name',
@@ -42,7 +22,7 @@ class UserUpdateForm(forms.ModelForm):
     last_name = forms.RegexField(
         max_length=25,
         regex=FormRegex.NAME,
-        error_messages={'invalid': 'Enter a valid name.'},
+        error_messages={'invalid': UserFormErrorMessages.NAME},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Last Name',
@@ -54,7 +34,7 @@ class UserUpdateForm(forms.ModelForm):
         min_length=10,
         max_length=10,
         regex=FormRegex.PHONE_NO,
-        error_messages={'invalid': 'Enter a valid integer.'},
+        error_messages={'invalid': UserFormErrorMessages.PHONE_NO},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Contact',
@@ -63,8 +43,8 @@ class UserUpdateForm(forms.ModelForm):
         )
     )
     email = forms.RegexField(
-        regex=FormRegex.EMAIL_REGEX,
-        error_messages={'invalid': 'Enter a valid email address'},
+        regex=FormRegex.EMAIL,
+        error_messages={'invalid': UserFormErrorMessages.EMAIL},
         widget=forms.EmailInput(
             attrs={
                 'placeholder': 'Email address',
@@ -83,9 +63,10 @@ class UserUpdateForm(forms.ModelForm):
 class AddAddressForm(forms.ModelForm):
     """created form for update user profile"""
 
-    receiver_name = forms.CharField(
-        required=False,
+    receiver_name = forms.RegexField(
         max_length=25,
+        regex=FormRegex.NAME,
+        error_messages={'invalid': UserFormErrorMessages.NAME},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Receiver Name',
@@ -95,7 +76,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     house_no = forms.CharField(
-        required=False,
+        required=True,
         max_length=8,
         widget=forms.TextInput(
             attrs={
@@ -106,9 +87,9 @@ class AddAddressForm(forms.ModelForm):
     )
 
     phone_no = forms.RegexField(
-        required=False,
+        required=True,
         min_length=10, max_length=10, regex=FormRegex.PHONE_NO,
-        error_messages={'invalid': 'Enter a valid Phone number.'},
+        error_messages={'invalid': UserFormErrorMessages.PHONE_NO},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Contact',
@@ -117,7 +98,7 @@ class AddAddressForm(forms.ModelForm):
         )
     )
     street = forms.CharField(
-        required=False,
+        required=True,
         max_length=150,
         widget=forms.TextInput(
             attrs={
@@ -128,7 +109,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     landmark = forms.CharField(
-        required=False,
+        required=True,
         max_length=60,
         widget=forms.TextInput(
             attrs={
@@ -139,7 +120,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     city = forms.CharField(
-        required=False,
+        required=True,
         max_length=20,
         widget=forms.TextInput(
             attrs={
@@ -149,7 +130,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     state = forms.CharField(
-        required=False,
+        required=True,
         max_length=20,
         widget=forms.TextInput(
             attrs={
@@ -160,7 +141,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     zipcode = forms.CharField(
-        required=False,
+        required=True,
         max_length=6,
         widget=forms.TextInput(
             attrs={
@@ -170,18 +151,9 @@ class AddAddressForm(forms.ModelForm):
         )
     )
 
-    is_primary = forms.BooleanField(
-        required=False,
-        widget=forms.CheckboxInput(
-            attrs={
-                'class': 'disabled-field'
-            }
-        )
-    )
-
     class Meta:
         model = Address
         fields = [
             'receiver_name', 'house_no', 'phone_no', 'street',
-            'landmark', 'city', 'state', 'zipcode', 'is_primary'
+            'landmark', 'city', 'state', 'zipcode'
         ]
