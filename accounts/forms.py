@@ -30,7 +30,7 @@ class UserUpdateForm(forms.ModelForm):
     first_name = forms.RegexField(
         max_length=30,
         regex=FormRegex.NAME,
-        error_messages={'invalid': 'Enter a valid integer.'},
+        error_messages={'invalid': 'Enter a valid name.'},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'First Name',
@@ -42,7 +42,7 @@ class UserUpdateForm(forms.ModelForm):
     last_name = forms.RegexField(
         max_length=30,
         regex=FormRegex.NAME,
-        error_messages={'invalid': 'Enter a valid integer.'},
+        error_messages={'invalid': 'Enter a valid name.'},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Last Name',
@@ -84,7 +84,8 @@ class AddAddressForm(forms.ModelForm):
     """created form for update user profile"""
 
     receiver_name = forms.CharField(
-        max_length=30,
+        required=False,
+        max_length=25,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Receiver Name',
@@ -94,6 +95,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     house_no = forms.CharField(
+        required=False,
         max_length=30,
         widget=forms.TextInput(
             attrs={
@@ -104,6 +106,7 @@ class AddAddressForm(forms.ModelForm):
     )
 
     phone_no = forms.RegexField(
+        required=False,
         min_length=10, max_length=10, regex=FormRegex.PHONE_NO,
         error_messages={'invalid': 'Enter a valid Phone number.'},
         widget=forms.TextInput(
@@ -114,7 +117,8 @@ class AddAddressForm(forms.ModelForm):
         )
     )
     street = forms.CharField(
-        max_length=30,
+        required=False,
+        max_length=150,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Street',
@@ -124,7 +128,8 @@ class AddAddressForm(forms.ModelForm):
     )
 
     landmark = forms.CharField(
-        max_length=30,
+        required=False,
+        max_length=60,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Landmark',
@@ -134,7 +139,8 @@ class AddAddressForm(forms.ModelForm):
     )
 
     city = forms.CharField(
-        max_length=30,
+        required=False,
+        max_length=20,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'City',
@@ -143,7 +149,8 @@ class AddAddressForm(forms.ModelForm):
     )
 
     state = forms.CharField(
-        max_length=30,
+        required=False,
+        max_length=20,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'State',
@@ -153,7 +160,8 @@ class AddAddressForm(forms.ModelForm):
     )
 
     zipcode = forms.CharField(
-        max_length=30,
+        required=False,
+        max_length=6,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Zipcode',

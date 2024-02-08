@@ -36,31 +36,33 @@
                         <form id="update_address_form" style="margin: 0;"  method="post" enctype="multipart/form-data" action="{% url 'update-address' user.username address.id %}">
                         {% csrf_token %}
                            <div class="row">
-                               <div class="col-md-6">
-                                   <p>Receiver: </p><input class="form-control" type="text" value="{{ address.receiver_name }}" name="receiver_name" onkeypress="change(this)" >
-                               </div>
-                               <div class="col-md-6">
-                                   <p>Mobile: </p><input class="form-control" type="text" value="{{ address.phone_no }}" name="phone_no" onkeypress="change(this)" >
-                               </div>
-                               <div class="col-md-6">
-                                   <p>House no: </p><input class="form-control" type="text" value="{{ address.house_no }}" name="house_no">
-                               </div>
-                               <div class="col-md-6">
-                                   <p>Street: </p><input class="form-control" type="text" value="{{ address.street }}" name="street">
-                               </div>
-                               <div class="col-md-6">
-                                   <p>Landmark: </p><input class="form-control" type="text" value="{{ address.landmark }}" name="landmark">
-                               </div>
-                               <div class="col-md-6">
-                                   <p>City: </p><input class="form-control" type="text" value="{{ address.city }}" name="city">
-                               </div>
-                               <div class="col-md-6">
-                                   <p>State: </p><input class="form-control" type="text" value="{{ address.state }}" name="state">
-                               </div>
-                               <div class="col-md-6">
-                                   <p>Zipcode: </p><input class="form-control" type="text" value="{{ address.zipcode }}" name="zipcode">
-                               </div>
-
+                               {{ formset.management_data }}
+                               {% csrf_token %}
+                               {{ formset.as_p }}
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>Receiver: </p><input class="form-control" type="text" value="{{ address.receiver_name }}" name="receiver_name" onkeypress="change(this)" >-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>Mobile: </p><input class="form-control" type="text" value="{{ address.phone_no }}" name="phone_no" onkeypress="change(this)" >-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>House no: </p><input class="form-control" type="text" value="{{ address.house_no }}" name="house_no">-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>Street: </p><input class="form-control" type="text" value="{{ address.street }}" name="street">-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>Landmark: </p><input class="form-control" type="text" value="{{ address.landmark }}" name="landmark">-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>City: </p><input class="form-control" type="text" value="{{ address.city }}" name="city">-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>State: </p><input class="form-control" type="text" value="{{ address.state }}" name="state">-->
+<!--                               </div>-->
+<!--                               <div class="col-md-6">-->
+<!--                                   <p>Zipcode: </p><input class="form-control" type="text" value="{{ address.zipcode }}" name="zipcode">-->
+<!--                               </div>-->
                            </div>
                         <button class="btn btn-primary" type="submit">Update</button><br><br>
                         </form>

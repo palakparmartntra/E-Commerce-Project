@@ -34,7 +34,8 @@ $("#update_address_form").validate({
         },
         phone_no: {
             required: "Please enter phone number",
-            minlength: "Phone number must have 10 digits"
+            minlength: "Phone number must have 10 digits",
+            maxlength: "Phone number must have 10 digits"
         },
         house_no: {
             required: "Please enter house number"

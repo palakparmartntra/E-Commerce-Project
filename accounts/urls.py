@@ -7,6 +7,8 @@ urlpatterns = [
     path('', include('allauth.urls')),
     path('', views.HomePageView.as_view(), name='homepage'),
     path('profile/<str:username>/', views.profile, name='view_profile'),
+    path('profile/', views.profile, name='profile'),
+    path('profile/update-address', views.address, name='address'),
     path('update-profile/<str:username>/', views.profile, name='update-profile'),
     path('update-address/<str:username>/<int:pk>/', views.profile, name='update-address'),
     path('add-address/<int:pk>/', views.AddAddress.as_view(), name='add-address'),
