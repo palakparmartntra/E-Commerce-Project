@@ -1,0 +1,12 @@
+/* Profile View CSS */
+
+#user-profile {
+    height: 70px;
+    width: 70px;
+    margin-left: 400px;
+}
+
+.disabled-field {
+    pointer-events: none;
+    colo: grey;
+}

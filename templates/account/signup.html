@@ -43,7 +43,7 @@
                <p>
                 <input type="password" class="form-control" name="password2" placeholder="Password (again)" autocomplete="new-password" id="id_password2">
               </p>
-<!--            {{ form.as_p }}-->
+
             <button class="btn" type="submit">Sign Up</button><br><br>
            </form>
            <hr>
@@ -55,49 +55,6 @@
        <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#signupform").validate({
-            rules: {
-                email: {
-                     required: true,
-                     email: true
-                },
-                username: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 10
-                },
-                password1: {
-                     required: true,
-                     pwcheck: true,
-                     minlength: 8,
-                },
-                password2: {
-                    required: true,
-                     equalTo: "#id_password1"
-                }
-            },
-            messages: {
-                email: {
-                  required: "Specify email address",
-                  email: "invalid email format"
-                },
-                username: {
-                    required: "Please enter username",
-                },
-                password1: {
-                    required: "Specify password",
-                    pwcheck: "The password does not match the criteria!",
-                    minlength: "The password does not meet the criteria!"
-                },
-                password2: {
-                    required: "Repeat password",
-                    equalTo: "The passwords do not match"
-                },
-            },
-        });
-    });
-</script>
+       <script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
     </body>
 </html>

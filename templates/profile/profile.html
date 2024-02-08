@@ -1,0 +1,52 @@
+{% extends 'base/header.html' %}
+{% block content %}
+{% load static %}
+
+<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+
+<div class="my-account">
+    <div class="container-fluid">
+        <div class="row">
+        <div class="col-md-12">
+            <div class="tab-content">
+                <div style="margin-left:70px;" id="address-tab" role="tabpanel" >
+                <h1>
+                    <img id="user-profile" src="{% static 'img/default_user.png' %}" alt="default user" width="50px"> {{ user.username }}
+                </h1><br><hr><br><br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form id="update_profile_form" style="margin:auto;" method="post" enctype="multipart/form-data" action="{% url 'profile' %}">
+                        {% csrf_token %}
+                            {{ profile_form.as_p }}
+                            <br><button class="btn btn-primary" type="submit">Update</button>
+                        </form>
+                    </div>
+                </div><br><br>
+                    <h2>Address {% if addresses.count < 3 %}<a href="{% url 'add-address' user.id %}" class="btn">+</a>{% endif %} </h2>
+                    {% if address_form %}<hr><br>
+                    <div class="row">
+                    <div class="col-md-12">
+                        <form id="update_address_form" style="margin: 0;"  method="post" enctype="multipart/form-data" action="{% url 'address' %}">
+                           <div class="col-md-6">
+                               {% csrf_token %}
+                               {{ address_form.as_p }}
+                           </div>
+                        <button class="btn btn-primary" type="submit">Update</button><br><br>
+                        </form><hr>
+                        </div>
+                    </div>
+                    {% else %}
+                    <br><br><a href="{% url 'add-address' user.id %}" class="btn">Add New Address</a><br>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/address.js' %}"></script>
+
+{% endblock %}
