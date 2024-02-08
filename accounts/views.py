@@ -27,7 +27,7 @@ class AddAddress(CreateView):
     form_class = AddAddressForm
 
     def form_valid(self, form):
-        if Address.objects.filter(user=self.request.user).count() < 3:
+        if Address.objects.filter(user=self.request.user).count() == 0:
             form.instance.is_primary = True
         form.instance.user = self.request.user
         return super().form_valid(form)
