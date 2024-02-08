@@ -28,7 +28,7 @@ class UserUpdateForm(forms.ModelForm):
     """created form for update user profile"""
 
     first_name = forms.RegexField(
-        max_length=30,
+        max_length=25,
         regex=FormRegex.NAME,
         error_messages={'invalid': 'Enter a valid name.'},
         widget=forms.TextInput(
@@ -40,7 +40,7 @@ class UserUpdateForm(forms.ModelForm):
     )
 
     last_name = forms.RegexField(
-        max_length=30,
+        max_length=25,
         regex=FormRegex.NAME,
         error_messages={'invalid': 'Enter a valid name.'},
         widget=forms.TextInput(
@@ -96,7 +96,7 @@ class AddAddressForm(forms.ModelForm):
 
     house_no = forms.CharField(
         required=False,
-        max_length=30,
+        max_length=8,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'House no.',
@@ -170,9 +170,18 @@ class AddAddressForm(forms.ModelForm):
         )
     )
 
+    is_primary = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(
+            attrs={
+                'class': 'disabled-field'
+            }
+        )
+    )
+
     class Meta:
         model = Address
         fields = [
             'receiver_name', 'house_no', 'phone_no', 'street',
-            'landmark', 'city', 'state', 'zipcode'
+            'landmark', 'city', 'state', 'zipcode', 'is_primary'
         ]

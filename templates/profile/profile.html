@@ -9,37 +9,30 @@
             <div class="tab-content">
                 <div style="margin-left:70px;" id="address-tab" role="tabpanel" >
                 <h1>
-                        <img id="user-profile" src="{% static 'img/default_user.png' %}" alt="default user" width="50px"> {{ user.username }}
+                    <img id="user-profile" src="{% static 'img/default_user.png' %}" alt="default user" width="50px"> {{ user.username }}
                 </h1><br><hr><br><br>
                 <div class="row">
                     <div class="col-md-6">
                         <form id="update_profile_form" style="margin:auto;" method="post" enctype="multipart/form-data" action="{% url 'profile' %}">
                         {% csrf_token %}
                             {{ profile_form.as_p }}
-                        <br><button class="btn btn-primary" type="submit">Update</button>
+                            <br><button class="btn btn-primary" type="submit">Update</button>
                         </form>
                     </div>
-                </div>
-                    {% if address_form %}
-                    <br><hr><br>
+                </div><br><br>
                     <h2>Address {% if addresses.count < 3 %}<a href="{% url 'add-address' user.id %}" class="btn">+</a>{% endif %} </h2>
+                    {% if address_form %}<hr><br>
                     <div class="row">
                     <div class="col-md-12">
-                        <br><h5>
-                            {% if address.is_primary %}
-                                Default Address
-                            {% else %}
-                                Other Address
-                            {% endif %}
-                        </h5>
                         <form id="update_address_form" style="margin: 0;"  method="post" enctype="multipart/form-data" action="{% url 'address'  %}">
-                           <div class="row">
+                           <div class="col-md-6">
                                {% csrf_token %}
-                               {{ address_form.as_p }}
+                               {% for address in address_form %}
+                                   {{ address.as_p }}
+                               {% endfor %}
                            </div>
                         <button class="btn btn-primary" type="submit">Update</button><br><br>
-                        </form>
-                        <hr>
+                        </form><hr>
                         </div>
                     </div>
                     {% else %}

@@ -27,11 +27,13 @@ class AddAddress(CreateView):
     form_class = AddAddressForm
 
     def form_valid(self, form):
+        if Address.objects.filter(user=self.request.user).count() < 3:
+            form.instance.is_primary = True
         form.instance.user = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('view_profile', kwargs={'username': self.request.user.username})
+        return reverse_lazy('profile')
 
 
 def address(request):
@@ -39,17 +41,19 @@ def address(request):
 
     AddressFormSet = modelformset_factory(Address, form=AddAddressForm, extra=0)
     address_form = AddressFormSet(request.POST)
+    addresses = Address.objects.filter(user=request.user)
     if request.method == 'POST':
         if address_form.is_valid():
             address_form.save()
             messages.success(request, "Address updated successfully")
             return redirect(to="profile")
     else:
-        address_form = AddressFormSet(queryset=Address.objects.filter(user=request.user))
+        address_form = AddressFormSet(queryset=addresses)
     profile_form = UserUpdateForm(instance=User.objects.get(username=request.user))
     return render(request, 'profile/profile.html', {
         "profile_form": profile_form,
-        "address_form": address_form
+        "address_form": address_form,
+        "addresses": addresses
     })
 
 
@@ -57,6 +61,7 @@ def address(request):
 def profile(request):
     """" To show and update user details of the current user """
 
+    addresses = Address.objects.filter(user=request.user)
     if request.method == "POST":
         profile_form = UserUpdateForm(request.POST, instance=request.user)
         if profile_form.is_valid():
@@ -65,10 +70,10 @@ def profile(request):
 
     else:
         profile_form = UserUpdateForm(instance=User.objects.get(username=request.user))
-    AddressFormSet = modelformset_factory(Address, form=AddAddressForm, fields='__all__', extra=0)
+    AddressFormSet = modelformset_factory(Address, form=AddAddressForm, extra=0)
     address_form = AddressFormSet(queryset=Address.objects.filter(user=request.user))
-
     return render(request, 'profile/profile.html', {
         "profile_form": profile_form,
-        "address_form": address_form
+        "address_form": address_form,
+        "addresses": addresses
     })
