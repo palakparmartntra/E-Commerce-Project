@@ -1,8 +1,6 @@
-from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.shortcuts import render
 
 
-class HomePageView(TemplateView):
-    """ view for rendering index page"""
 
-    template_name = 'index.html'
+# Create your views here.
+
