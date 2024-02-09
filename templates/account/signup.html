@@ -22,10 +22,21 @@
 
         <!-- Template Stylesheet -->
           <link href="{% static 'css/style.css' %}" rel="stylesheet">
+          <link href="{% static 'css/signup.css' %}" rel="stylesheet">
     </head>
 
     <body class="signup-body">
        <div class="signup-div">
+           {% if messages %}
+            <div id="success-alert" style="overflow: " class="alert alert-success alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}ss
            <h3><strong>Signup Page</strong></h3>
            <br>
            <form  id="signupform" method="post">
@@ -52,9 +63,10 @@
         <br>
 
         <!-- Template Javascript -->
-       <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-       <script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/signup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
     </body>
 </html>

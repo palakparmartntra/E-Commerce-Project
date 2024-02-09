@@ -34,6 +34,7 @@ class AddAddress(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
+        messages.success(self.request, "Address added successfully")
         return reverse_lazy('profile')
 
 
@@ -44,13 +45,13 @@ def address(request):
     address_form = AddressFormSet(request.POST)
     addresses = Address.objects.filter(user=request.user)
     if request.method == 'POST':
-
         if address_form.is_valid():
             address_form.save()
             messages.success(request, "Address updated successfully")
         return redirect(to="profile")
     else:
         address_form = AddressFormSet(queryset=addresses)
+
     profile_form = UserUpdateForm(instance=User.objects.get(username=request.user))
     return render(request, 'profile/profile.html', {
         "profile_form": profile_form,
@@ -69,9 +70,9 @@ def profile(request):
         if profile_form.is_valid():
             profile_form.save()
             messages.success(request, "Profile updated successfully")
-
     else:
         profile_form = UserUpdateForm(instance=User.objects.get(username=request.user))
+
     AddressFormSet = modelformset_factory(Address, form=AddAddressForm, extra=0)
     address_form = AddressFormSet(queryset=Address.objects.filter(user=request.user))
     return render(request, 'profile/profile.html', {

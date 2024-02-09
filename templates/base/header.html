@@ -26,8 +26,16 @@
     </head>
 
     <body>
-
-
+        {% if messages %}
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+            {% endfor %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
         <!-- Nav Bar Start -->
         <div class="nav">
             <div class="container-fluid">
@@ -43,26 +51,29 @@
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto">
-                            <div class="nav-item dropdown">
-    {%  if request.user.is_authenticated %}
+                        <div class="nav-item dropdown">
+                        {%  if request.user.is_authenticated %}
 
-    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
+                        <a href="#" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
-    <div class="dropdown-menu">
-         <a href="{% url 'profile' %}" class="dropdown-item">{{request.user}} </a>
-        <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-        <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
-            {% csrf_token %}
-        </form>
-        {% else %}
-         <div class="nav-item dropdown">
-      <a href="{% url 'account_login' %}" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
-                <div class="dropdown-menu">
-        <a href="{% url 'account_login' %}" class="dropdown-item">Sign in</a>
-        <a href="{% url 'account_signup' %}" class="dropdown-item">Sign up</a>
-    </div>
-             </div>
-    {% endif %}
+                        <div class="dropdown-menu">
+                            <a href="{% url 'profile' %}" class="dropdown-item">{{request.user}} </a>
+                            <a href="{% url 'account_change_password' %}" class="dropdown-item">Change Password </a>
+                            <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                        {% else %}
+                         <div class="nav-item dropdown">
+                            <a href="{% url 'account_login' %}" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
+                            <div class="dropdown-menu">
+                            <a href="{% url 'account_login' %}" class="dropdown-item">Sign in</a>
+                            <a href="{% url 'account_signup' %}" class="dropdown-item">Sign up</a>
+                            </div>
+                         </div>
+                        {% endif %}
+                        </div>
+                        </div>
                         </div>
                     </div>
                 </nav>
@@ -190,6 +201,6 @@
         <script src="lib/slick/slick.min.js"></script>
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+       <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

@@ -22,12 +22,22 @@
 
         <!-- Template Stylesheet -->
           <link href="{% static 'css/style.css' %}" rel="stylesheet">
+          <link href="{% static 'css/login.css' %}" rel="stylesheet">
 
     </head>
 
-</style>
     <body class="body-login">
        <div class="login-div">
+        {% if messages %}
+            <div id="success-alert" style="overflow: " class="alert alert-success alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
            <h3><strong>Login Page</strong></h3>
            <br>
            <form  class="login-form" id="loginform" method="post" action="{% url 'account_login' %}">
@@ -54,7 +64,10 @@
         <!-- Template Javascript -->
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-       <script src="js/main.js"></script>
+       <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
        <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+
+
     </body>
 </html>
