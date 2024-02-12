@@ -57,7 +57,7 @@
                         <a href="#" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
                         <div class="dropdown-menu">
-                            <a href="{% url '#' %}" class="dropdown-item">{{request.user}} </a>
+                            <a href="{% url 'profile' %}" class="dropdown-item">{{request.user}} </a>
                             <a href="{% url 'account_change_password' %}" class="dropdown-item">Change Password </a>
                             <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                             <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
