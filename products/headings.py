@@ -1,0 +1,4 @@
+
+
+class AdminPortalHeadings:
+    DASHBOARD = 'Dashboard'

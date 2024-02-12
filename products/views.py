@@ -3,6 +3,7 @@ from .models import Brand, Category, Product
 from django.contrib import messages
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from .headings import AdminPortalHeadings
 
 
 @login_required
@@ -17,7 +18,7 @@ def home_page(request):
     categories = Category.objects.annotate(catogory_count=Count("name")).all()
     brands = Brand.objects.annotate(brands_count=Count("name")).all()
     products = Product.objects.annotate(product_count=Count("name")).all()
-    heading = "Dashboard"
+    heading = AdminPortalHeadings.DASHBOARD
 
     context = {
         "heading": heading,
