@@ -29,3 +29,21 @@ def home_page(request):
     }
 
     return render(request, "product/dashboard.html", context)
+
+
+@login_required
+def profile(request):
+    """" To show and update user details of the current user """
+
+    if request.method == "POST":
+        profile_form = UserUpdateForm(request.POST, instance=request.user)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, "Profile updated successfully")
+    else:
+        profile_form = UserUpdateForm(instance=User.objects.get(username=request.user))
+
+    return render(request, 'profile/profile.html', {
+        "profile_form": profile_form
+    })
+

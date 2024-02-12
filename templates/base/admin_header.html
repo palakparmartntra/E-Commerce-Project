@@ -55,7 +55,7 @@
                 <div class="nav-item dropdown">
                 {%  if request.user.is_authenticated %}
 
-                <a href="#" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
+                <a href="{% url 'homepage' %}" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
                 <div class="dropdown-menu">
                     <a href="{% url 'homepage' %}" class="dropdown-item">{{request.user}} </a>
