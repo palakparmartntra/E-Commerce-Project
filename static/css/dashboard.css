@@ -14,3 +14,13 @@
     font-size: 30px;
     color: #FF6F61;
 }
+
+.alert {
+    position: absolute;
+    width: 80%;
+    z-index: 6;
+    padding: 5px;
+    margin-left: 120px;
+    margin-top: 10px;
+    text-align: center;
+}
