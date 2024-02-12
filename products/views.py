@@ -1,8 +1,8 @@
-from django.forms import modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCategoryForm
 from .models import Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 
 
 # Create your views here.
@@ -14,6 +14,7 @@ def add_category(request):
         category = AddCategoryForm(request.POST, request.FILES)
         if category.is_valid():
             category.save()
+            messages.success(request, "category added successfully")
         return redirect('view-category')
 
     category = AddCategoryForm()
@@ -31,6 +32,7 @@ def update_category(request, pk):
         category = AddCategoryForm(request.POST, request.FILES, instance=category_instance)
         if category.is_valid():
             category.save()
+            messages.success(request, "category updated successfully")
         return redirect('view-category')
 
     category = AddCategoryForm(instance=Category.objects.get(id=pk))
@@ -54,7 +56,8 @@ def view_categroy(request):
     except EmptyPage:
         page_obj = p.page(p.num_pages)
 
-    return render(request, 'product/category/view_category.html', {'page_obj': page_obj, 'heading': 'All Categories'})
+    return render(request, 'product/category/view_category.html',
+                  {'page_obj': page_obj, 'heading': 'All Categories'})
 
 
 def delete_category(request, pk):
@@ -64,6 +67,7 @@ def delete_category(request, pk):
     if request.method == "POST":
 
         categorydata.delete()
+        messages.success(request, "category deleted successfully")
         return redirect('view-category')
     else:
         return render(request, 'product/category/confirm_delete.html', {'category': categorydata})

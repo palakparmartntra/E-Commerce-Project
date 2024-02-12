@@ -9,6 +9,6 @@ class AddCategoryForm(forms.ModelForm):
 
         # add css here in form
         widgets = {
-            'name':forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
 
         }
