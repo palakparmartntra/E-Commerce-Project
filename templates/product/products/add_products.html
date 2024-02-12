@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
-     <form id="addcategory" method="post" enctype="multipart/form-data">
+     <form id="addproduct" method="post" enctype="multipart/form-data">
            {% csrf_token %}
          <div class="container-fluid">
              <div class="row">
@@ -17,6 +17,6 @@
                     </form>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-     <script src="{% static 'js/add_category.js' %}"></script>
+     <script src="{% static 'js/add_product.js' %}"></script>
 
 {% endblock %}

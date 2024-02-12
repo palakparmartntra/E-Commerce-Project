@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddProductForm
 from .models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
+from products.headings import AdminPortalHeadings
 
 
 # Create your views here.
@@ -16,6 +18,7 @@ def add_product(request):
         product = AddProductForm(request.POST, request.FILES)
         if product.is_valid():
             product.save()
+            messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
         return redirect('view-product')
 
     product = AddProductForm()
@@ -33,6 +36,7 @@ def update_product(request, pk):
         product = AddProductForm(request.POST, request.FILES, instance=product_instance)
         if product.is_valid():
             product.save()
+            messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
         return redirect('view-product')
 
     product = AddProductForm(instance=Product.objects.get(id=pk))
@@ -66,6 +70,7 @@ def delete_product(request, pk):
     if request.method == "POST":
 
         product.delete()
+        messages.success(request, AdminPortalHeadings.PRODUCT_DELETED)
         return redirect('view-product')
     else:
         return render(request, 'product/products/confirm_delete.html', {'product': product})
