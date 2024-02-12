@@ -1,0 +1,16 @@
+
+.card-body {
+    justify: center;
+    text-align: center;
+}
+
+.dashboard-card{
+    font-size: 100px;
+    color: #FF6F61;
+}
+
+.card-text {
+    text-orientation: upright;
+    font-size: 30px;
+    color: #FF6F61;
+}
