@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from .models import Brand, Category, Product
-from django.contrib import messages
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from .headings import AdminPortalHeadings
