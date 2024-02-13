@@ -1,9 +1,13 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
+from .views import home_page
 from .views import add_category, update_category, view_categroy, delete_category
 
+
 urlpatterns = [
+    path('', home_page, name='homepage'),
+    path('profile/', home_page, name='admin-profile'),
     path('addcategory', add_category, name='add-category'),
     path('updatecategory/<int:pk>/', update_category, name='update-category'),
     path('viewcategory/', view_categroy, name='view-category'),
