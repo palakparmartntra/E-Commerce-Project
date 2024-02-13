@@ -1,14 +1,16 @@
+from django.shortcuts import render, redirect, get_object_or_404, Http404
 from .models import Brand, Category, Product, BrandProduct
 from django.contrib import messages
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from .headings import AdminPortalHeadings
-from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddBrandForm, UpdateBrandForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 from .messages import BrandFormSuccessMessages
 from .messages import BrandFormErrorMessages
 from .exceptions import CannotDeleteBrand
+from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -40,6 +42,9 @@ def home_page(request):
 def add_brand(request):
     """ To add a new brand in brand model """
 
+    if not request.user.is_superuser:
+        return Http404
+
     context = {}
     if request.method == "POST":
         brand = AddBrandForm(request.POST, request.FILES)
@@ -60,6 +65,9 @@ def add_brand(request):
 @login_required
 def update_brands(request, pk):
     """ To update brand details """
+
+    if not request.user.is_superuser:
+        return Http404
 
     context = {}
 
@@ -86,6 +94,9 @@ def update_brands(request, pk):
 def view_brands(request):
     """ To display all brands """
 
+    if not request.user.is_superuser:
+        return Http404
+
     brand = Brand.objects.all()
     if request.GET.get('search'):
         brand = brand.filter(name__icontains=request.GET.get('search'))
@@ -110,9 +121,13 @@ def view_brands(request):
 def delete_brand(request, pk):
     """ To delete a brand from model """
 
+    if not request.user.is_superuser:
+        return Http404
+
     brand = Brand.objects.get(id=pk)
     product_has_brand = BrandProduct.objects.filter(brand=pk)
     heading = AdminPortalHeadings.DELETE_BRAND
+
     if request.method == "POST":
         try:
             if not product_has_brand:
