@@ -7,8 +7,10 @@ from django.contrib import messages
 from .messages import BrandFormSuccessMessages
 from .messages import BrandFormErrorMessages
 from .exceptions import CannotDeleteBrand
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def add_brand(request):
     """ To add a new brand in brand model """
 
@@ -29,6 +31,7 @@ def add_brand(request):
     return render(request, "product/brand/add_brand.html", context)
 
 
+@login_required
 def update_brands(request, pk):
     """ To update brand details """
 
@@ -53,6 +56,7 @@ def update_brands(request, pk):
     return render(request, "product/brand/update_brand.html", context)
 
 
+@login_required
 def view_brands(request):
     """ To display all brands """
 
@@ -76,6 +80,7 @@ def view_brands(request):
     return render(request, 'product/brand/view_brands.html', context)
 
 
+@login_required
 def delete_brand(request, pk):
     """ To delete a brand from model """
 
