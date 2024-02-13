@@ -1,0 +1,37 @@
+{% extends 'base/header.html' %}
+{% load static %}
+{% block content %}
+
+
+ <div class="featured-product product">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h3>Our Category</h3>
+        </div>
+        <div class="row align-items-center product-slider product-slider-4">
+            {% for category in categorydata %}
+            <div class="col-lg-3">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="#">{{category.name}}</a>
+                    </div>
+                    <div class="product-image">
+                        <a href="{% url 'subcategory' category.id %}">
+                                 {% if category.image %}
+                    <img style="width:320px; height:350px;" src="{{ category.image.url }}" alt="image">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+ </div>
+
+
+
+
+{% endblock %}
