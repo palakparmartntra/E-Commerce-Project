@@ -1,10 +1,12 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import add_brand, update_brands, view_brands, delete_brand
+from .views import home_page, add_brand, update_brands, view_brands, delete_brand
+
 
 urlpatterns = [
-
+    path('', home_page, name='homepage'),
+    path('profile/', home_page, name='admin-profile'),
     path('view-brand/', view_brands, name='view-brand'),
     path('add-brand', add_brand, name='add-brand'),
     path('update-brand/<int:pk>/', update_brands, name='update-brand'),
