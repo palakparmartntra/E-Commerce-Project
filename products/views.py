@@ -48,7 +48,8 @@ def update_product(request, pk):
 def view_product(request):
     """ this view is useful to display all product """
 
-    product = Product.objects.all()
+    product = Product.objects.filter(is_deleted=False)
+    print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
     p = Paginator(product, 3)
@@ -71,6 +72,32 @@ def delete_product(request, pk):
 
         product.delete()
         messages.success(request, AdminPortalHeadings.PRODUCT_DELETED)
+        return redirect('view-product')
+    else:
+        return render(request, 'product/products/confirm_delete.html', {'product': product})
+
+
+def trash_product(request):
+    product = Product.objects.filter(is_deleted=True)
+    if request.GET.get('search'):
+        product = product.filter(name__icontains=request.GET.get('search'))
+    p = Paginator(product, 3)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+    return render(request, 'product/products/trash_product.html', {'page_obj': page_obj, 'heading': 'Trash Products'})
+
+
+def soft_delete(request, pk):
+    product = Product.object.get(id=pk)
+    if request.method == "POST":
+        product.is_deleted = True
+        product.save()
+        messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
         return redirect('view-product')
     else:
         return render(request, 'product/products/confirm_delete.html', {'product': product})
