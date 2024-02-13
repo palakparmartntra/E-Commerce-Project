@@ -3,18 +3,12 @@ from django.views.generic.edit import CreateView
 from .models import Address
 from .forms import UserUpdateForm, AddAddressForm
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
 from .models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.forms import modelformset_factory
 from django.contrib import messages
-
-
-class HomePageView(TemplateView):
-    """ view for rendering index page """
-
-    template_name = 'index.html'
+from django.http import Http404
 
 
 @method_decorator(login_required, name='dispatch')
@@ -63,6 +57,9 @@ def address(request):
 @login_required
 def profile(request):
     """" To show and update user details of the current user """
+
+    if request.user.is_superuser:
+        raise Http404
 
     addresses = Address.objects.filter(user=request.user)
     if request.method == "POST":
