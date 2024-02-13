@@ -5,12 +5,12 @@
 <link href="{% static 'css/category.css' %}" rel="stylesheet">
 <body>
 <div class="container">
-    <h1>Are you sure you want to delete?</h1>
+    <h1>Are you sure you want to delete {{category.name}} ?</h1>
     <div class="btn-container">
         <form method="POST">
             {% csrf_token %}
             <button class="btn btn-danger" onclick="window.location.href='{% url 'delete-category' category.pk %}'">Delete Category</button>
-            <button class="btn btn-primary" onclick="window.location.href='{% url 'view-category' %}'">Cancel</button>
+            <a href="{% url 'view-category' %}"> cancel</a>
         </form>
     </div>
 </div>

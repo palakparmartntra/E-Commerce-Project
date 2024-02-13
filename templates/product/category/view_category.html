@@ -4,6 +4,7 @@
 {% block content %}
 <body class="view-category">
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/category.css' %}" rel="stylesheet">
 <div class="container mt-4">
     <div class="top">
 
@@ -39,7 +40,8 @@
                 <td>{{ cat.parent }}</td>
                 <td>
                     <a class="btn" href="{% url 'update-category' cat.pk %}">Edit</a>
-                    <button class="btn-danger"  onclick="if(confirm('Are you sure you want to delete this category?')) {window.location.href='{% url 'delete-category' cat.pk %}'}">Delete</button>
+                    <a class="btn-danger" href="{% url 'delete-category' cat.pk %}">Delete</a>
+
                 </td>
             </tr>
             {% endfor %}

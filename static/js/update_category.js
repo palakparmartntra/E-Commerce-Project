@@ -6,20 +6,7 @@ rules: {
  },
  messgaes: {
     name:{
-    required:'please enter category name'
+    required:'Please enter category name'
     }
  }
 });
-
-
-
-
-//Function To Display Popup
-function div_show() {
-document.getElementById('abc').style.display = "block";
-}
-//Function to Hide Popup
-function div_hide(){
-document.getElementById('abc').style.display = "none";
-}
-
