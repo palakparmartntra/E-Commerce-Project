@@ -7,9 +7,11 @@ from .models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from products.headings import AdminPortalHeadings
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def add_product(request):
     """ this view is useful to add products """
 
@@ -27,6 +29,7 @@ def add_product(request):
     return render(request, "product/products/add_products.html", context)
 
 
+@login_required
 def update_product(request, pk):
     """ this view is useful for update product product """
 
@@ -45,6 +48,7 @@ def update_product(request, pk):
     return render(request, "product/products/update_products.html", context)
 
 
+@login_required
 def view_product(request):
     """ this view is useful to display all product """
 
@@ -64,6 +68,7 @@ def view_product(request):
     return render(request, 'product/products/view_products.html', {'page_obj': page_obj, 'heading': 'All Products'})
 
 
+@login_required
 def delete_product(request, pk):
     """ this view is useful to delete product """
 
@@ -76,6 +81,7 @@ def delete_product(request, pk):
         return render(request, 'product/products/confirm_delete.html', {'product': product})
 
 
+@login_required
 def trash_product(request):
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
@@ -91,17 +97,17 @@ def trash_product(request):
     return render(request, 'product/products/trash_product.html', {'page_obj': page_obj, 'heading': 'Trash Products'})
 
 
+@login_required
 def soft_delete(request, pk):
     product = Product.objects.get(id=pk)
     product.is_deleted = True
     product.save()
     return redirect('view-product')
 
+
+@login_required
 def restore(request, pk):
     product = Product.objects.get(id=pk)
     product.is_deleted = False
     product.save()
     return redirect('trashview')
-
-
-
