@@ -9,7 +9,8 @@ urlpatterns = [
     path('viewproduct/', view_product, name='view-product'),
     path('deleteproduct/<int:pk>/', delete_product, name='delete-product'),
     path('trashproduct', trash_product, name='trashview'),
-    path('softdelete/<int:pk>/', soft_delete, name='trash-product')
+    path('softdelete/<int:pk>/', soft_delete, name='trash-product'),
+    path('restore/<int:pk>/', restore, name='restore')
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

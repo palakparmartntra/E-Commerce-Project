@@ -9,8 +9,9 @@
     <div class="btn-container">
         <form method="POST">
             {% csrf_token %}
-            <button class="btn btn-danger" onclick="window.location.href='{% url 'delete-product' product.pk %}'">Delete Product</button>
-            <button class="btn btn-primary" onclick="window.location.href='{% url 'view-product' %}'">Cancel</button>
+
+            <button  class="btn btn-danger" onclick="window.location.href='{% url 'delete-product' product.pk %}'">Delete Product</button>
+            <a class="btn" href="{% url 'trashview' %}">Cancel</a>
         </form>
     </div>
 </div>

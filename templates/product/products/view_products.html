@@ -46,7 +46,9 @@
                 </td>
                 <td>
                     <a class="btn" href="{% url 'update-product' product.pk %}">Edit</a>
-                    <button class="btn-danger"  onclick="if(confirm('Are you sure you want to delete this category?')) {window.location.href='{% url 'delete-product' product.pk %}'}">Delete</button>
+
+
+<button  class="btn-danger" onclick="if(confirm('Are you sure you want to delete this category?')) {window.location.href='{% url 'trash-product' product.pk %}'}">Delete</button>
                 </td>
             </tr>
             {% endfor %}

@@ -69,10 +69,9 @@ def delete_product(request, pk):
 
     product = Product.objects.get(id=pk)
     if request.method == "POST":
-
         product.delete()
         messages.success(request, AdminPortalHeadings.PRODUCT_DELETED)
-        return redirect('view-product')
+        return redirect('trashview')
     else:
         return render(request, 'product/products/confirm_delete.html', {'product': product})
 
@@ -93,11 +92,16 @@ def trash_product(request):
 
 
 def soft_delete(request, pk):
-    product = Product.object.get(id=pk)
-    if request.method == "POST":
-        product.is_deleted = True
-        product.save()
-        messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
-        return redirect('view-product')
-    else:
-        return render(request, 'product/products/confirm_delete.html', {'product': product})
+    product = Product.objects.get(id=pk)
+    product.is_deleted = True
+    product.save()
+    return redirect('view-product')
+
+def restore(request, pk):
+    product = Product.objects.get(id=pk)
+    product.is_deleted = False
+    product.save()
+    return redirect('trashview')
+
+
+
