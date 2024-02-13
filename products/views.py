@@ -39,7 +39,7 @@ def update_category(request, pk):
             messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
         return redirect('view-category')
 
-    category = AddCategoryForm(instance=Category.objects.get(id=pk))
+    category = AddCategoryForm(instance=get_object_or_404(Category, pk=pk))
     context['form'] = category
     context['heading'] = ' Update Category'
     return render(request, "product/category/update_category.html", context)
