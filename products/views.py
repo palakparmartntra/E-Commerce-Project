@@ -5,9 +5,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from products.headings import AdminPortalHeadings
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def add_category(request):
     """ this view is useful to add category """
 
@@ -25,6 +27,7 @@ def add_category(request):
     return render(request, "product/category/add_category.html", context)
 
 
+@login_required
 def update_category(request, pk):
     """ this view is useful for update product category """
 
@@ -42,6 +45,7 @@ def update_category(request, pk):
     return render(request, "product/category/update_category.html", context)
 
 
+@login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
 
@@ -61,6 +65,7 @@ def view_categroy(request):
                   {'page_obj': page_obj, 'heading': 'All Categories'})
 
 
+@login_required
 def delete_category(request, pk):
     """ this view is useful to delete category """
 
