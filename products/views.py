@@ -63,7 +63,8 @@ def view_product(request):
     except EmptyPage:
         page_obj = p.page(p.num_pages)
 
-    return render(request, 'product/products/view_products.html', {'page_obj': page_obj, 'heading': 'All Products'})
+    return render(request, 'product/products/view_products.html',
+                  {'page_obj': page_obj, 'heading': 'All Products'})
 
 
 @login_required
@@ -92,7 +93,8 @@ def trash_product(request):
         page_obj = p.page(1)
     except EmptyPage:
         page_obj = p.page(p.num_pages)
-    return render(request, 'product/products/trash_product.html', {'page_obj': page_obj, 'heading': 'Trash Products'})
+    return render(request, 'product/products/trash_product.html',
+                  {'page_obj': page_obj, 'heading': 'Trash Products'})
 
 
 @login_required
@@ -109,6 +111,8 @@ def restore(request, pk):
     product.is_deleted = False
     product.save()
     return redirect('trashview')
+
+
 @login_required
 def home_page(request):
     """" To redirect user to home page and superuser to dashboard """

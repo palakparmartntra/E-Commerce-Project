@@ -1,7 +1,8 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import add_product, update_product, view_product, delete_product, trash_product, soft_delete, restore, home_page
+from .views import add_product, update_product, view_product, delete_product, \
+    trash_product, soft_delete, restore, home_page
 
 urlpatterns = [
     path('', home_page, name='homepage'),
@@ -15,4 +16,3 @@ urlpatterns = [
     path('restore/<int:pk>/', restore, name='restore')
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
