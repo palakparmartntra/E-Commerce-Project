@@ -26,22 +26,7 @@
     </head>
 
     <body>
-        <!-- Top bar Start -->
-        <div class="top-bar">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <i class="fa fa-envelope"></i>
-                        {{ request.user.email }}
-                    </div>
-                    <div class="col-sm-6">
-                        <i class="fa fa-phone-alt"></i>
-                        +012-345-6789
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Top bar End -->
+
 
         <!-- Nav Bar Start -->
         <div class="nav">
@@ -54,7 +39,7 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="{% url 'view_profile' user.id %}" class="nav-item nav-link">{{request.user}} </a>
+                            <a href="#" class="nav-item nav-link">{{request.user}} </a>
                             <a href="index.html" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
@@ -63,8 +48,8 @@
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
 
                                 <div class="dropdown-menu">
-                                    <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
+                                    <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                    <form id="logout-form" action="#" method="post" style="display: none;">
                                         {% csrf_token %}
                                     </form>
                                     <a href="#" class="dropdown-item">Register</a>
@@ -229,13 +214,11 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
+        <script src="{% static 'lib/slick/slick.min.js' %}"></script>
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script src="{% static 'js/main.js' %}"></script>
 </body>
-<<<<<<< HEAD
+
 </html>
-=======
-</html>
->>>>>>> feature/common
+
