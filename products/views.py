@@ -1,10 +1,10 @@
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCategoryForm
-from .models import Category
+from .models import Category, Brand, Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from products.headings import AdminPortalHeadings
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 
@@ -77,3 +77,28 @@ def delete_category(request, pk):
         return redirect('view-category')
     else:
         return render(request, 'product/category/confirm_delete.html', {'category': categorydata})
+
+
+@login_required
+def home_page(request):
+    """" To redirect user to home page and superuser to dashboard """
+
+    context = {}
+    if not request.user.is_superuser:
+        return render(request, "index.html")
+
+    banner = Brand.objects.annotate(banner_count=Count("name")).all()
+    categories = Category.objects.annotate(catogory_count=Count("name")).all()
+    brands = Brand.objects.annotate(brands_count=Count("name")).all()
+    products = Product.objects.annotate(product_count=Count("name")).all()
+    heading = AdminPortalHeadings.DASHBOARD
+
+    context = {
+        "heading": heading,
+        "banner_count": banner,
+        "categories_count": categories,
+        "brands_count": brands,
+        "products_count": products
+    }
+
+    return render(request, "product/dashboard.html", context)
