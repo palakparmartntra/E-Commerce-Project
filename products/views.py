@@ -1,38 +1,15 @@
-from django.shortcuts import render,redirect
-from .models import Brand, Category, Product
-from django.contrib import messages
-from django.db.models import Count
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCategoryForm
+from .models import Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
 from products.headings import AdminPortalHeadings
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
+# Create your views here.
 @login_required
-def home_page(request):
-    """" To redirect user to home page and superuser to dashboard """
-
-    context = {}
-    if not request.user.is_superuser:
-        return render(request, "index.html")
-
-    banner = Brand.objects.annotate(banner_count=Count("name")).all()
-    categories = Category.objects.annotate(catogory_count=Count("name")).all()
-    brands = Brand.objects.annotate(brands_count=Count("name")).all()
-    products = Product.objects.annotate(product_count=Count("name")).all()
-    heading = AdminPortalHeadings.DASHBOARD
-
-    context = {
-        "heading": heading,
-        "banner_count": banner,
-        "categories_count": categories,
-        "brands_count": brands,
-        "products_count": products
-    }
-
-    return render(request, "product/dashboard.html", context)
-
-
 def add_category(request):
     """ this view is useful to add category """
 
@@ -50,13 +27,13 @@ def add_category(request):
     return render(request, "product/category/add_category.html", context)
 
 
+@login_required
 def update_category(request, pk):
     """ this view is useful for update product category """
 
     context = {}
-    category_instance = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-        category = AddCategoryForm(request.POST, request.FILES, instance=category_instance)
+        category = AddCategoryForm(request.POST, request.FILES, instance=get_object_or_404(Category, pk=pk))
         if category.is_valid():
             category.save()
             messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
@@ -68,6 +45,7 @@ def update_category(request, pk):
     return render(request, "product/category/update_category.html", context)
 
 
+@login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
 
@@ -87,10 +65,11 @@ def view_categroy(request):
                   {'page_obj': page_obj, 'heading': 'All Categories'})
 
 
+@login_required
 def delete_category(request, pk):
     """ this view is useful to delete category """
 
-    categorydata = Category.objects.get(id=pk)
+    categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
 
         categorydata.delete()
