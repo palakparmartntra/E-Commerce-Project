@@ -35,7 +35,9 @@ def update_brands(request, pk):
     context = {}
 
     if request.method == "POST":
-        brand_form = UpdateBrandForm(request.POST, request.FILES, instance=get_object_or_404(Brand, id=pk))
+        brand_form = UpdateBrandForm(
+            request.POST, request.FILES, instance=get_object_or_404(Brand, id=pk)
+        )
         if brand_form.is_valid():
             brand_form.save()
             messages.success(request, BrandFormSuccessMessages.BRAND_UPDATED)
