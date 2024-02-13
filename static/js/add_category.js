@@ -6,7 +6,7 @@ rules: {
  },
  messgaes: {
     name:{
-    required:'please enter category name'
+    required:'Please enter category name'
     }
  }
 });

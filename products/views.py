@@ -4,6 +4,7 @@ from .models import Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from products.headings import AdminPortalHeadings
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -28,9 +29,8 @@ def update_category(request, pk):
     """ this view is useful for update product category """
 
     context = {}
-    category_instance = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-        category = AddCategoryForm(request.POST, request.FILES, instance=category_instance)
+        category = AddCategoryForm(request.POST, request.FILES, instance=get_object_or_404(Category, pk=pk))
         if category.is_valid():
             category.save()
             messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
@@ -64,7 +64,7 @@ def view_categroy(request):
 def delete_category(request, pk):
     """ this view is useful to delete category """
 
-    categorydata = Category.objects.get(id=pk)
+    categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
 
         categorydata.delete()
