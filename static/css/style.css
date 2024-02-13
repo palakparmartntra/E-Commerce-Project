@@ -2394,3 +2394,19 @@ h2 {
         text-align: center; 
     } 
 }
+
+
+.errorlist {
+    list-style-type: none;
+    color: red;
+    position: relative;
+    right: 31px;
+}
+.error {
+    color: #ff0000;
+    margin-right:20px;
+}
+
+input.error {
+    border: 2px solid red;
+}

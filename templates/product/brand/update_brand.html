@@ -3,13 +3,13 @@
 {% block content %}
 
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
-  <form id="add-brand" method="post" enctype="multipart/form-data">
+  <form id="update-brand" method="post" enctype="multipart/form-data">
   {% csrf_token %}
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-6">
           {{ form.as_p }}
-          <input class="btn" type="submit" value="Create">
+          <input class="btn" type="submit" value="Update">
           <a href= "{% url 'view-brand' %}" style="margin-left:20px" class="btn">Cancel</a>
         </div>
       </div>

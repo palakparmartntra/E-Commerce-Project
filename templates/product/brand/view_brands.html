@@ -41,15 +41,15 @@
                 </td>
                 <td>{{ brand.name }}</td>
                 <td>
-                    <a class="btn" href="{% url 'update-brand' brand.pk %}">Edit</a>
-                    <button class="btn-danger"  onclick="if(confirm('Are you sure you want to delete this category?')) {window.location.href='{% url 'delete-brand' brand.pk %}'}">Delete</button>
+                    <a class="btn" href="{% url 'update-brand' brand.id %}">Edit</a>
+                    <a href="{% url 'delete-brand' brand.id %}" class="btn">Delete</a>
                 </td>
             </tr>
             {% endfor %}
 
         </tbody>
     </table>
-       <center>
+    <center>
         {%if page_obj.has_previous %}
             <a href="?page={{page_obj.previous_page_number}}"><</a>
         {% endif %}

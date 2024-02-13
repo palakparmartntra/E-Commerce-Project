@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Brand
+from .models import Brand, BrandProduct
 from .headings import AdminPortalHeadings
-from .forms import BrandForm
+from .forms import AddBrandForm, UpdateBrandForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from .messages import BrandFormSuccessMessages
+from .messages import BrandFormErrorMessages
+from .exceptions import CannotDeleteBrand
 
 
 def add_brand(request):
@@ -11,13 +14,13 @@ def add_brand(request):
 
     context = {}
     if request.method == "POST":
-        brand = BrandForm(request.POST, request.FILES)
+        brand = AddBrandForm(request.POST, request.FILES)
         if brand.is_valid():
             brand.save()
-            messages.success(request, "Brand added successfully")
+            messages.success(request, BrandFormSuccessMessages.NEW_BRAND_ADDED)
         return redirect('view-brand')
 
-    brand_form = BrandForm()
+    brand_form = AddBrandForm()
 
     context = {
         "form": brand_form,
@@ -32,13 +35,13 @@ def update_brands(request, pk):
     context = {}
 
     if request.method == "POST":
-        brand_form = BrandForm(request.POST, request.FILES, instance=get_object_or_404(Brand, id=pk))
+        brand_form = UpdateBrandForm(request.POST, request.FILES, instance=get_object_or_404(Brand, id=pk))
         if brand_form.is_valid():
             brand_form.save()
-            messages.success(request, "Brand updated successfully")
+            messages.success(request, BrandFormSuccessMessages.BRAND_UPDATED)
         return redirect('view-brand')
 
-    brand_form = BrandForm(instance=Brand.objects.get(id=pk))
+    brand_form = UpdateBrandForm(instance=Brand.objects.get(id=pk))
 
     context = {
         "form": brand_form,
@@ -75,9 +78,21 @@ def delete_brand(request, pk):
     """ To delete a brand from model """
 
     brand = Brand.objects.get(id=pk)
+    product_has_brand = BrandProduct.objects.filter(brand=pk)
+    heading = AdminPortalHeadings.DELETE_BRAND
     if request.method == "POST":
-        brand.delete()
-        messages.success(request, "Brand deleted successfully")
+        try:
+            if not product_has_brand:
+                brand.delete()
+            else:
+                raise CannotDeleteBrand
+        except CannotDeleteBrand:
+            messages.info(request, BrandFormErrorMessages.BRAND_PROTECTED)
+            breakpoint()
         return redirect('view-brand')
     else:
-        return render(request, 'product/brand/confirm_delete.html', {'brand': brand})
+        context = {
+            'heading': heading,
+            'brand': brand
+        }
+        return render(request, 'product/brand/confirm_delete.html', context)
