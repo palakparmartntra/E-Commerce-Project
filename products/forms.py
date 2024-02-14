@@ -20,9 +20,7 @@ class AddBrandForm(forms.ModelForm):
     )
 
     image = forms.ImageField(
-        max_length=40,
         required=True,
-        error_messages={'invalid': BrandFormErrorMessages.BRAND_NAME},
         widget=forms.FileInput(
             attrs={
                 'class': 'form-control'
