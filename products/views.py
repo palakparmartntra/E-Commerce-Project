@@ -1,12 +1,11 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
-from .models import Brand, Category, Product
+from .models import Category, Product
 
 
 def home_page(request):
     """" To redirect user to home page and superuser to dashboard """
 
-    context = {}
     category = Category.objects.filter(parent=None)
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
