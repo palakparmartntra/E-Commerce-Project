@@ -2,7 +2,6 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from .models import Brand, Category, Product
 from django.db.models import Count
-from django.contrib.auth.decorators import login_required
 from .headings import AdminPortalHeadings
 
 
