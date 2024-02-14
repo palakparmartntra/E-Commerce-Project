@@ -78,7 +78,7 @@ def update_brands(request, pk):
         )
         if brand_form.is_valid():
             brand_form.save()
-        messages.success(request, BrandFormSuccessMessages.BRAND_UPDATED)
+            messages.success(request, BrandFormSuccessMessages.BRAND_UPDATED)
         return redirect('view-brand')
 
     brand_form = UpdateBrandForm(instance=selected_brand)
