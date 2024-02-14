@@ -1,10 +1,10 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import category_view, category_data,subcategory_data,product_data, all_products
+from .views import home_page, category_data,subcategory_data,product_data, all_products
 
 urlpatterns = [
-    path('', category_view, name='user-category'),
+    path('', home_page, name='user-category'),
     path('category', category_data, name='category'),
     path('subcategory/<int:pk>/', subcategory_data, name='subcategory'),
     path('product/<int:pk>/', product_data, name='products'),

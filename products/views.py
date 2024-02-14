@@ -6,7 +6,7 @@ from .models import Category, Product
 # Create your views here.
 
 
-def category_view(request):
+def home_page(request):
     category = Category.objects.filter(parent=None)
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
