@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages
 from .messages import BrandFormErrorMessages
-from .exceptions import CannotDeleteBrand
+from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
 
 
@@ -43,16 +43,17 @@ def update_brands(request, pk):
 
     context = {}
 
+    selected_brand = get_object_or_404(Brand, id=pk)
     if request.method == "POST":
         brand_form = UpdateBrandForm(
-            request.POST, request.FILES, instance=get_object_or_404(Brand, id=pk)
+            request.POST, request.FILES, instance=selected_brand
         )
         if brand_form.is_valid():
             brand_form.save()
-            messages.success(request, BrandFormSuccessMessages.BRAND_UPDATED)
+        messages.success(request, BrandFormSuccessMessages.BRAND_UPDATED)
         return redirect('view-brand')
 
-    brand_form = UpdateBrandForm(instance=Brand.objects.get(id=pk))
+    brand_form = UpdateBrandForm(instance=selected_brand)
 
     context = {
         "form": brand_form,
@@ -105,10 +106,9 @@ def delete_brand(request, pk):
             if not product_has_brand:
                 brand.delete()
             else:
-                raise CannotDeleteBrand
-        except CannotDeleteBrand:
+                raise CannotDeleteBrandException
+        except CannotDeleteBrandException:
             messages.info(request, BrandFormErrorMessages.BRAND_PROTECTED)
-            breakpoint()
         return redirect('view-brand')
     else:
         context = {
