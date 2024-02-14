@@ -6,8 +6,8 @@ from .models import Product, Category, Brand, BrandProduct
 
 @admin.register(Product)
 class Product(admin.ModelAdmin):
-    list_display = ('name', 'description', 'quantity', 'price', 'image', 'category'
-                    , 'is_active', 'is_deleted')
+    list_display = ('name', 'description', 'quantity', 'price',
+                    'image', 'category', 'is_active', 'is_deleted')
 
 
 @admin.register(Category)
