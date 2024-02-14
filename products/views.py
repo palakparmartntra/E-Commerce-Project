@@ -1,12 +1,12 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
-from .models import Category, Product
-
-
-# Create your views here.
+from .models import Brand, Category, Product
 
 
 def home_page(request):
+    """" To redirect user to home page and superuser to dashboard """
+
+    context = {}
     category = Category.objects.filter(parent=None)
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
@@ -35,15 +35,35 @@ def category_data(request):
 
 def subcategory_data(request, pk):
     id_parent = get_object_or_404(Category, pk=pk)
-    print(id_parent)
     subcategory = Category.objects.filter(parent=id_parent.pk)
-    return render(request, "user_product/subcategory.html", {'subcategorydata': subcategory})
+    if request.GET.get('search'):
+        subcategory = subcategory.filter(name__icontains=request.GET.get('search'))
+    p = Paginator(subcategory, 10)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+    return render(request, "user_product/subcategory.html", {'subcategorydata': page_obj})
 
 
 def product_data(request, pk):
     id_parent = get_object_or_404(Category, pk=pk)
     product = Product.objects.filter(category=id_parent.pk)
-    return render(request, 'user_product/products.html', {'productdata': product})
+    if request.GET.get('search'):
+        product = product.filter(name__icontains=request.GET.get('search'))
+    p = Paginator(product, 10)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = p.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = p.page(1)
+    except EmptyPage:
+        page_obj = p.page(p.num_pages)
+
+    return render(request, 'user_product/products.html', {'productdata': page_obj})
 
 
 def all_products(request):
