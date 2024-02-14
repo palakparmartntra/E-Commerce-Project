@@ -8,9 +8,10 @@
                 <a href="{% subcategory "
                 <h3> Products</h3>
             </div>
-            <div   class="row align-items-center product-slider product-slider-4">
+            <div class="col-lg-12 ">
+        <div class="row ">
                 {% for product in productdata %}
-                <div class="col-lg-3">
+                <div class="col-lg-3 mb-5">
                     <div class="product-item">
                         <div class="product-title">
                             <a href="#">{{product.name}}</a>
@@ -44,11 +45,22 @@
                     </div>
 
                 </div>
+
                 {% endfor %}
             </div>
         </div>
-     </div>
+             <center>
+        {%if productdata.has_previous %}
+            <a href="?page={{productdata.previous_page_number}}"><</a>
+        {% endif %}
+        <span>{{productdata.number}}</span>
 
+        {%if productdata.has_next %}
+            <a href="?page={{productdata.next_page_number}}">></a>
 
+        {% endif %}
+    </center>
+        </div>
+</div>
 {% endblock %}
 
