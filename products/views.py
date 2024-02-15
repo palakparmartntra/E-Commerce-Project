@@ -82,6 +82,8 @@ def delete_product(request, pk):
 
 @login_required
 def trash_product(request):
+    """ this view is useful to view all trash products """
+
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
@@ -99,6 +101,7 @@ def trash_product(request):
 
 @login_required
 def soft_delete(request, pk):
+    """ this view is useful to for soft delete and product goes to trash """
     product = Product.objects.get(id=pk)
     product.is_deleted = True
     product.save()
@@ -107,6 +110,8 @@ def soft_delete(request, pk):
 
 @login_required
 def restore(request, pk):
+    """ this view is useful to restore product from trash """
+
     product = Product.objects.get(id=pk)
     product.is_deleted = False
     product.save()
