@@ -95,8 +95,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="search">
-                            <input type="text" size="40" placeholder="Search">
-                            <button><i class="fa fa-search"></i></button>
+                           <form method="get">
+                        {% csrf_token %}
+                    <input class="search" size="50" name="search" type="text"  placeholder="search">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                         </div>
                     </div>
                     <div class="col-md-3">
