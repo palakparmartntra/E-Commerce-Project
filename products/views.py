@@ -18,6 +18,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def add_product(request):
     """ this view is useful to add products """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     context = {}
     if request.method == "POST":
         product = AddProductForm(request.POST, request.FILES)
@@ -35,6 +38,9 @@ def add_product(request):
 @login_required
 def update_product(request, pk):
     """ this view is useful for update product product """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
@@ -54,6 +60,9 @@ def update_product(request, pk):
 @login_required
 def view_product(request):
     """ this view is useful to display all product """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.filter(is_deleted=False)
     print(product)
@@ -76,6 +85,9 @@ def view_product(request):
 def delete_product(request, pk):
     """ this view is useful to delete product """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.get(id=pk)
     if request.method == "POST":
         product.delete()
@@ -88,6 +100,9 @@ def delete_product(request, pk):
 @login_required
 def trash_product(request):
     """ this view is useful to view all trash products """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
@@ -107,6 +122,10 @@ def trash_product(request):
 @login_required
 def soft_delete(request, pk):
     """ this view is useful to for soft delete and product goes to trash """
+
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.get(id=pk)
     product.is_deleted = True
     product.save()
@@ -116,6 +135,9 @@ def soft_delete(request, pk):
 @login_required
 def restore(request, pk):
     """ this view is useful to restore product from trash """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.get(id=pk)
     product.is_deleted = False
@@ -152,6 +174,9 @@ def home_page(request):
 def add_category(request):
     """ this view is useful to add category """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     context = {}
     if request.method == "POST":
         category = AddCategoryForm(request.POST, request.FILES)
@@ -169,6 +194,9 @@ def add_category(request):
 @login_required
 def update_category(request, pk):
     """ this view is useful for update product category """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     category_instance = get_object_or_404(Category, pk=pk)
@@ -189,6 +217,9 @@ def update_category(request, pk):
 def view_categroy(request):
     """ this view is useful to display all categories """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     category = Category.objects.all()
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
@@ -208,6 +239,9 @@ def view_categroy(request):
 @login_required
 def delete_category(request, pk):
     """ this view is useful to delete category """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
