@@ -1,3 +1,4 @@
+from django.http import Http404,HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCategoryForm
 from .models import Category
@@ -12,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def add_category(request):
     """ this view is useful to add category """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     if request.method == "POST":
@@ -30,6 +34,9 @@ def add_category(request):
 @login_required
 def update_category(request, pk):
     """ this view is useful for update product category """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     category_instance = get_object_or_404(Category, pk=pk)
@@ -50,6 +57,9 @@ def update_category(request, pk):
 def view_categroy(request):
     """ this view is useful to display all categories """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     category = Category.objects.all()
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
@@ -69,6 +79,9 @@ def view_categroy(request):
 @login_required
 def delete_category(request, pk):
     """ this view is useful to delete category """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
