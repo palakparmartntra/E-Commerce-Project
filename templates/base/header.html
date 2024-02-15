@@ -47,7 +47,7 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="#" class="nav-item nav-link">Home</a>
+                            <a href="{% url 'homepage' %}" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto">
@@ -57,18 +57,18 @@
                         <a href="#" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">{{request.user}} </a>
-                            <a href="#" class="dropdown-item">Change Password </a>
-                            <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                            <form id="logout-form" action="#" method="post" style="display: none;">
+                            <a href="{% url 'profile' %}" class="dropdown-item">{{request.user}} </a>
+                            <a href="{% url 'account_change_password' %}" class="dropdown-item">Change Password </a>
+                            <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
                                 {% csrf_token %}
                             </form>
                         {% else %}
                          <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
+                            <a href="{% url 'account_login' %}" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
                             <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Sign in</a>
-                            <a href="#" class="dropdown-item">Sign up</a>
+                            <a href="{% url 'account_login' %}" class="dropdown-item">Sign in</a>
+                            <a href="{% url 'account_signup' %}" class="dropdown-item">Sign up</a>
                             </div>
                          </div>
                         {% endif %}
@@ -87,7 +87,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="#">
+                            <a href="{% url 'homepage' %}">
                              <img src="{% static 'img/DashClothes.png' %}" alt="Logo">
                             </a>
                         </div>
@@ -180,7 +180,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 copyright">
-                        <p>Copyright &copy; {% now "Y" %} <a href="https://htmlcodex.com">Dash Clothes</a>. All Rights Reserved</p>
+                        <p>Copyright &copy; {% now "Y" %} <a href="https://tntra.io">Dash Clothes</a>. All Rights Reserved</p>
                     </div>
 
                     <div class="col-md-6 template-by">
