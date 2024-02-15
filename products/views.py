@@ -8,15 +8,6 @@ from .headings import AdminPortalHeadings
 def home_page(request):
     """" To redirect user to home page and superuser to dashboard """
 
-    category = Category.objects.filter(parent=None)
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=request.GET.get('search'))
-    product = Product.objects.all()
-    if request.GET.get('search'):
-        product = product.filter(name__icontains=request.GET.get('search'))
-    """" To redirect user to home page and superuser to dashboard """
-
-    context = {}
     if not request.user.is_superuser:
         category = Category.objects.filter(parent=None)
         if request.GET.get('search'):
