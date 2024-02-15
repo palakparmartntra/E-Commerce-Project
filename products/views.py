@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 
 # Create your views here.
@@ -14,6 +15,9 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def add_product(request):
     """ this view is useful to add products """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     if request.method == "POST":
@@ -33,6 +37,9 @@ def add_product(request):
 def update_product(request, pk):
     """ this view is useful for update product product """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
@@ -51,6 +58,8 @@ def update_product(request, pk):
 @login_required
 def view_product(request):
     """ this view is useful to display all product """
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.filter(is_deleted=False)
     print(product)
@@ -72,6 +81,9 @@ def view_product(request):
 def delete_product(request, pk):
     """ this view is useful to delete product """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.get(id=pk)
     if request.method == "POST":
         product.delete()
@@ -84,6 +96,9 @@ def delete_product(request, pk):
 @login_required
 def trash_product(request):
     """ this view is useful to view all trash products """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
@@ -102,6 +117,10 @@ def trash_product(request):
 @login_required
 def soft_delete(request, pk):
     """ this view is useful to for soft delete and product goes to trash """
+
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.get(id=pk)
     product.is_deleted = True
     product.save()
@@ -111,6 +130,9 @@ def soft_delete(request, pk):
 @login_required
 def restore(request, pk):
     """ this view is useful to restore product from trash """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.get(id=pk)
     product.is_deleted = False
