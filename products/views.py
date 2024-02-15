@@ -126,12 +126,11 @@ def delete_brand(request, pk):
         return Http404
 
     brand = Brand.objects.get(id=pk)
-    product_has_brand = BrandProduct.objects.filter(brand=pk)
     heading = AdminPortalHeadings.DELETE_BRAND
 
     if request.method == "POST":
         try:
-            if not product_has_brand:
+            if not brand.product.exists():
                 brand.delete()
             else:
                 raise CannotDeleteBrandException
