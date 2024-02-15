@@ -41,7 +41,7 @@ def update_product(request, pk):
             messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
         return redirect('view-product')
 
-    product = AddProductForm(instance=Product.objects.get(id=pk))
+    product = AddProductForm(instance=product_instance)
     context['form'] = product
     context['heading'] = ' Update Product'
     return render(request, "product/products/update_products.html", context)
