@@ -1,7 +1,14 @@
 from django import forms
+from .models import Product
 from .models import Category
 from .models import Brand
 from .messages import BrandFormErrorMessages
+
+
+class AddProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'quantity', 'price', 'image', 'category', 'is_active']
 
 
 class AddCategoryForm(forms.ModelForm):
