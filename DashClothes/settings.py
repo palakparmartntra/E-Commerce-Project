@@ -49,9 +49,11 @@ DEFAULT_APPS = [
     'django.contrib.sites',
     ]
 
+
 CUSTOM_APP = [
     'accounts',
     'products',
+
 ]
 
 ALLAUTH_APPS = [
