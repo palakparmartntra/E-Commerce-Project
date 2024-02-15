@@ -56,7 +56,7 @@ def update_category(request, pk):
 @login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
-
+    #
     if not request.user.is_superuser:
         raise Http404
 
