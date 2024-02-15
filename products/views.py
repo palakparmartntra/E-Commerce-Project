@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404, Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from django.db.models import Count
 from .forms import AddCategoryForm
 from .models import Category, Brand, Product
@@ -223,7 +224,7 @@ def add_brand(request):
     """ To add a new brand in brand model """
 
     if not request.user.is_superuser:
-        return Http404
+        raise Http404
 
     context = {}
     if request.method == "POST":
@@ -247,7 +248,7 @@ def update_brands(request, pk):
     """ To update brand details """
 
     if not request.user.is_superuser:
-        return Http404
+        raise Http404
 
     context = {}
 
@@ -276,7 +277,7 @@ def view_brands(request):
     """ To display all brands """
 
     if not request.user.is_superuser:
-        return Http404
+        raise Http404
 
     brand = Brand.objects.all()
     if request.GET.get('search'):
@@ -303,7 +304,7 @@ def delete_brand(request, pk):
     """ To delete a brand from model """
 
     if not request.user.is_superuser:
-        return Http404
+        raise Http404
 
     brand = Brand.objects.get(id=pk)
     heading = AdminPortalHeadings.DELETE_BRAND
