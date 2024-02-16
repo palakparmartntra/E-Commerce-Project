@@ -6,6 +6,7 @@ from .views import add_product, update_product, view_product, delete_product, \
     trash_product, soft_delete, restore
 from .views import add_category, update_category, view_categroy, delete_category
 from .views import add_brand, update_brands, view_brands, delete_brand
+from .views import category_data, subcategory_data, product_data, all_products
 
 
 urlpatterns = [
@@ -26,4 +27,8 @@ urlpatterns = [
     path('add-brand/', add_brand, name='add-brand'),
     path('update-brand/<int:pk>/', update_brands, name='update-brand'),
     path('delete-brand/<int:pk>/', delete_brand, name='delete-brand'),
+    path('category', category_data, name='category'),
+    path('subcategory/<int:pk>/', subcategory_data, name='subcategory'),
+    path('product/<int:pk>/', product_data, name='products'),
+    path('allproducts/', all_products, name='all-products')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
