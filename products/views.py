@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404, Http404
-from django.http import Http404
+
 from django.db.models import Count
 from .forms import AddCategoryForm
 from .models import Category, Brand, Product
 from .forms import AddBrandForm, UpdateBrandForm
+from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Product
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages
 from .messages import BrandFormErrorMessages
@@ -60,6 +62,8 @@ def update_product(request, pk):
 @login_required
 def view_product(request):
     """ this view is useful to display all product """
+    if not request.user.is_superuser:
+        raise Http404
 
     if not request.user.is_superuser:
         raise Http404
@@ -68,14 +72,14 @@ def view_product(request):
     print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(product, 3)
+    page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     return render(request, 'product/products/view_products.html',
                   {'page_obj': page_obj, 'heading': 'All Products'})
@@ -107,14 +111,14 @@ def trash_product(request):
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(product, 3)
+    page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
     return render(request, 'product/products/trash_product.html',
                   {'page_obj': page_obj, 'heading': 'Trash Products'})
 
@@ -216,7 +220,7 @@ def update_category(request, pk):
 @login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
-    
+
     if not request.user.is_superuser:
         raise Http404
 
