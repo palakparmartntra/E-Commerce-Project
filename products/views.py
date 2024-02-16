@@ -4,6 +4,7 @@ from .models import Category, Brand, Product
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .headings import AdminPortalHeadings
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -13,6 +14,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 @login_required
 def add_product(request):
     """ this view is useful to add products """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     if request.method == "POST":
@@ -31,6 +35,9 @@ def add_product(request):
 @login_required
 def update_product(request, pk):
     """ this view is useful for update product product """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
@@ -51,18 +58,20 @@ def update_product(request, pk):
 def view_product(request):
     """ this view is useful to display all product """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.filter(is_deleted=False)
-    print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(product, 3)
+    page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     return render(request, 'product/products/view_products.html',
                   {'page_obj': page_obj, 'heading': 'All Products'})
@@ -71,6 +80,9 @@ def view_product(request):
 @login_required
 def delete_product(request, pk):
     """ this view is useful to delete product """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.get(id=pk)
     if request.method == "POST":
@@ -85,17 +97,20 @@ def delete_product(request, pk):
 def trash_product(request):
     """ this view is useful to view all trash products """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(product, 3)
+    page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
     return render(request, 'product/products/trash_product.html',
                   {'page_obj': page_obj, 'heading': 'Trash Products'})
 
@@ -103,6 +118,10 @@ def trash_product(request):
 @login_required
 def soft_delete(request, pk):
     """ this view is useful to for soft delete and product goes to trash """
+
+    if not request.user.is_superuser:
+        raise Http404
+
     product = Product.objects.get(id=pk)
     product.is_deleted = True
     product.save()
@@ -112,6 +131,9 @@ def soft_delete(request, pk):
 @login_required
 def restore(request, pk):
     """ this view is useful to restore product from trash """
+
+    if not request.user.is_superuser:
+        raise Http404
 
     product = Product.objects.get(id=pk)
     product.is_deleted = False
