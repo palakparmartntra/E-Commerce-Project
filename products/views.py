@@ -5,7 +5,6 @@ from .models import Category, Brand, Product
 from .forms import AddBrandForm, UpdateBrandForm
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages
 from .messages import BrandFormErrorMessages
@@ -62,14 +61,11 @@ def update_product(request, pk):
 @login_required
 def view_product(request):
     """ this view is useful to display all product """
-    if not request.user.is_superuser:
-        raise Http404
 
     if not request.user.is_superuser:
         raise Http404
 
     product = Product.objects.filter(is_deleted=False)
-    print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
     page = Paginator(product, 3)
