@@ -16,6 +16,9 @@ def home_page(request):
 
 
 def category_data(request):
+
+    """" To Display all category data """
+
     category = Category.objects.filter(parent=None)
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
@@ -32,6 +35,9 @@ def category_data(request):
 
 
 def subcategory_data(request, pk):
+
+    """ to display all the subcategory """
+
     id_parent = get_object_or_404(Category, pk=pk)
     subcategory = Category.objects.filter(parent=id_parent.pk)
     if request.GET.get('search'):
@@ -48,6 +54,9 @@ def subcategory_data(request, pk):
 
 
 def product_data(request, pk):
+
+    """ to display of specific category Products """
+
     id_parent = get_object_or_404(Category, pk=pk)
     product = Product.objects.filter(category=id_parent.pk)
     if request.GET.get('search'):
@@ -65,6 +74,9 @@ def product_data(request, pk):
 
 
 def all_products(request):
+
+    """ to display all the Products """
+
     product = Product.objects.all()
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
