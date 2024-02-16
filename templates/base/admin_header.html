@@ -101,9 +101,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="search">
-                    <h1>{{ heading }}</h1>
-                </div>
+                <h1>{{ heading }}</h1>
             </div>
         </div>
     </div>
@@ -116,10 +114,10 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="dashboard-nav"  href="{% static 'homepage' %}" role="tab">Dashboard</a>
-                    <a class="nav-link" id="banner-nav" href="{% static 'homepage' %}" role="tab">Banners</a>
+                    <a class="nav-link" id="dashboard-nav" href="{% url 'homepage' %}">Dashboard</a>
+                    <a class="nav-link" id="banner-nav" href="{% url 'homepage' %}">Banners</a>
                     <a class="nav-link" id="category-nav" href="{% url 'view-category' %}" role="tab">Categories</a>
-                    <a class="nav-link" id="brands-nav" href="{% static 'homepage' %}" role="tab">Brands</a>
+                    <a class="nav-link" id="brands-nav" href="{% url 'view-brand' %}">Brands</a>
                     <a class="nav-link" id="products-nav" href="{% url 'view-product' %}" role="tab">Products</a>
                 </div>
             </div>
