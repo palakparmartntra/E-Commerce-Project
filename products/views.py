@@ -327,14 +327,14 @@ def view_brands(request):
     if request.GET.get('search'):
         brand = brand.filter(name__icontains=request.GET.get('search'))
 
-    p = Paginator(brand, 3)
+    page = Paginator(brand, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     context = {
         'page_obj': page_obj,
