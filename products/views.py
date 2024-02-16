@@ -18,7 +18,7 @@ def home_page(request):
     """" To redirect user to home page and superuser to dashboard """
 
     category = Category.objects.filter(parent=None)
-    product = Product.objects.all()
+    product = Product.objects.filter(is_active=True, is_deleted=False)
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
     if not request.user.is_superuser:
@@ -370,7 +370,6 @@ def delete_brand(request, pk):
 
 
 def category_data(request):
-
     """" To Display all category data """
 
     category = Category.objects.filter(parent=None)
@@ -389,7 +388,6 @@ def category_data(request):
 
 
 def subcategory_data(request, pk):
-
     """ to display all the subcategory """
 
     id_parent = get_object_or_404(Category, pk=pk)
@@ -408,11 +406,10 @@ def subcategory_data(request, pk):
 
 
 def product_data(request, pk):
-
     """ to display of specific category Products """
 
     id_parent = get_object_or_404(Category, pk=pk)
-    product = Product.objects.filter(category=id_parent.pk)
+    product = Product.objects.filter(category=id_parent.id, is_active=True, is_deleted=False)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
     page = Paginator(product, 10)
@@ -428,10 +425,9 @@ def product_data(request, pk):
 
 
 def all_products(request):
-
     """ to display all the Products """
 
-    product = Product.objects.all()
+    product = Product.objects.filter(is_active=True, is_deleted=False)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
     page = Paginator(product, 10)
