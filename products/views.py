@@ -1,11 +1,12 @@
 from django.db.models import Count
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404,Http404
 from .forms import AddCategoryForm
 from .models import Category, Brand, Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from products.headings import AdminPortalHeadings
 from django.contrib.auth.decorators import login_required
+from products.exceptions import CannotDeleteBrandException
 
 
 # Create your views here.
@@ -13,12 +14,15 @@ from django.contrib.auth.decorators import login_required
 def add_category(request):
     """ this view is useful to add category """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     context = {}
     if request.method == "POST":
         category = AddCategoryForm(request.POST, request.FILES)
         if category.is_valid():
             category.save()
-            messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
+            messages.success(request, AdminPortalHeadings.CATEGORY_ADDED)
         return redirect('view-category')
 
     category = AddCategoryForm()
@@ -31,13 +35,16 @@ def add_category(request):
 def update_category(request, pk):
     """ this view is useful for update product category """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     context = {}
     category_instance = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
         category = AddCategoryForm(request.POST, request.FILES, instance=category_instance)
         if category.is_valid():
             category.save()
-            messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
+            messages.success(request, AdminPortalHeadings.CATEGORY_UPDATED)
         return redirect('view-category')
 
     category = AddCategoryForm(instance=category_instance)
@@ -49,6 +56,9 @@ def update_category(request, pk):
 @login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
+    #
+    if not request.user.is_superuser:
+        raise Http404
 
     category = Category.objects.all()
     if request.GET.get('search'):
@@ -70,11 +80,20 @@ def view_categroy(request):
 def delete_category(request, pk):
     """ this view is useful to delete category """
 
+    if not request.user.is_superuser:
+        raise Http404
+
     categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-
-        categorydata.delete()
-        messages.success(request, AdminPortalHeadings.PRODUCT_DELETED)
+        product = Product.objects.filter(category=pk)
+        try:
+            if not product:
+                categorydata.delete()
+                messages.success(request, AdminPortalHeadings.CATEGORY_DELETED)
+            else:
+                raise CannotDeleteBrandException
+        except CannotDeleteBrandException:
+            messages.info(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
         return render(request, 'product/category/confirm_delete.html', {'category': categorydata})
