@@ -57,21 +57,21 @@ def update_category(request, pk):
 @login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
-    #
+    
     if not request.user.is_superuser:
         raise Http404
 
     category = Category.objects.all()
     if request.GET.get('search'):
         category = category.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(category, 3)
+    page = Paginator(category, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     return render(request, 'product/category/view_category.html',
                   {'page_obj': page_obj, 'heading': 'All Categories'})
