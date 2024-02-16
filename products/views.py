@@ -1,14 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404
+
 from django.db.models import Count
 from .forms import AddCategoryForm
 from .models import Category, Brand, Product
 from .forms import AddBrandForm, UpdateBrandForm
+from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages
 from .messages import BrandFormErrorMessages
-from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
+from products.exceptions import CannotDeleteBrandException
 from .headings import AdminPortalHeadings
 from .forms import AddProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -99,7 +100,6 @@ def view_product(request):
         raise Http404
 
     product = Product.objects.filter(is_deleted=False)
-    print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
     page = Paginator(product, 3)
@@ -191,7 +191,7 @@ def add_category(request):
         category = AddCategoryForm(request.POST, request.FILES)
         if category.is_valid():
             category.save()
-            messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
+            messages.success(request, AdminPortalHeadings.CATEGORY_ADDED)
         return redirect('view-category')
 
     category = AddCategoryForm()
@@ -213,7 +213,7 @@ def update_category(request, pk):
         category = AddCategoryForm(request.POST, request.FILES, instance=category_instance)
         if category.is_valid():
             category.save()
-            messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
+            messages.success(request, AdminPortalHeadings.CATEGORY_UPDATED)
         return redirect('view-category')
 
     category = AddCategoryForm(instance=category_instance)
@@ -254,9 +254,15 @@ def delete_category(request, pk):
 
     categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-
-        categorydata.delete()
-        messages.success(request, AdminPortalHeadings.PRODUCT_DELETED)
+        product = Product.objects.filter(category=pk)
+        try:
+            if not product:
+                categorydata.delete()
+                messages.success(request, AdminPortalHeadings.CATEGORY_DELETED)
+            else:
+                raise CannotDeleteBrandException
+        except CannotDeleteBrandException:
+            messages.info(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
         return render(request, 'product/category/confirm_delete.html', {'category': categorydata})
