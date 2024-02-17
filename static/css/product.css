@@ -5,7 +5,7 @@
     color: #FF6F61;
     background: white;
     border: 1px solid red;
-    padding:5.2px;
+    padding:6.5px;
     border-radius:5px;
     margin-left:10px;
     text-decoration:none
@@ -29,11 +29,27 @@ table{
   display:flex;
   margin:20px;
   }
-.search{
-margin-left:200px;
+
+
+.btn-add {
+    color: #FF6F61;
+    background: #ffffff;
+    border: 1px solid #FF6F61;
+    border-radius:5px;
+    padding:5.2px;
+    margin-left:500px;
 }
+
+.btn-add:hover,
+.btn-add:active,
+.btn-add:focus {
+    color: #ffffff;
+    background: #FF6F61;
+    box-shadow: none;
+}
+
 .btn{
-margin-left:10px
+margin-left:10px;
 }
 
 .alert {

@@ -62,7 +62,6 @@ def view_product(request):
         raise Http404
 
     product = Product.objects.filter(is_deleted=False)
-    print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
     page = Paginator(product, 3)

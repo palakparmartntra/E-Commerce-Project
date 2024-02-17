@@ -9,12 +9,17 @@
 
 <div class="container mt-4">
     <div class="top">
-        <button class="btn" onclick="window.location.href='{% url 'add-product' %}'">Add Product</button>
+
         <form method="get">
             {% csrf_token %}
-        <input class="search" size="40" name="search" type="text"  placeholder="search products by name">
-        <button class="btn" type="submit">search</button>
+                        <div class="search">
+                            <input type="text" name="search" placeholder="Search">
+                            <button><i class="fa fa-search"></i></button>
+                        </div>
         </form>
+          <button class="btn-add" onclick="window.location.href='{% url 'add-product' %}'">Add Product</button>
+          <button class="btn" onclick="window.location.href='{% url 'trashview' %}'">trash</button>
+
     </div>
     <br>
     <table class="table">
@@ -22,9 +27,10 @@
             <tr>
                 <th>Image</th>
                 <th>Name</th>
-                <th>category</th>
-                <th>price</th>
-                <th>Product Status</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -40,6 +46,7 @@
                 </td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.category }}</td>
+                <td>{{ product.brand }}</td>
                 <td>{{ product.price }}</td>
                 <td>
                     {{product.is_active}}
