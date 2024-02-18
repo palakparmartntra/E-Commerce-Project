@@ -5,7 +5,7 @@ class Category(models.Model):
     """ this model contains details of product category """
 
     name = models.CharField(max_length=100, null=True, blank=True, unique=True)
-    image = models.ImageField(upload_to='static/media/category')
+    image = models.ImageField(upload_to='media/category')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
@@ -22,7 +22,7 @@ class Product(models.Model):
     description = models.TextField()
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    image = models.ImageField(upload_to='static/media/product')
+    image = models.ImageField(upload_to='media/product')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
@@ -35,7 +35,7 @@ class Brand(models.Model):
     """ this model contains details of products brand """
 
     name = models.CharField(max_length=40, null=True, blank=True, unique=True)
-    image = models.ImageField(upload_to='static/media/brand')
+    image = models.ImageField(upload_to='media/brand')
     product = models.ManyToManyField(Product, through='BrandProduct')
 
     def __str__(self):
