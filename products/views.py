@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.http import Http404,HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddCategoryForm
 from .models import Category, Product
@@ -58,18 +58,18 @@ def update_category(request, pk):
 @login_required
 def view_categroy(request):
     """ this view is useful to display all categories """
-    
+
     if not request.user.is_superuser:
         raise Http404
 
     category = Category.objects.all()
 
     if request.GET.get('search'):
-            search = request.GET.get('search')
-            if search is not None:
-                category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
-            else:
-                category = category.all()
+        search = request.GET.get('search')
+        if search is not None:
+            category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
+        else:
+            category = category.all()
     page = Paginator(category, 3)
     page_number = request.GET.get('page')
     try:
@@ -80,7 +80,7 @@ def view_categroy(request):
         page_obj = page.page(page.num_pages)
 
     return render(request, 'product/category/view_category.html',
-                  {'page_obj': page_obj, 'heading': 'All Categories'})
+                  {'page_obj': page_obj, 'heading': AdminPortalHeadings.CATEGORY_HEADING})
 
 
 @login_required
@@ -103,7 +103,5 @@ def delete_category(request, pk):
             messages.info(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
-        return render(request, 'product/category/confirm_delete.html', {'category': categorydata})
-
-
-
+        return render(request, 'product/category/confirm_delete.html', {'category': categorydata,
+                                        'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
