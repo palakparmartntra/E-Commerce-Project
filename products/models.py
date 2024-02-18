@@ -8,6 +8,9 @@ class Category(models.Model):
     image = models.ImageField(upload_to='static/img/category')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return str(self.name)
 
