@@ -9,4 +9,4 @@ urlpatterns = [
     path('viewcategory/', view_categroy, name='view-category'),
     path('deletecategory/<int:pk>/', delete_category, name='delete-category'),
 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
