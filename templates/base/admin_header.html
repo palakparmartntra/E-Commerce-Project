@@ -105,12 +105,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2">
-                <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" id="dashboard-nav" data-toggle="pill" href="{% static 'homepage' %}" role="tab">Dashboard</a>
-                    <a class="nav-link" id="banner-nav" data-toggle="pill" href="{% static 'homepage' %}" role="tab">Banners</a>
-                    <a class="nav-link" id="category-nav" data-toggle="pill" href="{% static 'homepage' %}" role="tab">Categories</a>
-                    <a class="nav-link" id="brands-nav" data-toggle="pill" href="{% static 'homepage' %}" role="tab">Brands</a>
-                    <a class="nav-link" id="products-nav" data-toggle="pill" href="{% static 'homepage' %}" role="tab">Products</a>
+
+ <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="dashboard-nav" href="{% url 'homepage' %}">Dashboard</a>
+                    <a class="nav-link" id="banner-nav" href="{% url 'homepage' %}">Banners</a>
+                    <a class="nav-link" id="category-nav" href="{% url 'view-category' %}" role="tab">Categories</a>
+                    <a class="nav-link" id="brands-nav" href="{% url 'view-brand' %}">Brands</a>
+                    <a class="nav-link" id="products-nav" href="{% url 'view-product' %}" role="tab">Products</a>
                 </div>
             </div>
             <div class="col-md-10">

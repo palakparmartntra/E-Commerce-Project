@@ -1,9 +1,10 @@
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddProductForm
+from .forms import AddProductForm, UpdateProductForm
 from .models import Product
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -43,13 +44,13 @@ def update_product(request, pk):
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
     if request.method == "POST":
-        product = AddProductForm(request.POST, request.FILES, instance=product_instance)
+        product = UpdateProductForm(request.POST, request.FILES, instance=product_instance)
         if product.is_valid():
             product.save()
             messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
         return redirect('view-product')
 
-    product = AddProductForm(instance=product_instance)
+    product = UpdateProductForm(instance=product_instance)
     context['form'] = product
     context['heading'] = ' Update Product'
     return render(request, "product/products/update_products.html", context)
@@ -63,7 +64,11 @@ def view_product(request):
 
     product = Product.objects.filter(is_deleted=False)
     if request.GET.get('search'):
-        product = product.filter(name__icontains=request.GET.get('search'))
+        search = request.GET.get('search')
+        if search is not None:
+            product = product.filter(Q(name__icontains=search) | Q(category__name__icontains=search))
+        else:
+            product = product.all()
     page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:

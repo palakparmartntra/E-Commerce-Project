@@ -10,13 +10,12 @@
 <div class="container mt-4">
     <div class="top">
 
+<div class="search-container">
         <form method="get">
             {% csrf_token %}
-                        <div class="search">
-                            <input type="text" name="search" placeholder="Search">
-                            <button><i class="fa fa-search"></i></button>
-                        </div>
-        </form>
+    <input type="text" size="60"name="search" placeholder="Search">
+    <button type="submit"><i class="fa fa-search"></i></button>
+</div>
           <button class="btn-add" onclick="window.location.href='{% url 'add-product' %}'">Add Product</button>
           <button class="btn" onclick="window.location.href='{% url 'trashview' %}'">trash</button>
 
