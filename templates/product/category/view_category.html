@@ -6,15 +6,17 @@
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
 <link href="{% static 'css/category.css' %}" rel="stylesheet">
 <div class="container mt-4">
-    <div class="top">
+ <div class="top">
+    <form method="get" >
+        <div class="search-container">
+            <input type="text" size="60" name="search" placeholder="Search" value="{{ search }}">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
 
-        <button class="btn" onclick="window.location.href='{% url 'add-category' %}'">Add Category</button>
+    <button class="btn-add" onclick="window.location.href='{% url 'add-category' %}'">Add Category</button>
+</div>
 
-        <form method="get">
-            {% csrf_token %}
-        <input class="search" size="50" name="search" type="text"  placeholder="search category">
-        <button class="btn" type="submit">search</button>
-        </form>
     </div>
     <br>
     <table class="table">
@@ -37,7 +39,12 @@
                     {% endif %}
                 </td>
                 <td>{{ cat.name }}</td>
-                <td>{{ cat.parent }}</td>
+                <td>{% if cat.parent is None %}
+                    -
+                    {% else %}
+                    {{cat.parent}}
+                    {% endif %}
+                </td>
                 <td>
                     <a class="btn" href="{% url 'update-category' cat.pk %}">Edit</a>
                     <a class="btn-danger" href="{% url 'delete-category' cat.pk %}">Delete</a>
