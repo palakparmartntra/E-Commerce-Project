@@ -100,7 +100,7 @@ def delete_category(request, pk):
             else:
                 raise CannotDeleteBrandException
         except CannotDeleteBrandException:
-            messages.info(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
+            messages.error(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
         return render(request, 'product/category/confirm_delete.html', {'category': categorydata,
