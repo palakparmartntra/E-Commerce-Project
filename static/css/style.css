@@ -2361,6 +2361,7 @@ h2 {
     position: relative;
     padding: 25px 0;
     background: #000000;
+    margin-bottom:0px;
 }
 
 .footer-bottom .copyright {
@@ -2394,6 +2395,7 @@ h2 {
         text-align: center; 
     } 
 }
+
 .errorlist {
     list-style-type: none;
     color: red;
