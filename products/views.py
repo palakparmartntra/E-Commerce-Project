@@ -108,7 +108,7 @@ def delete_brand(request, pk):
             else:
                 raise CannotDeleteBrandException
         except CannotDeleteBrandException:
-            messages.info(request, BrandFormErrorMessages.BRAND_PROTECTED)
+            messages.error(request, BrandFormErrorMessages.BRAND_PROTECTED)
         return redirect('view-brand')
     else:
         context = {
