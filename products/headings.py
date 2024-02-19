@@ -8,3 +8,4 @@ class AdminPortalHeadings:
     PRODUCT_UPDATE_HEADING = 'Update Products'
     PRODUCT_TRASH_HEADING = 'Trash Products'
     PRODUCT_MOVE_TO_TRASH = "Product moved to trash"
+    PRODUCT_RESTORED = "Product has been restored"
