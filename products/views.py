@@ -227,7 +227,7 @@ def view_categroy(request):
     search = request.GET.get('search')
     if search is None:
         search = ""
-    if request.GET.get('search'):
+    if search:
         if search is not None:
             category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
         else:
