@@ -91,3 +91,21 @@ margin-left:10px;
     background-color: #FF5733;
 }
 
+
+.btn-back {
+    color: #FF6F61;
+    background: #ffffff;
+    border: 1px solid #FF6F61;
+    border-radius:5px;
+    padding:5.2px;
+    margin-left:300px;
+    text-decoration:none;
+}
+
+.btn-back:hover,
+.btn-back:active,
+.btn-back:focus {
+    color: #ffffff;
+    background: #FF6F61;
+    box-shadow: none;
+}

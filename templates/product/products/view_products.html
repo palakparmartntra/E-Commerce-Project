@@ -46,13 +46,18 @@
                 </td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.category }}</td>
-                <td>{{ product.brand }}</td>
+<td>
+ {% for brand in product.brandproduct_set.all %}
+    {{ brand.brand.name }}
+                    {% endfor %}
+</td>
+
                 <td>{{ product.price }}</td>
                 <td>
                     {{product.is_active}}
                 </td>
                 <td>
-                    <a class="btn" href="{% url 'update-product' product.pk %}">Edit</a>
+                    <a class="btn" href="{% url 'update-product' product.pk  %}">Edit</a>
                     <a class="btn-danger" href="{% url 'trash-product' product.pk %}">Delete</a>
 
 

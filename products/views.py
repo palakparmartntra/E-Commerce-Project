@@ -1,11 +1,8 @@
 from django.db.models import Q
 from django.http import Http404
-from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddProductForm, UpdateProductForm
-from .models import Product
+from .models import Product, BrandProduct, Brand
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from products.headings import AdminPortalHeadings
@@ -23,8 +20,12 @@ def add_product(request):
     context = {}
     if request.method == "POST":
         product = AddProductForm(request.POST, request.FILES)
+
         if product.is_valid():
-            product.save()
+            product_data = product.save()
+            brand = product.cleaned_data['brand'].id
+            selected_brand = get_object_or_404(Brand, id=brand)
+            BrandProduct.objects.create(product=product_data, brand=selected_brand)
             messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
         return redirect('view-product')
 
@@ -43,16 +44,24 @@ def update_product(request, pk):
 
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
+    brand = get_object_or_404(Brand, product=pk)
+    brands_list = Brand.objects.all()
+
     if request.method == "POST":
+
         product = UpdateProductForm(request.POST, request.FILES, instance=product_instance)
         if product.is_valid():
             product.save()
+            new_brand = request.POST.get('brand')
+            BrandProduct.objects.filter(product=pk).update(brand=new_brand)
             messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
         return redirect('view-product')
 
     product = UpdateProductForm(instance=product_instance)
     context['form'] = product
-    context['heading'] = ' Update Product'
+    context['brand'] = brand
+    context['brands_list'] = brands_list
+    context['heading'] = AdminPortalHeadings.PRODUCT_UPDATE_HEADING
     return render(request, "product/products/update_products.html", context)
 
 
@@ -61,8 +70,8 @@ def view_product(request):
     """ this view is useful to display all product """
     if not request.user.is_superuser:
         raise Http404
-
     product = Product.objects.filter(is_deleted=False)
+
     if request.GET.get('search'):
         search = request.GET.get('search')
         if search is not None:
@@ -78,7 +87,8 @@ def view_product(request):
     except EmptyPage:
         page_obj = page.page(page.num_pages)
 
-    return render(request, 'product/products/view_products.html', {'page_obj': page_obj, 'heading': 'All Products'})
+    return render(request, 'product/products/view_products.html',
+                  {'page_obj': page_obj, 'heading': AdminPortalHeadings.PRODUCT_HEADING})
 
 
 @login_required
@@ -115,7 +125,8 @@ def trash_product(request):
         page_obj = page.page(1)
     except EmptyPage:
         page_obj = page.page(page.num_pages)
-    return render(request, 'product/products/trash_product.html', {'page_obj': page_obj, 'heading': 'Trash Products'})
+    return render(request, 'product/products/trash_product.html',
+                  {'page_obj': page_obj, 'heading': AdminPortalHeadings.PRODUCT_TRASH_HEADING})
 
 
 @login_required
@@ -128,6 +139,7 @@ def soft_delete(request, pk):
     product = Product.objects.get(id=pk)
     product.is_deleted = True
     product.save()
+    messages.success(request, AdminPortalHeadings.PRODUCT_MOVE_TO_TRASH)
     return redirect('view-product')
 
 

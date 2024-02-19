@@ -12,9 +12,23 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form.as_p }}
-                           <input class="btn" type="submit" value="Update Category">
-                <a style="margin-left:20px" href= "{% url 'view-product' %}"> Cancel</a>
+
+                       Name  {{ form.name}}
+                        Description {{form.description}}
+                        Quantity {{form.quantity}}
+                        Price {{form.price}}
+                        image {{form.image}}
+                        Category {{ form.category }}
+
+                        Brand
+                        <select name="brand" class="form-control" required="" id="id_brand">
+                        {% for b in brands_list %}
+                          <option value={{b.id}}>{{b}}</option>
+                        {% endfor %}
+                        </select>
+                        Is active {{ form.is_active }}
+                         <br><br>  <input class="btn" type="submit" value="Update Category">
+                <a  class="btn" style="margin-left:20px" href= "{% url 'view-product' %}"> Cancel</a>
                     </div>
                 </div>
             </div>
