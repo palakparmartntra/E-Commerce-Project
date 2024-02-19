@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+<body class="view-category">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/category.css' %}" rel="stylesheet">
+<div class="container mt-4">
+ <div class="top">
+    <form method="get" >
+        <div class="search-container">
+            <input type="text" size="60" name="search" placeholder="Search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+
+    <button class="btn-add" onclick="window.location.href='{% url 'add-category' %}'">Add Category</button>
+</div>
+
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Parent</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for cat in page_obj.object_list %}
+            <tr>
+                <td>
+                    {% if cat.image %}
+                    <img style="height:100px; width:100px" class="recipe-image" src="{{ cat.image.url }}" alt="image">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>{{ cat.name }}</td>
+                <td>{% if cat.parent is None %}
+                    -
+                    {% else %}
+                    {{cat.parent}}
+                    {% endif %}
+                </td>
+                <td>
+                    <a class="btn" href="{% url 'update-category' cat.pk %}">Edit</a>
+                    <a class="btn-danger" href="{% url 'delete-category' cat.pk %}">Delete</a>
+
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+       <center>
+        {%if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}"><</a>
+        {% endif %}
+        <span>{{page_obj.number}}</span>
+
+        {%if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">></a>
+        {% endif %}
+    </center>
+</div>
+{% endblock %}
+
