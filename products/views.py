@@ -9,7 +9,7 @@ from products.headings import AdminPortalHeadings
 from django.contrib.auth.decorators import login_required
 
 
-# Create your views here.
+
 @login_required
 def add_product(request):
     """ this view is useful to add products """

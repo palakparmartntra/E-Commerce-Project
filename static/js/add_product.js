@@ -1,12 +1,48 @@
 $('#addproduct').validate({
 rules: {
-        name:{
-        required:true
-        }
- },
- messgaes: {
     name:{
-    required:'please enter category name'
+        required:true
+    },
+    description:{
+        required:true
+    },
+    quantity:{
+        required:true
+    },
+    price:{
+        required:true
+    },
+    image:{
+        required:true
+    },
+    category:{
+        required:true
+    },
+    brand:{
+        required:true
+    }
+ },
+ messages: {
+    name:{
+        required:'Please enter product name'
+    },
+    description:{
+        required:'Please enter product description'
+    },
+    quantity:{
+        required:'Please enter product quantity'
+    },
+    price:{
+        required:'Please enter product price'
+    },
+    image:{
+        required:'Please upload product photo'
+    },
+    category:{
+        required:'Please enter product category'
+    },
+    brand:{
+        required:'Please enter product brand'
     }
  }
 });
