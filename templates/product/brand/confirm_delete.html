@@ -1,0 +1,18 @@
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/brand.css' %}" rel="stylesheet">
+<body>
+<div class="container">
+    <h1>Are you sure you want to delete {{ brand.name }}?</h1>
+    <div class="btn-container">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" action="{% url 'delete-brand' brand.id %}" class="btn">Delete Brand</button>
+            <a href="{% url 'view-brand' %}" class="btn">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
