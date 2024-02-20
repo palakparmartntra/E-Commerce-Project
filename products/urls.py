@@ -1,13 +1,10 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import home_page
-from .views import add_product, update_product, view_product, delete_product, \
-    trash_product, soft_delete, restore
-from .views import add_category, update_category, view_categroy, delete_category
-from .views import add_brand, update_brands, view_brands, delete_brand
-from .views import category_data, subcategory_data, product_data, all_products
-
+from .views import (home_page, add_product, update_product, view_product,
+                    delete_product, trash_product, soft_delete, restore,
+                    add_category, update_category, view_categroy, delete_category,
+                    add_brand, update_brands, view_brands, delete_brand)
 
 urlpatterns = [
     path('', home_page, name='homepage'),

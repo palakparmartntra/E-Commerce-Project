@@ -1,9 +1,6 @@
 from django import forms
-from .models import Product
-from .models import Category
-from .models import Brand
 from .messages import BrandFormErrorMessages
-from .models import Product, Brand
+from .models import Product, Brand, Category
 
 
 class AddProductForm(forms.ModelForm):

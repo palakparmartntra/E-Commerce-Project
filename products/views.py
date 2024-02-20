@@ -1,17 +1,14 @@
-from django.db.models import Count
 from .forms import AddCategoryForm
-from .models import Category, Brand, Product
-from .forms import AddBrandForm, UpdateBrandForm
+from .models import Category, Brand, Product, BrandProduct
+from .forms import AddBrandForm, UpdateBrandForm, AddProductForm, UpdateProductForm
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
 from django.contrib.auth.decorators import login_required
 from products.exceptions import CannotDeleteBrandException
 from .headings import AdminPortalHeadings
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AddProductForm, UpdateProductForm
-from .models import Product, BrandProduct, Brand
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
