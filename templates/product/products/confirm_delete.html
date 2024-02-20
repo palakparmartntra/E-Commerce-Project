@@ -2,15 +2,16 @@
 {% extends 'base/admin_header.html' %}
 {% load static %}
 {% block content %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 <body>
 <div class="container">
-    <h1>Are you sure you want to delete?</h1>
+    <h1>Are you sure you want to delete {{ product.name }}?</h1>
     <div class="btn-container">
         <form method="POST">
             {% csrf_token %}
 
-            <button  class="btn btn-danger" onclick="window.location.href='{% url 'delete-product' product.pk %}'">Delete Product</button>
+            <button  class="btn" onclick="window.location.href='{% url 'delete-product' product.pk %}'">Delete Product</button>
             <a class="btn" href="{% url 'trashview' %}">Cancel</a>
         </form>
     </div>

@@ -30,5 +30,7 @@ urlpatterns = [
     path('category', category_data, name='category'),
     path('subcategory/<int:pk>/', subcategory_data, name='subcategory'),
     path('product/<int:pk>/', product_data, name='products'),
-    path('allproducts/', all_products, name='all-products')
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('allproducts/', all_products, name='all-products'),
+    path('restore/<int:pk>/', restore, name='restore'),
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
