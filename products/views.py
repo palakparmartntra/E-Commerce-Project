@@ -104,5 +104,5 @@ def delete_category(request, pk):
             messages.error(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
-        return render(request, 'product/category/confirm_delete.html', {'category': categorydata,
+        return render(request, 'product/category/delete_confirmation.html', {'category': categorydata,
                                         'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
