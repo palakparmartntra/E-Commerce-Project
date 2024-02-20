@@ -38,6 +38,7 @@ table{
     border-radius:5px;
     padding:5.2px;
     margin-left:300px;
+    text-decoration:none;
 }
 
 .btn-add:hover,

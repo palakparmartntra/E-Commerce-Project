@@ -5,6 +5,11 @@ class AdminPortalHeadings:
     PRODUCT_ADDED = "Product Added Successfully"
     PRODUCT_UPDATED = "Product Updated Successfully"
     PRODUCT_DELETED = "Product Deleted Successfully"
+    PRODUCT_HEADING = "All Products"
+    PRODUCT_UPDATE_HEADING = 'Product Update'
+    PRODUCT_MOVE_TO_TRASH = "Product has been moved to trash"
+    PRODUCT_RESTORED = "Product Restored"
+    PRODUCT_TRASH_HEADING = "Trash Products"
     CATEGORY_ADDED = "Category Added Successfully"
     CATEGORY_UPDATED = "Category Updated Successfully"
     CATEGORY_DELETED = "Category Deleted Successfully"
