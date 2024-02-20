@@ -333,8 +333,13 @@ def view_brands(request):
         raise Http404
 
     brand = Brand.objects.all()
-    if request.GET.get('search'):
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
         brand = brand.filter(name__icontains=request.GET.get('search'))
+    else:
+        brand = brand
 
     page = Paginator(brand, 3)
     page_number = request.GET.get('page')
@@ -347,7 +352,8 @@ def view_brands(request):
 
     context = {
         'page_obj': page_obj,
-        'heading': AdminPortalHeadings.ALL_BRANDS
+        'heading': AdminPortalHeadings.ALL_BRANDS,
+        'search': search
     }
     return render(request, 'product/brand/view_brands.html', context)
 
