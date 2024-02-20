@@ -21,46 +21,44 @@
     </div>
 </div>
     <br>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-           {% for brand in page_obj.object_list %}
-            <tr>
-                <td>
-                    {% if brand.image %}
-                    <img style="height:100px; width:100px" class="recipe-image" src="{{ brand.image.url }}" alt="image">
-                    {% else %}
-                    No Image
-                    {% endif %}
-                </td>
-                <td>{{ brand.name }}</td>
-                <td>
-                    <a class="btn" href="{% url 'update-brand' brand.id %}">Edit</a>
-                    <a href="{% url 'delete-brand' brand.id %}" class="btn">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+       {% for brand in page_obj.object_list %}
+        <tr>
+            <td>
+                {% if brand.image %}
+                <img style="height:100px; width:100px" class="recipe-image" src="{{ brand.image.url }}" alt="image">
+                {% else %}
+                No Image
+                {% endif %}
+            </td>
+            <td>{{ brand.name }}</td>
+            <td>
+                <a class="btn" href="{% url 'update-brand' brand.id %}">Edit</a>
+                <a href="{% url 'delete-brand' brand.id %}" class="btn">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
 
-        </tbody>
-    </table>
-    <center>
-        {%if page_obj.has_previous %}
-            <a href="?page={{page_obj.previous_page_number}}"><</a>
-        {% endif %}
-        <span>{{page_obj.number}}</span>
+    </tbody>
+</table>
+<center>
+    {%if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}"><</a>
+    {% endif %}
+    <span>{{page_obj.number}}</span>
 
-        {%if page_obj.has_next %}
-            <a href="?page={{page_obj.next_page_number}}">></a>
-        {% endif %}
-    </center>
-    <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
-</div>
-</body>
+    {%if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">></a>
+    {% endif %}
+</center>
+<script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
 
 {% endblock %}

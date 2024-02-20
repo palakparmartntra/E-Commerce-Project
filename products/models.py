@@ -8,6 +8,9 @@ class Category(models.Model):
     image = models.ImageField(upload_to='media/category')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return str(self.name)
 
@@ -43,4 +46,4 @@ class BrandProduct(models.Model):
     """ this models is through table for brand and product """
 
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
