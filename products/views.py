@@ -71,21 +71,27 @@ def view_brands(request):
         raise Http404
 
     brand = Brand.objects.all()
-    if request.GET.get('search'):
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
         brand = brand.filter(name__icontains=request.GET.get('search'))
+    else:
+        brand = brand
 
-    p = Paginator(brand, 3)
+    page = Paginator(brand, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     context = {
         'page_obj': page_obj,
-        'heading': AdminPortalHeadings.ALL_BRANDS
+        'heading': AdminPortalHeadings.ALL_BRANDS,
+        'search': search
     }
     return render(request, 'product/brand/view_brands.html', context)
 
