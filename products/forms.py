@@ -10,6 +10,7 @@ class AddProductForm(forms.ModelForm):
 
 
 class AddCategoryForm(forms.ModelForm):
+"""This form contains all fields related to  add category"""
     class Meta:
         model = Category
         fields = ['name', 'image', 'parent']
