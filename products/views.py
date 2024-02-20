@@ -1,13 +1,12 @@
-
 from django.db.models import Q, Count
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
 from .models import Category, Brand, Product
 from .forms import AddBrandForm, UpdateBrandForm, AddCategoryForm, AddProductForm
-from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
+from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
-from products.exceptions import CannotDeleteBrandException
 from .headings import AdminPortalHeadings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -324,8 +323,13 @@ def view_brands(request):
         raise Http404
 
     brand = Brand.objects.all()
-    if request.GET.get('search'):
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
         brand = brand.filter(name__icontains=request.GET.get('search'))
+    else:
+        brand = brand
 
     page = Paginator(brand, 3)
     page_number = request.GET.get('page')
@@ -338,7 +342,8 @@ def view_brands(request):
 
     context = {
         'page_obj': page_obj,
-        'heading': AdminPortalHeadings.ALL_BRANDS
+        'heading': AdminPortalHeadings.ALL_BRANDS,
+        'search': search
     }
     return render(request, 'product/brand/view_brands.html', context)
 
@@ -360,7 +365,7 @@ def delete_brand(request, pk):
             else:
                 raise CannotDeleteBrandException
         except CannotDeleteBrandException:
-            messages.info(request, BrandFormErrorMessages.BRAND_PROTECTED)
+            messages.error(request, BrandFormErrorMessages.BRAND_PROTECTED)
         return redirect('view-brand')
     else:
         context = {

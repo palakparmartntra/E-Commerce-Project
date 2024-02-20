@@ -16,7 +16,6 @@ class AddCategoryForm(forms.ModelForm):
         model = Category
         fields = ['name', 'image', 'parent']
 
-        # add css here in form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': 'form-control'}),
@@ -37,7 +36,6 @@ class AddBrandForm(forms.ModelForm):
                 'class': 'form-control'
             }
         )
-
     )
 
     image = forms.ImageField(
@@ -69,7 +67,6 @@ class UpdateBrandForm(forms.ModelForm):
                 'class': 'form-control'
             }
         )
-
     )
 
     class Meta:

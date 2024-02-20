@@ -14,6 +14,8 @@ from pathlib import Path
 
 from django.contrib import messages
 from dotenv import load_dotenv
+from django.contrib import messages
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,11 +53,9 @@ DEFAULT_APPS = [
     'django.contrib.sites',
     ]
 
-
 CUSTOM_APP = [
     'accounts',
     'products',
-
 ]
 
 ALLAUTH_APPS = [
@@ -75,7 +75,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware'
-
 ]
 
 ROOT_URLCONF = 'DashClothes.urls'
