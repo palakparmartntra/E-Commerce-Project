@@ -1,7 +1,5 @@
 from django import forms
-from .models import Product
-from .models import Category
-from .models import Brand
+from .models import Product, Category, Brand
 from .messages import BrandFormErrorMessages
 
 
