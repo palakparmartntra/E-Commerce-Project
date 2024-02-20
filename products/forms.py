@@ -10,12 +10,16 @@ class AddProductForm(forms.ModelForm):
 
 
 class AddCategoryForm(forms.ModelForm):
+    """This form contains all fields related to  add category"""
+
     class Meta:
         model = Category
         fields = ['name', 'image', 'parent']
 
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'parent': forms.Select(attrs={'class': 'form-control'}),
         }
 
 

@@ -1,11 +1,10 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import home_page, add_product, update_product, view_product,\
-    delete_product, trash_product, soft_delete, restore,\
-    add_category, update_category, view_categroy, delete_category, \
-    add_brand, update_brands, view_brands, delete_brand
-
+from .views import (home_page, add_product, update_product, view_product,
+                    delete_product, trash_product, soft_delete, restore,
+                    add_category, update_category, view_categroy, delete_category,
+                    add_brand, update_brands, view_brands, delete_brand)
 
 urlpatterns = [
     path('', home_page, name='homepage'),
@@ -25,4 +24,8 @@ urlpatterns = [
     path('add-brand/', add_brand, name='add-brand'),
     path('update-brand/<int:pk>/', update_brands, name='update-brand'),
     path('delete-brand/<int:pk>/', delete_brand, name='delete-brand'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+) + static(
+    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+)

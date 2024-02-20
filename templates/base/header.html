@@ -36,6 +36,7 @@
             </button>
         </div>
         {% endif %}
+
         <!-- Nav Bar Start -->
         <div class="nav">
             <div class="container-fluid">
@@ -94,8 +95,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="search">
-                            <input type="text" size="40" placeholder="Search">
-                            <button><i class="fa fa-search"></i></button>
+                           <form method="get">
+                        {% csrf_token %}
+                    <input class="search" size="50" name="search" type="text"  placeholder="search">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -118,7 +122,9 @@
 
 {% endblock %}
 {% block content %}
+
 {% endblock %}
+
 
         <!-- Footer Start -->
         <div class="footer">
@@ -198,7 +204,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
+        <script src="{% static 'lib/slick/slick.min.js' %}"></script>
 
         <!-- Template Javascript -->
        <script type="text/javascript" src="{% static 'js/main.js' %}"></script>

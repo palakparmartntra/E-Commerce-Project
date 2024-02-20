@@ -1,13 +1,22 @@
+
+from django.db.models import Q, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from .models import Category, Brand, Product
+from .forms import AddBrandForm, UpdateBrandForm, AddCategoryForm, AddProductForm
+from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from .headings import AdminPortalHeadings
 from .forms import AddBrandForm, UpdateBrandForm, AddProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
+from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
 from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
+from products.exceptions import CannotDeleteBrandException
+from .headings import AdminPortalHeadings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 from .forms import AddCategoryForm
 
@@ -63,17 +72,16 @@ def view_product(request):
         raise Http404
 
     product = Product.objects.filter(is_deleted=False)
-    print(product)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(product, 3)
+    page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     return render(request, 'product/products/view_products.html',
                   {'page_obj': page_obj, 'heading': 'All Products'})
@@ -105,14 +113,14 @@ def trash_product(request):
     product = Product.objects.filter(is_deleted=True)
     if request.GET.get('search'):
         product = product.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(product, 3)
+    page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
     return render(request, 'product/products/trash_product.html',
                   {'page_obj': page_obj, 'heading': 'Trash Products'})
 
@@ -180,7 +188,7 @@ def add_category(request):
         category = AddCategoryForm(request.POST, request.FILES)
         if category.is_valid():
             category.save()
-            messages.success(request, AdminPortalHeadings.PRODUCT_ADDED)
+            messages.success(request, AdminPortalHeadings.CATEGORY_ADDED)
         return redirect('view-category')
 
     category = AddCategoryForm()
@@ -202,7 +210,7 @@ def update_category(request, pk):
         category = AddCategoryForm(request.POST, request.FILES, instance=category_instance)
         if category.is_valid():
             category.save()
-            messages.success(request, AdminPortalHeadings.PRODUCT_UPDATED)
+            messages.success(request, AdminPortalHeadings.CATEGORY_UPDATED)
         return redirect('view-category')
 
     category = AddCategoryForm(instance=category_instance)
@@ -219,19 +227,25 @@ def view_categroy(request):
         raise Http404
 
     category = Category.objects.all()
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=request.GET.get('search'))
-    p = Paginator(category, 3)
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
+        if search is not None:
+            category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
+        else:
+            category = category.all()
+    page = Paginator(category, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     return render(request, 'product/category/view_category.html',
-                  {'page_obj': page_obj, 'heading': 'All Categories'})
+                  {'page_obj': page_obj, 'heading': AdminPortalHeadings.CATEGORY_HEADING, 'search': search})
 
 
 @login_required
@@ -243,12 +257,19 @@ def delete_category(request, pk):
 
     categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
-
-        categorydata.delete()
-        messages.success(request, AdminPortalHeadings.PRODUCT_DELETED)
+        product = Product.objects.filter(category=pk)
+        try:
+            if not product:
+                categorydata.delete()
+                messages.success(request, AdminPortalHeadings.CATEGORY_DELETED)
+            else:
+                raise CannotDeleteBrandException
+        except CannotDeleteBrandException:
+            messages.error(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
-        return render(request, 'product/category/confirm_delete.html', {'category': categorydata})
+        return render(request, 'product/category/confirm_delete.html', {'category': categorydata,
+                                        'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
 
 
 @login_required
@@ -315,14 +336,14 @@ def view_brands(request):
     if request.GET.get('search'):
         brand = brand.filter(name__icontains=request.GET.get('search'))
 
-    p = Paginator(brand, 3)
+    page = Paginator(brand, 3)
     page_number = request.GET.get('page')
     try:
-        page_obj = p.get_page(page_number)
+        page_obj = page.get_page(page_number)
     except PageNotAnInteger:
-        page_obj = p.page(1)
+        page_obj = page.page(1)
     except EmptyPage:
-        page_obj = p.page(p.num_pages)
+        page_obj = page.page(page.num_pages)
 
     context = {
         'page_obj': page_obj,

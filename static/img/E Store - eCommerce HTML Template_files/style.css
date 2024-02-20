@@ -5,7 +5,7 @@ body {
     color: #353535;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    background: #ffffff;
+    background: #f3f6ff;
 }
 
 a {
@@ -2216,13 +2216,12 @@ h2 {
     position: relative;
     padding: 30px 0 0 0;
     background: #ffffff;
-    margin-top:30px;
 }
 
 .footer .footer-widget {
     position: relative;
     width: 100%;
-
+    margin-bottom: 30px;
 }
 
 .footer .footer-widget h2 {
@@ -2362,7 +2361,6 @@ h2 {
     position: relative;
     padding: 25px 0;
     background: #000000;
-    margin-bottom:0px;
 }
 
 .footer-bottom .copyright {
@@ -2395,67 +2393,4 @@ h2 {
     .footer-bottom .template-by {
         text-align: center; 
     } 
-}
-
-
-  /* password reset  css */
-
- .password {
-     background-color:white;
-     border:2px solid black;
-     padding:30px;
-     }
-
-        .pr-form {
-            margin-top: 20px;
-        }
-
-
-  /* password reset form  css */
-
-.prf-body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color:#FF6F61
-        }
-
-     .prf-div {
-     background-color:white;
-     border:2px solid black;
-     padding:100px;
-     }
-
-        .prf-form {
-            margin-top: 20px;
-        }
-
-.errorlist {
-    list-style-type: none;
-    color: red;
-    position: relative;
-    right: 31px;
-}
-.error {
-    color: #ff0000;
-    margin-right:20px;
-}
-
-input.error {
-    border: 2px solid red;
-}
-
-.tab-content{
-margin-top:0px;
-padding-top:100px;
-}
-
-.bottom-bar{
-padding-bottom:0px;
-}
-
-.my-account{
-padding-top:0px;
 }
