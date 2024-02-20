@@ -1,6 +1,5 @@
 
-from django.db.models import Count
-from django.db.models import Q
+from django.db.models import Q, Count
 from .models import Category, Brand, Product
 from .forms import AddBrandForm, UpdateBrandForm, AddCategoryForm, AddProductForm
 from django.http import Http404
