@@ -5,8 +5,7 @@ from .headings import AdminPortalHeadings
 from .forms import AddBrandForm, UpdateBrandForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
-from .messages import BrandFormSuccessMessages
-from .messages import BrandFormErrorMessages
+from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
 from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
 
