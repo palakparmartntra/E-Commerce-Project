@@ -3,7 +3,8 @@ from .models import Category
 
 
 class AddCategoryForm(forms.ModelForm):
-"""This form contains all fields related to  add category"""
+    """This form contains all fields related to  add category"""
+
     class Meta:
         model = Category
         fields = ['name', 'image', 'parent']
