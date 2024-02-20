@@ -27,6 +27,9 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return str(self.name)
 

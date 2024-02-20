@@ -9,11 +9,14 @@
 
 <div class="container mt-4">
     <div class="top">
+        <div class="search-container">
         <form method="get">
             {% csrf_token %}
-        <input class="search" size="40" name="search" type="text"  placeholder="search category">
-        <button class="btn" type="submit">search</button>
-        </form>
+    <input type="text" size="60" name="search" placeholder="Search" value="{{ search }}">
+    <button type="submit"><i class="fa fa-search"></i></button>
+</div>
+        <a class="btn-add" type="submit" href="{% url 'view-product' %}">Back to Products </a>
+
     </div>
     <br>
     <table class="table">
@@ -23,7 +26,8 @@
                 <th>Name</th>
                 <th>category</th>
                 <th>price</th>
-                <th>Product Status</th>
+                <th>Status</th>
+                <th>Brand</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -43,6 +47,11 @@
                 <td>
                     {{product.is_active}}
                 </td>
+                <td>
+ {% for brand in product.brandproduct_set.all %}
+    {{ brand.brand.name }}
+                    {% endfor %}
+</td>
                 <td>
                     <a class="btn" href="{% url 'restore' product.pk %}">Restore</a>
                     <a class="btn-danger" href="{% url 'delete-product' product.pk %}">Delete</a>

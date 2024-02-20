@@ -1,8 +1,8 @@
 $('#addcategory').validate({
 rules: {
-        name:{
-        required:true
-        }
+    name:{
+    required:true
+    }
  },
  messages: {
     name:{
