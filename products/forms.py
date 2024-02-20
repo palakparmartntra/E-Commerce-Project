@@ -3,6 +3,8 @@ from .models import Product, Brand
 
 
 class AddProductForm(forms.ModelForm):
+    """ this forms contains all fields related to add products"""
+
     brand = forms.ModelChoiceField(queryset=Brand.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
@@ -20,6 +22,7 @@ class AddProductForm(forms.ModelForm):
 
 
 class UpdateProductForm(forms.ModelForm):
+    """this form contains all fields related to update products"""
 
     class Meta:
         model = Product
