@@ -2358,9 +2358,9 @@ h2 {
 /******** Footer Bottom CSS *******/
 /**********************************/
 .footer-bottom {
-    position: relative;
     padding: 25px 0;
     background: #000000;
+    margin-bottom:0px;
 }
 
 .footer-bottom .copyright {
@@ -2393,4 +2393,29 @@ h2 {
     .footer-bottom .template-by {
         text-align: center; 
     } 
+}
+
+.errorlist {
+    list-style-type: none;
+    color: red;
+    position: relative;
+    right: 31px;
+}
+.error {
+    color: #ff0000;
+    margin-right:20px;
+}
+
+input.error {
+    border: 2px solid red;
+}
+.tab-content{
+margin-top:0px;
+padding-top:100px;
+}
+.bottom-bar{
+padding-bottom:0px;
+}
+.my-account{
+padding-top:0px;
 }
