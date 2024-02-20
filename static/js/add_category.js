@@ -1,10 +1,10 @@
 $('#addcategory').validate({
 rules: {
-        name:{
-        required:true
-        }
+    name:{
+    required:true
+    }
  },
- messgaes: {
+ messages: {
     name:{
     required:'Please enter category name'
     }

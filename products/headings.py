@@ -1,3 +1,5 @@
+
+
 class AdminPortalHeadings:
     DASHBOARD = 'Dashboard'
     PRODUCT_ADDED = "Product Added Successfully"
@@ -7,9 +9,9 @@ class AdminPortalHeadings:
     CATEGORY_ADDED = "Category Added Successfully"
     CATEGORY_UPDATED = "Category Updated Successfully"
     CATEGORY_DELETED = "Category Deleted Successfully"
-    CATEGORY_NOT_DELETED = "Category can't deleted"
     ALL_BRANDS = 'All Brands'
     ADD_BRAND = 'Add Brand'
     UPDATE_BRAND = 'Update Brand'
     DELETE_BRAND = 'Delete Brand'
-
+    CATEGORY_NOT_DELETED = "Category cannot be deleted"
+    CATEGORY_HEADING = 'All Category'

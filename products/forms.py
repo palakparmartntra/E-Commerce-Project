@@ -1,6 +1,6 @@
 from django import forms
+from .models import Product, Category, Brand
 from .messages import BrandFormErrorMessages
-from .models import Product, Brand, Category
 
 
 class AddProductForm(forms.ModelForm):
@@ -39,17 +39,16 @@ class UpdateProductForm(forms.ModelForm):
 
 
 class AddCategoryForm(forms.ModelForm):
+    """This form contains all fields related to  add category"""
+
     class Meta:
         model = Category
         fields = ['name', 'image', 'parent']
 
-        # add css here in form
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
-            'price': forms.NumberInput(attrs={'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+            'parent': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class AddBrandForm(forms.ModelForm):
@@ -65,7 +64,6 @@ class AddBrandForm(forms.ModelForm):
                 'class': 'form-control'
             }
         )
-
     )
 
     image = forms.ImageField(
@@ -97,7 +95,6 @@ class UpdateBrandForm(forms.ModelForm):
                 'class': 'form-control'
             }
         )
-
     )
 
     class Meta:

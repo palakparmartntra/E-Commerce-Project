@@ -2,9 +2,9 @@ from .forms import AddCategoryForm
 from .models import Category, Brand, Product, BrandProduct
 from .forms import AddBrandForm, UpdateBrandForm, AddProductForm, UpdateProductForm
 from django.contrib import messages
+from .exceptions import CannotDeleteBrandException
 from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
 from django.contrib.auth.decorators import login_required
-from products.exceptions import CannotDeleteBrandException
 from .headings import AdminPortalHeadings
 from django.db.models import Q, Count
 from django.http import Http404
@@ -260,8 +260,14 @@ def view_categroy(request):
         raise Http404
 
     category = Category.objects.all()
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=request.GET.get('search'))
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
+        if search is not None:
+            category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
+        else:
+            category = category.all()
     page = Paginator(category, 3)
     page_number = request.GET.get('page')
     try:
@@ -272,7 +278,7 @@ def view_categroy(request):
         page_obj = page.page(page.num_pages)
 
     return render(request, 'product/category/view_category.html',
-                  {'page_obj': page_obj, 'heading': 'All Categories'})
+                  {'page_obj': page_obj, 'heading': AdminPortalHeadings.CATEGORY_HEADING, 'search': search})
 
 
 @login_required
@@ -292,10 +298,11 @@ def delete_category(request, pk):
             else:
                 raise CannotDeleteBrandException
         except CannotDeleteBrandException:
-            messages.info(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
+            messages.error(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
-        return render(request, 'product/category/confirm_delete.html', {'category': categorydata})
+        return render(request, 'product/category/confirm_delete.html', {'category': categorydata,
+                                        'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
 
 
 @login_required
@@ -359,8 +366,13 @@ def view_brands(request):
         raise Http404
 
     brand = Brand.objects.all()
-    if request.GET.get('search'):
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
         brand = brand.filter(name__icontains=request.GET.get('search'))
+    else:
+        brand = brand
 
     page = Paginator(brand, 3)
     page_number = request.GET.get('page')
@@ -373,7 +385,8 @@ def view_brands(request):
 
     context = {
         'page_obj': page_obj,
-        'heading': AdminPortalHeadings.ALL_BRANDS
+        'heading': AdminPortalHeadings.ALL_BRANDS,
+        'search': search
     }
     return render(request, 'product/brand/view_brands.html', context)
 
@@ -395,7 +408,7 @@ def delete_brand(request, pk):
             else:
                 raise CannotDeleteBrandException
         except CannotDeleteBrandException:
-            messages.info(request, BrandFormErrorMessages.BRAND_PROTECTED)
+            messages.error(request, BrandFormErrorMessages.BRAND_PROTECTED)
         return redirect('view-brand')
     else:
         context = {

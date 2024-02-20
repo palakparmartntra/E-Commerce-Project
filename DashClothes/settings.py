@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+
+from django.contrib import messages
 from dotenv import load_dotenv
+from django.contrib import messages
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,11 +53,9 @@ DEFAULT_APPS = [
     'django.contrib.sites',
     ]
 
-
 CUSTOM_APP = [
     'accounts',
     'products',
-
 ]
 
 ALLAUTH_APPS = [
@@ -73,7 +75,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware'
-
 ]
 
 ROOT_URLCONF = 'DashClothes.urls'
@@ -179,3 +180,11 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 LOGIN_URL = "/login/"
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Dash clothes | '
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
