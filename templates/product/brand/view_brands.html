@@ -11,15 +11,15 @@
 <link href="{% static 'css/brand.css' %}" rel="stylesheet">
 <div class="container mt-4">
     <div class="top">
-        <button class="btn" onclick="window.location.href='{% url 'add-brand' %}'">Add Brands</button>
-        <form method="get">
-            {% csrf_token %}
-        <div class="search">
-            <input type="text" name="search" placeholder="Search">
-            <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+    <form method="get" >
+        <div class="search-container">
+            <input type="text" size="60" name="search" placeholder="Search">
+            <button type="submit"><i class="fa fa-search"></i></button>
         </div>
-        </form>
+    </form>
+    <button class="btn-add" onclick="window.location.href='{% url 'add-brand' %}'">Add Brand</button>
     </div>
+</div>
     <br>
     <table class="table">
         <thead>
