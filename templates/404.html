@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Not Found</title>
+    <link href="{% static 'css/404.css' %}" rel="stylesheet">
+</head>
+<body class="body-404">
+<table>
+    <tr>
+        <td>
+            <img src="https://shorturl.at/ceLMX" alt="logo">
+        </td>
+        <td>
+            <button class="btn-404"  type="submit" onclick="window.location.href='{% url 'homepage'%}'">Back to Home</button>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

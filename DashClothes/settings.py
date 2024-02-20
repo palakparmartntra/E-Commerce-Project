@@ -14,6 +14,8 @@ from pathlib import Path
 
 from django.contrib import messages
 from dotenv import load_dotenv
+from django.contrib import messages
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,7 +30,7 @@ SECRET_KEY = 'django-insecure-k6m*#^s)s8rx_&$%p1)$#6ww=6sm-sc^ys70%dci71t!y-eg5b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 
@@ -51,11 +53,9 @@ DEFAULT_APPS = [
     'django.contrib.sites',
     ]
 
-
 CUSTOM_APP = [
     'accounts',
     'products',
-
 ]
 
 ALLAUTH_APPS = [
@@ -74,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "allauth.account.middleware.AccountMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'DashClothes.urls'
@@ -178,6 +179,7 @@ LOGIN_REDIRECT_URL = 'homepage'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 LOGIN_URL = "/login/"
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Dash clothes | '
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',

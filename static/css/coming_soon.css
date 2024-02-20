@@ -1,0 +1,16 @@
+/* Coming Soon Image */
+
+.coming-soon-img {
+    height: 500px;
+    width: 500px;
+    margin-left: 400px;
+}
+.alert {
+    position: absolute;
+    width: 80%;
+    z-index: 6;
+    padding: 5px;
+    margin-left: 120px;
+    margin-top: 120px;
+    text-align: center;
+}
