@@ -4,6 +4,12 @@ from .messages import BrandFormErrorMessages
 
 
 class AddProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'quantity', 'price', 'image', 'category', 'is_active']
+
+
+class AddProductForm(forms.ModelForm):
     """ this forms contains all fields related to add products"""
 
     brand = forms.ModelChoiceField(queryset=Brand.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
@@ -50,6 +56,7 @@ class AddCategoryForm(forms.ModelForm):
             'image': forms.FileInput(attrs={'class': 'form-control'}),
             'parent': forms.Select(attrs={'class': 'form-control'}),
         }
+
 
 class AddBrandForm(forms.ModelForm):
     """" form to update brand details """

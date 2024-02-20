@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static 'css/category.css' %}" rel="stylesheet">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<body>
+<div class="container">
+    <h1>Are you sure you want to delete {{category.name}} ?</h1>
+    <div class="btn-container">
+        <form method="POST">
+            {% csrf_token %}
+            <button class="btn" onclick="window.location.href='{% url 'delete-category' category.pk %}'">Delete Category</button>
+            <a class="btn" href="{% url 'view-category' %}"> cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,14 +1,15 @@
-from .forms import AddCategoryForm
-from .models import Category, Brand, Product, BrandProduct
-from .forms import AddBrandForm, UpdateBrandForm, AddProductForm, UpdateProductForm
+
+from django.db.models import Q, Count
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
+from .models import Category, Brand, Product,BrandProduct
+from .forms import (AddBrandForm, UpdateBrandForm, AddCategoryForm,
+                    AddProductForm, UpdateProductForm )
 from django.contrib import messages
-from .exceptions import CannotDeleteBrandException
 from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
+from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
 from .headings import AdminPortalHeadings
-from django.db.models import Q, Count
-from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -44,7 +45,6 @@ def home_page(request):
         }
 
         return render(request, "product/dashboard.html", context)
-
 
 
 @login_required
@@ -99,6 +99,7 @@ def update_product(request, pk):
     context['brand'] = brand
     context['brands_list'] = brands_list
     context['heading'] = AdminPortalHeadings.PRODUCT_UPDATE_HEADING
+
     return render(request, "product/products/update_products.html", context)
 
 
@@ -121,6 +122,7 @@ def view_product(request):
                                      | Q(brand__name__icontains=search))
         else:
             product = product.all()
+
     page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
@@ -167,6 +169,7 @@ def trash_product(request):
                                  | Q(category__name__icontains=search))
     else:
         product = product
+
     page = Paginator(product, 3)
     page_number = request.GET.get('page')
     try:
@@ -178,7 +181,6 @@ def trash_product(request):
     return render(request, 'product/products/trash_product.html',
                   {'page_obj': page_obj, 'heading': AdminPortalHeadings.PRODUCT_TRASH_HEADING,
                    'search': search})
-
 
 
 @login_required
@@ -301,7 +303,7 @@ def delete_category(request, pk):
             messages.error(request, AdminPortalHeadings.CATEGORY_NOT_DELETED)
         return redirect('view-category')
     else:
-        return render(request, 'product/category/confirm_delete.html', {'category': categorydata,
+        return render(request, 'product/category/delete_confirmation.html', {'category': categorydata,
                                         'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
 
 

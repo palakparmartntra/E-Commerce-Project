@@ -24,8 +24,6 @@ urlpatterns = [
     path('add-brand/', add_brand, name='add-brand'),
     path('update-brand/<int:pk>/', update_brands, name='update-brand'),
     path('delete-brand/<int:pk>/', delete_brand, name='delete-brand'),
-    path('restore/<int:pk>/', restore, name='restore'),
-
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(
