@@ -225,8 +225,7 @@
             $('.checkout .shipping-address').slideUp();
         }
     });
-    
-    
+
     // Payment methods show hide
     $('.checkout .payment-method .custom-control-input').change(function () {
         if ($(this).prop('checked')) {
@@ -236,4 +235,3 @@
         }
     });
 })(jQuery);
-

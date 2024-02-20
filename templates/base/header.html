@@ -4,7 +4,7 @@
 {% block title %}
     <head>
         <meta charset="utf-8">
-        <title>E Store - eCommerce HTML Template</title>
+        <title>Dash Clothes</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="eCommerce HTML Template Free Download" name="keywords">
         <meta content="eCommerce HTML Template Free Download" name="description">
@@ -26,22 +26,16 @@
     </head>
 
     <body>
-        <!-- Top bar Start -->
-        <div class="top-bar">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <i class="fa fa-envelope"></i>
-                        {{ request.user.email }}
-                    </div>
-                    <div class="col-sm-6">
-                        <i class="fa fa-phone-alt"></i>
-                        +012-345-6789
-                    </div>
-                </div>
-            </div>
+        {% if messages %}
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+            {% endfor %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-        <!-- Top bar End -->
+        {% endif %}
 
         <!-- Nav Bar Start -->
         <div class="nav">
@@ -54,24 +48,33 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="{% url 'view_profile' user.id %}" class="nav-item nav-link">{{request.user}} </a>
-                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="{% url 'homepage' %}" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{request.user}} </a>
+                        <div class="nav-item dropdown">
+                        {%  if request.user.is_authenticated %}
 
-                                <div class="dropdown-menu">
-                                    <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                    <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
-                                        {% csrf_token %}
-                                    </form>
-                                    <a href="#" class="dropdown-item">Register</a>
-                                </div>
+                        <a href="#" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
-
+                        <div class="dropdown-menu">
+                            <a href="{% url 'profile' %}" class="dropdown-item">{{request.user}} </a>
+                            <a href="{% url 'account_change_password' %}" class="dropdown-item">Change Password </a>
+                            <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                        {% else %}
+                         <div class="nav-item dropdown">
+                            <a href="{% url 'account_login' %}" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
+                            <div class="dropdown-menu">
+                            <a href="{% url 'account_login' %}" class="dropdown-item">Sign in</a>
+                            <a href="{% url 'account_signup' %}" class="dropdown-item">Sign up</a>
                             </div>
+                         </div>
+                        {% endif %}
+                        </div>
+                        </div>
                         </div>
                     </div>
                 </nav>
@@ -85,15 +88,18 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="index.html">
-                                <img src="img/logo.png" alt="Logo">
+                            <a href="{% url 'homepage' %}">
+                             <img src="{% static 'img/DashClothes.png' %}" alt="Logo">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="search">
-                            <input type="text" placeholder="Search">
-                            <button><i class="fa fa-search"></i></button>
+                           <form method="get">
+                        {% csrf_token %}
+                    <input class="search" size="50" name="search" type="text"  placeholder="search">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -113,25 +119,12 @@
         </div>
         <!-- Bottom Bar End -->
 
-        <!-- Breadcrumb Start -->
-        <div class="breadcrumb-wrap">
-            <div class="container-fluid">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Products</a></li>
-                    <li class="breadcrumb-item active">My Account</li>
-                </ul>
-            </div>
-        </div>
-        <!-- Breadcrumb End -->
 
 {% endblock %}
 {% block content %}
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/common
 {% endblock %}
+
 
         <!-- Footer Start -->
         <div class="footer">
@@ -141,8 +134,8 @@
                         <div class="footer-widget">
                             <h2>Get in Touch</h2>
                             <div class="contact-info">
-                                <p><i class="fa fa-map-marker"></i>123 E Store, Los Angeles, USA</p>
-                                <p><i class="fa fa-envelope"></i>email@example.com</p>
+                                <p><i class="fa fa-map-marker"></i>305, Pancham Icon, Vadodara, Gujarat 390025</p>
+                                <p><i class="fa fa-envelope"></i>dash_clothes@servive.com</p>
                                 <p><i class="fa fa-phone"></i>+123-456-7890</p>
                             </div>
                         </div>
@@ -185,37 +178,19 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row payment align-items-center">
-                    <div class="col-md-6">
-                        <div class="payment-method">
-                            <h2>We Accept:</h2>
-                            <img src="img/payment-method.png" alt="Payment Method" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="payment-security">
-                            <h2>Secured By:</h2>
-                            <img src="img/godaddy.svg" alt="Payment Security" />
-                            <img src="img/norton.svg" alt="Payment Security" />
-                            <img src="img/ssl.svg" alt="Payment Security" />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <!-- Footer End -->
 
         <!-- Footer Bottom Start -->
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 copyright">
-                        <p>Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved</p>
+                        <p>Copyright &copy; {% now "Y" %} <a href="https://htmlcodex.com">Dash Clothes</a>. All Rights Reserved</p>
                     </div>
 
                     <div class="col-md-6 template-by">
-                        <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                        <p>Dash Clothes by <a href="https://tntra.io">Tntra</a></p>
                     </div>
                 </div>
             </div>
@@ -229,13 +204,11 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
+        <script src="{% static 'lib/slick/slick.min.js' %}"></script>
 
         <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+       <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> feature/common
