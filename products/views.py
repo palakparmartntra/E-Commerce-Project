@@ -18,14 +18,13 @@ def home_page(request):
 
     category = Category.objects.filter(parent=None)
     product = Product.objects.filter(is_active=True, is_deleted=False)
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=request.GET.get('search'))
+    search = request.GET.get('search')
+    if search:
+        category = category.filter(name__icontains=search)
     if not request.user.is_superuser:
-        category = Category.objects.filter(parent=None)
-        product = Product.objects.all()
         if request.GET.get('search'):
-            category = category.filter(name__icontains=request.GET.get('search'))
-            product = product.filter(name__icontains=request.GET.get('search'))
+            category = category.filter(name__icontains=search)
+            product = product.filter(name__icontains=search)
 
         return render(request, 'index.html', {'categorydata': category, 'productdata': product})
 
