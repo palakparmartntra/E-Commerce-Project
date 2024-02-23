@@ -40,7 +40,7 @@ class BannerAdmin(admin.ModelAdmin):
 
 
 class SectionItemsInline(admin.TabularInline):
-    model = Section.section_items.through
+    model = SectionSectionItemsThrough
     extra = 1
 
 
