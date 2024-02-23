@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 
 
 class Category(models.Model):
@@ -7,6 +9,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True, unique=True)
     image = models.ImageField(upload_to='media/category')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    section_items = GenericRelation('SectionItems')
 
     class Meta:
         ordering = ['-id']
@@ -26,6 +29,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
+    section_items = GenericRelation('SectionItems')
 
     def __str__(self):
         return str(self.name)
@@ -37,6 +41,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=40, null=True, blank=True, unique=True)
     image = models.ImageField(upload_to='media/brand')
     product = models.ManyToManyField(Product, through='BrandProduct')
+    section_items = GenericRelation('SectionItems')
 
     def __str__(self):
         return str(self.name)
@@ -47,3 +52,37 @@ class BrandProduct(models.Model):
 
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
+class SectionItems(models.Model):
+    """ this model contains details of all the items in a section """
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return f'{self.content_type} - {self.object_id} - {self.content_object}'
+
+
+class Section(models.Model):
+    """ this model contains details of a section """
+
+    name = models.CharField(max_length=100)
+    section_type = models.CharField(max_length=100)
+    order = models.PositiveIntegerField()
+    is_active = models.BooleanField(default=True)
+    section_items = models.ManyToManyField(SectionItems, through='SectionSectionItemsThrough')
+
+    def __str__(self):
+        return f'{self.name} - priority: {self.order}'
+
+
+class SectionSectionItemsThrough(models.Model):
+    """ this is an intermediate model between section and section items """
+
+    section_items = models.ForeignKey(SectionItems, on_delete=models.CASCADE)
+    section = models.ForeignKey(Section, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'section items: {self.section_items} - section: {self.section}'

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Product, Category, Brand, BrandProduct
+from .models import Product, Category, Brand, BrandProduct, Section, SectionItems, SectionSectionItemsThrough
 
 
 @admin.register(Product)
@@ -11,7 +11,7 @@ class Product(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class Categroy(admin.ModelAdmin):
+class Category(admin.ModelAdmin):
     list_display = ('name', 'image', 'parent')
 
 
@@ -23,3 +23,18 @@ class Brand(admin.ModelAdmin):
 @admin.register(BrandProduct)
 class BrandProduct(admin.ModelAdmin):
     list_display = ('brand', 'product')
+
+
+@admin.register(Section)
+class Section(admin.ModelAdmin):
+    list_display = ('name', 'section_type', 'order', 'is_active')
+
+
+@admin.register(SectionItems)
+class SectionItems(admin.ModelAdmin):
+    list_display = ('content_type', 'object_id', 'content_object')
+
+
+@admin.register(SectionSectionItemsThrough)
+class SectionSectionItemsThrough(admin.ModelAdmin):
+    list_display = ('section_items', 'section')
