@@ -69,10 +69,10 @@ class Section(models.Model):
     """ this model contains details of a section """
 
     name = models.CharField(max_length=100)
-    section_type = models.CharField(max_length=100)
     order = models.PositiveIntegerField()
     is_active = models.BooleanField(default=True)
     section_items = models.ManyToManyField(SectionItems, through='SectionSectionItemsThrough')
+    section_file = models.FileField(upload_to='media/section_files/', null=True, blank=True)
 
     def __str__(self):
         return f'{self.name} - priority: {self.order}'

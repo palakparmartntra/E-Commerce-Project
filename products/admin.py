@@ -27,7 +27,7 @@ class BrandProduct(admin.ModelAdmin):
 
 @admin.register(Section)
 class Section(admin.ModelAdmin):
-    list_display = ('name', 'section_type', 'order', 'is_active')
+    list_display = ('name', 'order', 'is_active', 'section_file')
 
 
 @admin.register(SectionItems)
