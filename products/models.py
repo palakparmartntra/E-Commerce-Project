@@ -86,3 +86,19 @@ class SectionSectionItemsThrough(models.Model):
 
     def __str__(self):
         return f'section items: {self.section_items} - section: {self.section}'
+
+
+class Banner(models.Model):
+    """ this model contains banner details """
+
+    banner_name = models.CharField(max_length=50, null=True, blank=True)
+    banner_image = models.FileField(upload_to='media/banner', null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-updated_date']
+
+    def __str__(self):
+        return f'{self.banner_name}'

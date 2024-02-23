@@ -1,7 +1,6 @@
 from django.contrib import admin
-
-# Register your models here.
-from .models import Product, Category, Brand, BrandProduct, Section, SectionItems, SectionSectionItemsThrough
+from .models import (Product, Category, Brand, BrandProduct,
+                     Section, SectionItems, SectionSectionItemsThrough, Banner)
 
 
 @admin.register(Product)
@@ -38,3 +37,8 @@ class SectionItems(admin.ModelAdmin):
 @admin.register(SectionSectionItemsThrough)
 class SectionSectionItemsThrough(admin.ModelAdmin):
     list_display = ('section_items', 'section')
+
+
+@admin.register(Banner)
+class Banner(admin.ModelAdmin):
+    list_display = ('banner_name', 'banner_image', 'is_active', 'created_date', 'updated_date')
