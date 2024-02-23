@@ -4,7 +4,8 @@ from django.conf import settings
 from .views import (home_page, add_product, update_product, view_product,
                     delete_product, trash_product, soft_delete, restore,
                     add_category, update_category, view_categroy, delete_category,
-                    add_brand, update_brands, view_brands, delete_brand)
+                    add_brand, update_brands, view_brands, delete_brand, category_data, subcategory_data
+                    , product_data, all_products)
 
 urlpatterns = [
     path('', home_page, name='homepage'),
@@ -24,6 +25,10 @@ urlpatterns = [
     path('add-brand/', add_brand, name='add-brand'),
     path('update-brand/<int:pk>/', update_brands, name='update-brand'),
     path('delete-brand/<int:pk>/', delete_brand, name='delete-brand'),
+    path('category', category_data, name='category'),
+    path('subcategory/<int:pk>/', subcategory_data, name='subcategory'),
+    path('product/<int:pk>/', product_data, name='products'),
+    path('allproducts/', all_products, name='all-products')
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(
