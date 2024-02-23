@@ -4,41 +4,47 @@ from .models import (Product, Category, Brand, BrandProduct,
 
 
 @admin.register(Product)
-class Product(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'quantity',
                     'price', 'image', 'category', 'is_active', 'is_deleted')
 
 
 @admin.register(Category)
-class Category(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'image', 'parent')
 
 
 @admin.register(Brand)
-class Brand(admin.ModelAdmin):
+class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', 'image')
 
 
 @admin.register(BrandProduct)
-class BrandProduct(admin.ModelAdmin):
+class BrandProductAdmin(admin.ModelAdmin):
     list_display = ('brand', 'product')
 
 
-@admin.register(Section)
-class Section(admin.ModelAdmin):
-    list_display = ('name', 'order', 'is_active', 'section_file')
-
-
 @admin.register(SectionItems)
-class SectionItems(admin.ModelAdmin):
+class SectionItemsAdmin(admin.ModelAdmin):
     list_display = ('content_type', 'object_id', 'content_object')
 
 
 @admin.register(SectionSectionItemsThrough)
-class SectionSectionItemsThrough(admin.ModelAdmin):
+class SectionSectionItemsThroughAdmin(admin.ModelAdmin):
     list_display = ('section_items', 'section')
 
 
 @admin.register(Banner)
-class Banner(admin.ModelAdmin):
+class BannerAdmin(admin.ModelAdmin):
     list_display = ('banner_name', 'banner_image', 'is_active', 'created_date', 'updated_date')
+
+
+class SectionItemsInline(admin.TabularInline):
+    model = Section.section_items.through
+    extra = 1
+
+
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order', 'is_active', 'section_file')
+    inlines = (SectionItemsInline,)
