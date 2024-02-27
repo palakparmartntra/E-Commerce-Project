@@ -1,6 +1,7 @@
 from django import forms
+from .constants import SectionFormConstants
 from .messages import BrandFormErrorMessages, SectionFormErrorMessages
-from .models import Product, Category, Brand, Section, SectionItems, ContentType, Banner
+from .models import Product, Category, Brand, Section, SectionItems, Banner
 
 
 class AddProductForm(forms.ModelForm):
@@ -164,29 +165,11 @@ class AddSectionForm(forms.ModelForm):
             }
         )
     )
-    content_type = forms.ChoiceField(
-        choices=CHOICES
-    )
-
-    class Meta:
-        model = Section
-        fields = [
-            'name', 'order', 'section_file', 'content_type'
-        ]
-
-
-class AddSectionModelForm(forms.ModelForm):
-    """" form to update brand details """
-
-    APP_LABEL = 'products'
-    MODELS = ('brand', 'category', 'product')
-    model = ContentType.objects.values_list('id', flat=True).filter(app_label=APP_LABEL, model__in=MODELS)
-    model_choices = zip(model, MODELS)
 
     content_type = forms.IntegerField(
         required=True,
         widget=forms.Select(
-            choices=model_choices,
+            choices=SectionFormConstants.MODELS,
             attrs={
                 'class': 'form-control'
             }
@@ -194,14 +177,14 @@ class AddSectionModelForm(forms.ModelForm):
     )
 
     class Meta:
-        model = SectionItems
+        model = Section
         fields = [
-            'content_type'
+            'name', 'order', 'section_file'
         ]
 
 
 class UpdateSectionForm(forms.ModelForm):
-    """" form to update brand details """
+    """" form to update section details """
 
     CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
 

@@ -1,21 +1,21 @@
 import pandas as pd
-from django.db.models import Q, Count
-from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
+from django.contrib import messages
+from django.db.models import Q, Count
+from .headings import AdminPortalHeadings
+from .constants import SectionFormConstants
+from .exceptions import CannotDeleteBrandException
+from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import (Category, Brand, Product, BrandProduct, Banner,
                      Section, SectionItems)
 from .forms import (AddBrandForm, UpdateBrandForm, AddCategoryForm,
                     AddProductForm, UpdateProductForm, AddBannerForm,
-                    UpdateBannerForm, UpdateSectionForm, AddSectionForm,
-                    AddSectionModelForm)
-from django.contrib import messages
+                    UpdateBannerForm, UpdateSectionForm, AddSectionForm)
 from .messages import (BrandFormSuccessMessages, BrandFormErrorMessages,
-                       SectionFormSuccessMessages, SectionFormErrorMessages)
-from .exceptions import CannotDeleteBrandException, PriorityNotUniqueException
-from django.contrib.auth.decorators import login_required
-from .headings import AdminPortalHeadings
+                       SectionFormSuccessMessages)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from openpyxl import load_workbook
 
 
 def home_page(request):
@@ -31,8 +31,8 @@ def home_page(request):
         category = category.filter(name__icontains=search)
         product = product.filter(name__icontains=search)
 
-        return render(request, 'index.html', {'categorydata': category, 'productdata': product,
-                                              'banner_data': banner_data})
+    return render(request, 'index.html', {'categorydata': category, 'productdata': product,
+                                          'banner_data': banner_data})
 
 
 def dashboard(request):
@@ -41,7 +41,7 @@ def dashboard(request):
     if not request.user.is_superuser:
         raise Http404
 
-    banner = Brand.objects.annotate(banner_count=Count("name")).all()
+    banner = Banner.objects.annotate(banner_count=Count("banner_name")).all()
     categories = Category.objects.annotate(catogory_count=Count("name")).all()
     brands = Brand.objects.annotate(brands_count=Count("name")).all()
     products = Product.objects.annotate(product_count=Count("name")).all()
@@ -634,31 +634,33 @@ def add_section(request):
 
     context = {}
     if request.method == "POST":
+        section_form = AddSectionForm(request.POST, request.FILES)
         name = request.POST.get('name')
         order = request.POST.get('order')
+        section_file = request.FILES.get('section_file')
         model = request.POST.get('content_type')
-        file = request.FILES.get('section_file')
 
-        Section.objects.create(name=name, order=order, section_file=file)
-        SectionItems.objects.create(content_type_id=model, object_id=1)
+        model_id = ContentType.objects.values_list(
+            'id', flat=True
+        ).filter(app_label=SectionFormConstants.APP_LABEL, model=model)
 
-        # wb = load_workbook(section_form.section_file)
-        # ws = wb.active
-        #
-        # for row in ws.iter_rows(min_row=2, values_only=True):
-        #     object_id = row
-        #     SectionItems.objects.create(object_id=object_id)
+        Section.objects.create(name=name, order=order,
+                               section_file=section_file)
 
-        # if section.is_valid():
-        #     section.save()
-        # messages.success(request, BrandFormSuccessMessages.NEW_BRAND_ADDED)
+        # breakpoint()
+        # if section_form.is_valid():
+        uploaded_file = request.FILES['section_file']
+        file_content = pd.read_excel(uploaded_file)
+        for index, ids in file_content.iterrows():
+            print(ids, "=========================================")
+            section_items_id = SectionItems(object_id=ids, content_type_id=model_id[0])
+            section_items_id.save()
+        messages.success(request, "ho gaya!")
         return redirect('view-section')
 
     section_form = AddSectionForm()
-    # section_model_form = AddSectionModelForm()
     context = {
         "section_form": section_form,
-        # "model_form": section_model_form,
         "heading": AdminPortalHeadings.ADD_SECTION
     }
     return render(request, "section/add_section.html", context)
