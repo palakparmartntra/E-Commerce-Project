@@ -531,7 +531,7 @@ def add_banner(request):
 def update_banner(request, pk):
     """This view is useful to update banner"""
 
-    banner_data = Banner.objects.get(id=pk)
+    banner_data = get_object_or_404(Banner, id=pk)
     if request.method == "POST":
         form_data = UpdateBannerForm(request.POST, request.FILES, instance=banner_data)
         if form_data.is_valid():
