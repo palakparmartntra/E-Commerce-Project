@@ -41,25 +41,23 @@
            <h3><strong>Login Page</strong></h3>
            <br>
            <form  class="login-form" id="loginform" method="post" action="{% url 'account_login' %}">
-                              {% csrf_token %}
-               <p>
-    <input type="text" name="login"  class="form-control" placeholder="Username" autocomplete="username" maxlength="150" required id="id_login">
-
-  </p>
-               <p>
-    <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password">
-
-                   <br>
-      <span class="helptext" id="id_password_helptext"><a href="/password/reset/">Forgot your password?</a></span>
-
-  </p>
-               <br>
-               <button class="btn" type="submit">Login</button>
-                            </form>
-           <hr>
-               Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
+           {% csrf_token %}
+                <p>
+                <input type="text" name="login"  class="form-control" placeholder="Username" autocomplete="username" maxlength="150" required id="id_login">
+                </p>
+                <p>
+                <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password">
+                <br>
+                <span class="helptext" id="id_password_helptext"><a href="/password/reset/">Forgot your password?</a></span>
+                </p>
+                <br>
+                <button class="btn" type="submit">Login</button>
+            </form>
+            <hr>
+            Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
+            <br><a href="{% url 'homepage' %}"> Back to Home </a>
             </div>
-        <br>
+            <br>
 
         <!-- Template Javascript -->
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

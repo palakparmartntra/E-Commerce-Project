@@ -63,7 +63,7 @@
                 <a href="{% url 'homepage' %}" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
                 <div class="dropdown-menu">
-                    <a href="{% url 'homepage' %}" class="dropdown-item">{{request.user}} </a>
+                    <a href="{% url 'homepage' %}" class="dropdown-item">Home </a>
                     <a href="{% url 'account_change_password' %}" class="dropdown-item">Change Password </a>
                     <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                     <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
@@ -114,11 +114,12 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link" id="dashboard-nav" href="{% url 'homepage' %}">Dashboard</a>
-                    <a class="nav-link" id="banner-nav" href="{% url 'homepage' %}">Banners</a>
-                    <a class="nav-link" id="category-nav" href="{% url 'view-category' %}" role="tab">Categories</a>
-                    <a class="nav-link" id="brands-nav" href="{% url 'view-brand' %}">Brands</a>
-                    <a class="nav-link" id="products-nav" href="{% url 'view-product' %}" role="tab">Products</a>
+                    <a class="nav-link" id="dashboard-nav" href="{% url 'dashboard' %}">Dashboard</a>
+                    <a class="nav-link" id="banner-nav" href="{% url 'dashboard' %}">Banner</a>
+                    <a class="nav-link" id="category-nav" href="{% url 'view-category' %}" role="tab">Category</a>
+                    <a class="nav-link" id="brands-nav" href="{% url 'view-brand' %}">Brand</a>
+                    <a class="nav-link" id="products-nav" href="{% url 'view-product' %}" role="tab">Product</a>
+                    <a class="nav-link" id="sections-nav" href="{% url 'view-section' %}" role="tab">Section</a>
                 </div>
             </div>
             <div class="col-md-10">
@@ -137,11 +138,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 copyright">
-                <p>Copyright &copy; {% now "Y" %} <a href="https://htmlcodex.com">Dash Clothes</a>. All Rights Reserved</p>
+                <p>Copyright &copy; {% now "Y" %} <a href="{% url 'homepage' %}" >Dash Clothes</a>. All Rights Reserved</p>
             </div>
 
             <div class="col-md-6 template-by">
-                <p>Dash Clothes by <a href="https://tntra.io">Tntra</a></p>
+                <p>Dash Clothes by <a href="https://tntra.io" target=”_blank”>Tntra</a></p>
             </div>
         </div>
     </div>

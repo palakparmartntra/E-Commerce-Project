@@ -1,0 +1,59 @@
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+<link href="{% static 'lib/slick/slick.css' %}" rel="stylesheet">
+<link href="{% static 'lib/slick/slick-theme.css'%}" rel="stylesheet">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/brand.css' %}" rel="stylesheet">
+<div class="container mt-4">
+    <div class="top">
+    <form method="get" >
+        <div class="search-container">
+            <input type="text" size="60" name="search" placeholder="Search" value="{{ search }}">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+    <a href="{% url 'add-section' %}" class="btn-add">Add Section</a>
+    </div>
+</div>
+    <br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Items</th>
+        </tr>
+    </thead>
+    <tbody>
+       {% for section in page_obj.object_list %}
+        <tr>
+            <td>{{ section.name }}</td>
+            <td>{{ section.order }}</td>
+            <td>{{ section.is_active }}</td>
+            <td>
+                <a class="btn" href="{% url 'update-section' section.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+<center>
+    {%if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number}}"><</a>
+    {% endif %}
+    <span>{{page_obj.number}}</span>
+
+    {%if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number}}">></a>
+    {% endif %}
+</center>
+<script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+
+{% endblock %}

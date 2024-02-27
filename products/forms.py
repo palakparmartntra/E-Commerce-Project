@@ -1,6 +1,6 @@
 from django import forms
-from .models import Product, Category, Brand
-from .messages import BrandFormErrorMessages
+from .messages import BrandFormErrorMessages, SectionFormErrorMessages
+from .models import Product, Category, Brand, Section, SectionItems, ContentType
 
 
 class AddProductForm(forms.ModelForm):
@@ -100,4 +100,110 @@ class UpdateBrandForm(forms.ModelForm):
         model = Brand
         fields = [
             'name', 'image'
+        ]
+
+
+class AddSectionForm(forms.ModelForm):
+    """" form to update brand details """
+
+    CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
+
+    name = forms.CharField(
+        max_length=40,
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.SECTION_NAME},
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Section Name',
+                'class': 'form-control'
+            }
+        )
+    )
+
+    order = forms.IntegerField(
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.ORDER},
+        widget=forms.Select(
+            choices=CHOICES,
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    section_file = forms.FileField(
+        required=True,
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+    content_type = forms.ChoiceField(
+        choices=CHOICES
+    )
+    class Meta:
+        model = Section
+        fields = [
+            'name', 'order', 'section_file', 'content_type'
+        ]
+
+
+class AddSectionModelForm(forms.ModelForm):
+    """" form to update brand details """
+
+    APP_LABEL = 'products'
+    MODELS = ('brand', 'category', 'product')
+    model = ContentType.objects.values_list('id', flat=True).filter(app_label=APP_LABEL, model__in=MODELS)
+    model_choices = zip(model, MODELS)
+
+    content_type = forms.IntegerField(
+        required=True,
+        widget=forms.Select(
+            choices=model_choices,
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    class Meta:
+        model = SectionItems
+        fields = [
+            'content_type'
+        ]
+
+
+class UpdateSectionForm(forms.ModelForm):
+    """" form to update brand details """
+
+    CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
+
+    name = forms.CharField(
+        disabled=True,
+        max_length=100,
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.SECTION_NAME},
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Section Name',
+                'class': 'form-control'
+            }
+        )
+    )
+    order = forms.IntegerField(
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.ORDER},
+        widget=forms.Select(
+            choices=CHOICES,
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    class Meta:
+        model = Section
+        fields = [
+            'name', 'is_active', 'order', 'section_file'
         ]

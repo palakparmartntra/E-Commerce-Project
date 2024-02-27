@@ -17,41 +17,36 @@ from openpyxl import load_workbook
 
 
 def home_page(request):
-    """" To redirect user to home page """
+    """" To redirect user to home page and superuser to dashboard """
 
     category = Category.objects.filter(parent=None)
     product = Product.objects.filter(is_active=True, is_deleted=False)
     search = request.GET.get('search')
     if search:
         category = category.filter(name__icontains=search)
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=search)
-        product = product.filter(name__icontains=search)
-
-    return render(request, 'index.html', {'categorydata': category, 'productdata': product})
-
-
-def dashboard(request):
-    """" To redirect admin to dashboard """
-
     if not request.user.is_superuser:
-        raise Http404
+        if request.GET.get('search'):
+            category = category.filter(name__icontains=search)
+            product = product.filter(name__icontains=search)
 
-    banner = Brand.objects.annotate(banner_count=Count("name")).all()
-    categories = Category.objects.annotate(catogory_count=Count("name")).all()
-    brands = Brand.objects.annotate(brands_count=Count("name")).all()
-    products = Product.objects.annotate(product_count=Count("name")).all()
-    heading = AdminPortalHeadings.DASHBOARD
+        return render(request, 'index.html', {'categorydata': category, 'productdata': product})
 
-    context = {
-        "heading": heading,
-        "banner_count": banner,
-        "categories_count": categories,
-        "brands_count": brands,
-        "products_count": products
-    }
+    else:
+        banner = Brand.objects.annotate(banner_count=Count("name")).all()
+        categories = Category.objects.annotate(catogory_count=Count("name")).all()
+        brands = Brand.objects.annotate(brands_count=Count("name")).all()
+        products = Product.objects.annotate(product_count=Count("name")).all()
+        heading = AdminPortalHeadings.DASHBOARD
 
-    return render(request, "product/dashboard.html", context)
+        context = {
+            "heading": heading,
+            "banner_count": banner,
+            "categories_count": categories,
+            "brands_count": brands,
+            "products_count": products
+        }
+
+        return render(request, "product/dashboard.html", context)
 
 
 @login_required
