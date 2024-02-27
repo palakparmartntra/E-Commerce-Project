@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+<body class="view-category">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/category.css' %}" rel="stylesheet">
+<div class="container mt-4">
+ <div class="top">
+    <form method="get" >
+        <div class="search-container">
+            <input type="text" size="60" name="search" placeholder="Search" value="{{ search }}">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+     {% if banner.count < 5 %}
+         <button class="btn-add" onclick="window.location.href='{% url 'add-banner' %}'">Add Banner </button>
+     {% endif %}
+</div>
+
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for banner in banner_data %}
+            <tr>
+                <td>
+                    {% if banner.banner_image %}
+                    <img style="height:100px; width:100px"  src="{{ banner.banner_image.url }}" alt="image">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>{{ banner.banner_name }}</td>
+
+                <td>
+                    <a class="btn" href="{% url 'update-banner' banner.id %}">Edit</a>
+                    <a class="btn-danger" href="{% url 'delete-banner' banner.id %}">Delete</a>
+
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+       <center>
+        {%if banner_data.has_previous %}
+            <a href="?page={{banner_data.previous_page_number}}"><</a>
+        {% endif %}
+        <span>{{banner_data.number}}</span>
+
+        {%if banner_data.has_next %}
+            <a href="?page={{banner_data.next_page_number}}">></a>
+        {% endif %}
+    </center>
+</div>
+{% endblock %}
+

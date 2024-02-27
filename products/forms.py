@@ -1,6 +1,6 @@
 from django import forms
 from .messages import BrandFormErrorMessages, SectionFormErrorMessages
-from .models import Product, Category, Brand, Section, SectionItems, ContentType
+from .models import Product, Category, Brand, Section, SectionItems, ContentType, Banner
 
 
 class AddProductForm(forms.ModelForm):
@@ -103,6 +103,31 @@ class UpdateBrandForm(forms.ModelForm):
         ]
 
 
+class AddBannerForm(forms.ModelForm):
+    """ This form is useful to add banner """
+
+    class Meta:
+        model = Banner
+        fields = ['banner_name', 'banner_image']
+
+        widgets = {
+            'banner_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'banner_image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class UpdateBannerForm(forms.ModelForm):
+    """ This form is useful to update banner"""
+
+    class Meta:
+        model = Banner
+        fields = ['banner_name', 'banner_image', 'is_active']
+
+        widgets = {
+            'banner_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
 class AddSectionForm(forms.ModelForm):
     """" form to update brand details """
 
@@ -142,6 +167,7 @@ class AddSectionForm(forms.ModelForm):
     content_type = forms.ChoiceField(
         choices=CHOICES
     )
+
     class Meta:
         model = Section
         fields = [
