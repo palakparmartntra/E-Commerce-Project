@@ -5,7 +5,7 @@ from .views import (home_page, add_product, update_product, view_product,
                     delete_product, trash_product, soft_delete, restore,
                     add_category, update_category, view_categroy, delete_category,
                     add_brand, update_brands, view_brands, delete_brand, category_data, subcategory_data
-                    , product_data, all_products)
+                    , product_data, all_products, add_banner, update_banner, delete_banner, banner_view)
 
 urlpatterns = [
     path('', home_page, name='homepage'),
@@ -28,7 +28,11 @@ urlpatterns = [
     path('category', category_data, name='category'),
     path('subcategory/<int:pk>/', subcategory_data, name='subcategory'),
     path('product/<int:pk>/', product_data, name='products'),
-    path('allproducts/', all_products, name='all-products')
+    path('allproducts/', all_products, name='all-products'),
+    path('banner/', banner_view, name='banner'),
+    path('addbanner/', add_banner, name='add-banner'),
+    path('update-banner/<int:pk>/', update_banner, name='update-banner'),
+    path('delete-banner/<int:pk>/', delete_banner, name='delete-banner')
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(

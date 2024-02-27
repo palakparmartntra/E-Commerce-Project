@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, Category, Brand
+from .models import Product, Category, Brand, Banner
 from .messages import BrandFormErrorMessages
 
 
@@ -101,3 +101,28 @@ class UpdateBrandForm(forms.ModelForm):
         fields = [
             'name', 'image'
         ]
+
+
+class AddBannerForm(forms.ModelForm):
+    """ This form is useful to add banner """
+
+    class Meta:
+        model = Banner
+        fields = ['banner_name', 'banner_image']
+
+        widgets = {
+            'banner_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'banner_image': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class UpdateBannerForm(forms.ModelForm):
+    """ This form is useful to update banner"""
+
+    class Meta:
+        model = Banner
+        fields = ['banner_name', 'banner_image', 'is_active']
+
+        widgets = {
+            'banner_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }

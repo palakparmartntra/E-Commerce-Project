@@ -1,10 +1,9 @@
-
 from django.db.models import Q, Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
-from .models import Category, Brand, Product,BrandProduct
+from .models import Category, Brand, Product, BrandProduct, Banner
 from .forms import (AddBrandForm, UpdateBrandForm, AddCategoryForm,
-                    AddProductForm, UpdateProductForm )
+                    AddProductForm, UpdateProductForm, AddBannerForm, UpdateBannerForm)
 from django.contrib import messages
 from .messages import BrandFormSuccessMessages, BrandFormErrorMessages
 from .exceptions import CannotDeleteBrandException
@@ -18,15 +17,17 @@ def home_page(request):
 
     category = Category.objects.filter(parent=None)
     product = Product.objects.filter(is_active=True, is_deleted=False)
+    banner_data = Banner.objects.filter(is_active=True)
     search = request.GET.get('search')
     if search:
         category = category.filter(name__icontains=search)
     if not request.user.is_superuser:
-        if request.GET.get('search'):
+        if search:
             category = category.filter(name__icontains=search)
             product = product.filter(name__icontains=search)
 
-        return render(request, 'index.html', {'categorydata': category, 'productdata': product})
+        return render(request, 'index.html', {'categorydata': category, 'productdata': product,
+                                              'banner_data': banner_data})
 
     else:
         banner = Brand.objects.annotate(banner_count=Count("name")).all()
@@ -303,7 +304,7 @@ def delete_category(request, pk):
         return redirect('view-category')
     else:
         return render(request, 'product/category/delete_confirmation.html', {'category': categorydata,
-                                        'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
+                                                                             'heading': AdminPortalHeadings.CATEGORY_DELETE_HEADING})
 
 
 @login_required
@@ -489,3 +490,63 @@ def all_products(request):
     except EmptyPage:
         page_obj = page.page(page.num_pages)
     return render(request, 'user_product/all_product.html', {'productdata': page_obj})
+
+
+@login_required
+def banner_view(request):
+    """ This view is useful to show all banners """
+
+    banner_data = Banner.objects.filter(is_active=True)
+    search = request.GET.get('search')
+    if search is None:
+        search = ""
+    if search:
+        banner_data = banner_data.filter(banner_name__icontains=search)
+    page = Paginator(banner_data, 3)
+    page_number = request.GET.get('page')
+    try:
+        page_obj = page.get_page(page_number)
+    except PageNotAnInteger:
+        page_obj = page.page(1)
+    except EmptyPage:
+        page_obj = page.page(page.num_pages)
+    return render(request, 'product/banner/show_banner.html', {'banner_data': page_obj, 'search': search,
+                                                               'banner': banner_data})
+
+
+@login_required
+def add_banner(request):
+    """ This view is useful to create banner """
+
+    if request.method == "POST":
+        form_data = AddBannerForm(request.POST, request.FILES)
+        if form_data.is_valid():
+            form_data.save()
+        return redirect('banner')
+    form_data = AddBannerForm()
+    return render(request, 'product/banner/add_banner.html', {'form': form_data})
+
+
+@login_required
+def update_banner(request, pk):
+    """This view is useful to update banner"""
+
+    banner_data = Banner.objects.get(id=pk)
+    if request.method == "POST":
+        form_data = UpdateBannerForm(request.POST, request.FILES, instance=banner_data)
+        if form_data.is_valid():
+            form_data.save()
+        return redirect('banner')
+    form_data = UpdateBannerForm(instance=banner_data)
+    return render(request, 'product/banner/update_banner.html', {'form': form_data})
+
+
+@login_required
+def delete_banner(request, pk):
+    """ This view is useful to delete banner """
+
+    banner_data = Banner.objects.get(id=pk)
+    if request.method == "POST":
+        banner_data.delete()
+        return redirect('banner')
+    return render(request, 'product/banner/delete_confirm.html', {'banner': banner_data})
