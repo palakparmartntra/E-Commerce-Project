@@ -20,4 +20,3 @@ class SectionFormErrorMessages:
 class SectionFormSuccessMessages:
     NEW_SECTION_ADDED = "Section added successfully"
     SECTION_UPDATED = "Section updated successfully"
-    SECTION_DELETED = "Section deleted successfully"

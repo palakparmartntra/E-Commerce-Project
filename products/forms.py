@@ -130,7 +130,7 @@ class UpdateBannerForm(forms.ModelForm):
 
 
 class AddSectionForm(forms.ModelForm):
-    """" form to update brand details """
+    """" form to add section details """
 
     CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
 
@@ -189,7 +189,6 @@ class UpdateSectionForm(forms.ModelForm):
     CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
 
     name = forms.CharField(
-        disabled=True,
         max_length=100,
         required=True,
         error_messages={'invalid': SectionFormErrorMessages.SECTION_NAME},

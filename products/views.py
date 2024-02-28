@@ -647,15 +647,19 @@ def add_section(request):
         Section.objects.create(name=name, order=order,
                                section_file=section_file)
 
-        # breakpoint()
-        # if section_form.is_valid():
         uploaded_file = request.FILES['section_file']
         file_content = pd.read_excel(uploaded_file)
+        section_item_object = []
         for index, ids in file_content.iterrows():
-            print(ids, "=========================================")
-            section_items_id = SectionItems(object_id=ids, content_type_id=model_id[0])
-            section_items_id.save()
-        messages.success(request, "ho gaya!")
+            section_item = SectionItems(object_id=ids, content_type_id=model_id[0])
+            section_item_object.append(section_item)
+            section_item.save()
+
+        section_id = Section.objects.values_list('id', flat=True).order_by('-id')[0]
+        last_created_section = Section.objects.get(id=section_id)
+        last_created_section.section_items.add(*section_item_object)
+        last_created_section.save()
+        messages.success(request, SectionFormSuccessMessages.NEW_SECTION_ADDED)
         return redirect('view-section')
 
     section_form = AddSectionForm()
