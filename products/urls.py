@@ -36,8 +36,9 @@ urlpatterns = [
     path('delete-banner/<int:pk>/', delete_banner, name='delete-banner'),
     path('allproducts/', all_products, name='all-products'),
     path('view-section/', view_sections, name='view-section'),
+    path('view-section/<int:pk>/', view_sections, name='update-section-status'),
     path('update-section/<int:pk>/', update_section, name='update-section'),
-    path('add-section/', add_section, name='add-section'),
+    path('add-section/', add_section, name='add-section')
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(

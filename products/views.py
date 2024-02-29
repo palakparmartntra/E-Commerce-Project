@@ -1,10 +1,10 @@
 import pandas as pd
 from django.http import Http404
 from django.contrib import messages
-from django.db.models import Q, Count
 from .headings import AdminPortalHeadings
 from .constants import SectionFormConstants
 from .exceptions import CannotDeleteBrandException
+from django.db.models import Q, Count, F, Case, When
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect, get_object_or_404
@@ -564,13 +564,14 @@ def delete_banner(request, pk):
 
 
 @login_required
-def view_sections(request):
+def view_sections(request, pk=None):
     """ to display all the sections """
 
     if not request.user.is_superuser:
         raise Http404
 
     sections = Section.objects.all().order_by('order')
+
     search = request.GET.get('search')
     if search is None:
         search = ""
@@ -599,7 +600,14 @@ def view_sections(request):
 
 @login_required
 def update_section(request, pk):
-    """ To update section details """
+    """
+    To update section details:
+
+    It updates Section Name, Order and File Uploaded
+    Reads old file and new file uploaded in the section item related to section, compares them both
+    Deletes the section items not present in file, ignores already created ones and creates remaining one
+
+    """
 
     if not request.user.is_superuser:
         raise Http404
@@ -607,11 +615,51 @@ def update_section(request, pk):
     context = {}
 
     selected_section = get_object_or_404(Section, id=pk)
+
+    # To fetch
+    content_type_model = Section.objects.get(id=pk).section_items.values_list('content_type', flat=True).first()
+    model = ContentType.objects.values_list('model', flat=True).get(id=content_type_model)
+
     if request.method == "POST":
         section_form = UpdateSectionForm(
             request.POST, request.FILES, instance=selected_section
         )
+        selected_file = selected_section.section_file
+        file_content = pd.read_excel(selected_file)
+        old_data_list = []
+        for old_data in file_content.values:
+            old_data_list.append(*old_data)
+
         if section_form.is_valid():
+            if request.FILES:
+
+                # To read the previously uploaded Excel file and create a list of ids in file
+
+                uploaded_file = request.FILES['section_file']
+                update_data = pd.read_excel(uploaded_file)
+                new_data_list = []
+                for new_data in update_data.values:
+                    new_data_list.append(*new_data)
+
+            old_data_set = set(old_data_list)
+            new_data_set = set(new_data_list)
+            breakpoint()
+            to_delete_data = list(old_data_set.difference(new_data_set))
+            to_create_data = list(new_data_set.difference(old_data_set))
+
+            section_item_to_delete = SectionItems.objects.filter(object_id__in=to_delete_data)
+            section_item_to_delete.delete()
+
+            section_item_list = []
+            for create_data in to_create_data:
+                section_item = SectionItems(object_id=create_data, content_type_id=content_type_model)
+                print(section_item)
+                section_item_list.append(section_item)
+                section_item.save()
+            section_id = Section.objects.values_list('id', flat=True).order_by('-id')[0]
+            last_created_section = Section.objects.get(id=section_id)
+            last_created_section.section_items.add(*section_item_list)
+
             section_form.save()
             messages.success(request, SectionFormSuccessMessages.SECTION_UPDATED)
         return redirect('view-section')
@@ -620,7 +668,8 @@ def update_section(request, pk):
 
     context = {
         "form": section_form,
-        "heading": AdminPortalHeadings.UPDATE_SECTIONS
+        "heading": AdminPortalHeadings.UPDATE_SECTIONS,
+        "model": model
     }
     return render(request, "section/update_section.html", context)
 
@@ -643,7 +692,6 @@ def add_section(request):
         model_id = ContentType.objects.values_list(
             'id', flat=True
         ).filter(app_label=SectionFormConstants.APP_LABEL, model=model)
-
         Section.objects.create(name=name, order=order,
                                section_file=section_file)
 

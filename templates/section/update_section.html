@@ -9,6 +9,11 @@
       <div class="row">
         <div class="col-md-6">
           {{ form.as_p }}
+          <p>
+            <label for="id_content_type">Choose Type: </label>
+            <input type="text" name="content_type" class="form-control" id="id_content_type"
+                   value="{{ model }}" disabled>
+          </p>
           <br><input class="btn" type="submit" value="Update">
           <a href= "{% url 'view-section' %}" style="margin-left:20px" class="btn">Cancel</a>
         </div>
