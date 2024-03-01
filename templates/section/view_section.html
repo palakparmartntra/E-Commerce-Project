@@ -42,8 +42,10 @@
             <td>{{ section.order }}</td>
             <td>
                 <label class="switch">
+                  <a href="{% url 'update-section-status' section.id %}">
                   <input type="checkbox" id="status" name="status" {% if section.is_active %}checked {% endif %}>
                   <span class="slider round"></span>
+                  </a>
                 </label>
             </td>
             <td>

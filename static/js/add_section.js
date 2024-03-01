@@ -1,4 +1,4 @@
-$("#add-brand").validate({
+$("#add-section").validate({
     rules: {
         name: {
             required:true
