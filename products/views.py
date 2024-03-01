@@ -683,14 +683,12 @@ def add_section(request):
         uploaded_file = request.FILES['section_file']
         file_extension = uploaded_file.name.split(".")
         try:
-            if file_extension not in SectionFormConstants.valid_extensions:
+            if file_extension[1] not in SectionFormConstants.valid_extensions:
                 raise InvalidFileTypeException
         except InvalidFileTypeException:
             messages.error(request, SectionFormErrorMessages.INVALID_FILE_TYPE)
-        return redirect(to='add-section')
+            return redirect(to='add-section')
 
-
-        breakpoint()
         file_content = pd.read_excel(uploaded_file)
         section_item_object = []
         for index, ids in file_content.iterrows():
