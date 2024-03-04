@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
+from accounts.models import User
 
 
 class Category(models.Model):
@@ -72,7 +73,7 @@ class Section(models.Model):
     order = models.PositiveIntegerField()
     is_active = models.BooleanField(default=True)
     section_items = models.ManyToManyField(SectionItems, through='SectionSectionItemsThrough')
-    section_file = models.FileField(upload_to='media/section_files/', null=True, blank=True)
+    section_file = models.FileField(upload_to='media/section_files/', null=True)
 
     def __str__(self):
         return f'{self.name} - priority: {self.order}'
@@ -102,3 +103,13 @@ class Banner(models.Model):
 
     def __str__(self):
         return f'{self.banner_name}'
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user} {self.product}'
+
+
