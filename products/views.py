@@ -1,4 +1,5 @@
 import pandas as pd
+import openpyxl
 from django.http import Http404
 from django.contrib import messages
 from django.db.models import Q, Count
@@ -6,7 +7,6 @@ from .headings import AdminPortalHeadings
 from .constants import SectionFormConstants
 from .exceptions import CannotDeleteBrandException
 from django.contrib.auth.decorators import login_required
-from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import (Category, Brand, Product, BrandProduct, Banner,
                      Section, SectionItems)
@@ -16,23 +16,34 @@ from .forms import (AddBrandForm, UpdateBrandForm, AddCategoryForm,
 from .messages import (BrandFormSuccessMessages, BrandFormErrorMessages,
                        SectionFormSuccessMessages)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.contenttypes.models import ContentType
 
 
 def home_page(request):
     """" To redirect user to home page """
 
-    category = Category.objects.filter(parent=None)
-    product = Product.objects.filter(is_active=True, is_deleted=False)
     banner_data = Banner.objects.filter(is_active=True)
+    category_data = Category.objects.all()
+    section_data = Section.objects.filter(is_active=True)
+    section_items_list = []
+    section_name_list = []
+    section_zip = zip(section_name_list,section_items_list)
+    for section in section_data:
+        section_content_type = section.section_items.values_list('content_type__model', flat=True).distinct()
+        content_type = ContentType.objects.get(model=section_content_type[0])
+        model = content_type.model_class()
+        all_id = section.section_items.values_list('object_id', flat=True)
+        section_items = model.objects.filter(id__in=all_id)
+        section_name = section.name
+        section_name_list.append(section_name)
+        section_items_list.append(section_items)
+
     search = request.GET.get('search')
     if search:
-        category = category.filter(name__icontains=search)
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=search)
-        product = product.filter(name__icontains=search)
-
-    return render(request, 'index.html', {'categorydata': category, 'productdata': product,
-                                          'banner_data': banner_data})
+        section_data = section_data.filter(name__icontains=search)
+    return render(request, 'index.html', {'section_data': section_data, 'banner_data': banner_data,
+                                          'section_items_list': section_items_list,'section_name':section_name_list,
+                                          'section_zip':section_zip, 'category_data': category_data})
 
 
 def dashboard(request):
@@ -607,11 +618,48 @@ def update_section(request, pk):
     context = {}
 
     selected_section = get_object_or_404(Section, id=pk)
+    selected_file = selected_section.section_file
+    file_content = pd.read_excel(selected_file)
+    old_data_list = []
+    for old_data in file_content.values:
+        old_data_list.append(*(old_data))
+
     if request.method == "POST":
         section_form = UpdateSectionForm(
             request.POST, request.FILES, instance=selected_section
         )
+        model = request.POST.get('content_type')
+        model_id = ContentType.objects.values_list(
+            'id', flat=True
+        ).filter(app_label=SectionFormConstants.APP_LABEL, model=model)
         if section_form.is_valid():
+            if request.FILES:
+                uploaded_file = request.FILES['section_file']
+                update_data = pd.read_excel(uploaded_file)
+                new_data_list = []
+                for new_data in update_data.values:
+                    new_data_list.append(*(new_data))
+
+            old_data_set = set(old_data_list)
+            new_data_set = set(new_data_list)
+            to_delete_data = list(old_data_set.difference(new_data_set))
+            to_create_data = list(new_data_set.difference(old_data_set))
+            print(to_delete_data, '+++++++++++++++++++++++++++')
+            print(to_create_data, '------------------------------')
+
+            section_item_to_delete = Section.objects.filter(id__in=to_delete_data)
+            section_item_to_delete.delete()
+
+            static = Section.objects.filter(id=5)
+
+            section_item_list = []
+            for create_data in to_create_data:
+                section_item = SectionItems(object_id=create_data, content_type_id=model_id[0])
+                section_item_list.append(section_item)
+            section_id = Section.objects.values_list('id', flat=True).order_by('-id')[0]
+            last_created_section = Section.objects.get(id=section_id)
+            last_created_section.section_items.add(*section_item_list)
+
             section_form.save()
             messages.success(request, SectionFormSuccessMessages.SECTION_UPDATED)
         return redirect('view-section')
@@ -640,10 +688,7 @@ def add_section(request):
         section_file = request.FILES.get('section_file')
         model = request.POST.get('content_type')
 
-        model_id = ContentType.objects.values_list(
-            'id', flat=True
-        ).filter(app_label=SectionFormConstants.APP_LABEL, model=model)
-
+        model_instance = ContentType.objects.get(app_label=SectionFormConstants.APP_LABEL, model=model)
         Section.objects.create(name=name, order=order,
                                section_file=section_file)
 
@@ -651,7 +696,7 @@ def add_section(request):
         file_content = pd.read_excel(uploaded_file)
         section_item_object = []
         for index, ids in file_content.iterrows():
-            section_item = SectionItems(object_id=ids, content_type_id=model_id[0])
+            section_item = SectionItems(object_id=ids, content_type=model_instance)
             section_item_object.append(section_item)
             section_item.save()
 
@@ -668,3 +713,20 @@ def add_section(request):
         "heading": AdminPortalHeadings.ADD_SECTION
     }
     return render(request, "section/add_section.html", context)
+
+
+# @view_sections
+def toggle_button(request, pk):
+    breakpoint()
+    section = get_object_or_404(Section, id=pk)
+    print(section)
+    status = "status" + pk
+    print(status)
+    if request.method == "POST":
+        toggle_button = request.POST.get('')
+        print(toggle_button)
+        if toggle_button == 'checked':
+            section.is_active = True
+        else:
+            section.is_active = False
+    return render(request, 'section/view_section.html')

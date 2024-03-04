@@ -1,14 +1,21 @@
 {% extends 'base/admin_header.html' %}
 {% load static %}
 {% block content %}
+<style xmlns="http://www.w3.org/1999/html">
+  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+  .toggle.ios .toggle-handle { border-radius: 20px; }
+</style>
+
 
 <body>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 <link href="{% static 'lib/slick/slick.css' %}" rel="stylesheet">
 <link href="{% static 'lib/slick/slick-theme.css'%}" rel="stylesheet">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <link href="{% static 'css/style.css' %}" rel="stylesheet">
 <link href="{% static 'css/brand.css' %}" rel="stylesheet">
+<link href="{% static 'css/section.css' %}" rel="stylesheet">
 <div class="container mt-4">
     <div class="top">
     <form method="get" >
@@ -35,15 +42,26 @@
         <tr>
             <td>{{ section.name }}</td>
             <td>{{ section.order }}</td>
-            <td>{{ section.is_active }}</td>
+            <td>{{section.section_items.content_type}}</td>
+
+            <td>
+                <label class="switch">
+                  <input type="checkbox" id="status"  value="{{section.is_active}}" name="{{section.id}}"
+                         {% if section.is_active %}checked {% endif %}>
+                  <span class="slider round"></span>
+                </label>
+            </td>
             <td>
                 <a class="btn" href="{% url 'update-section' section.id %}">Edit</a>
             </td>
         </tr>
-        {% endfor %}
 
+
+{% endfor %}
     </tbody>
 </table>
+sdcswsd
+
 <center>
     {%if page_obj.has_previous %}
         <a href="?page={{page_obj.previous_page_number}}"><</a>
@@ -55,5 +73,16 @@
     {% endif %}
 </center>
 <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+  // Change the value of the checkbox to true
+  console.log('------------------------')
+  $("#status").prop("checked", true);
+});
+</script>
+
 
 {% endblock %}
