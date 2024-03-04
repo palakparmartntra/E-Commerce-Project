@@ -3,6 +3,8 @@
 {% load static %}
 {% block content %}
 
+<link href="{% static 'css/item_card.css' %}" rel="stylesheet">
+
 <div class="header">
     <div class="container-fluid">
         <div class="row">
@@ -113,53 +115,49 @@
 
 <!-- Section -->
 
-     <div class="recent-product product">
-        <div class="container-fluid">
+<div class="recent-product product">
+    <div class="container-fluid">
      {% for section_name , section_items in section_zip %}
-              {% if section_items %}
-            <div class="section-header">
-                <h1>
-                    {{section_name}}
-                </h1>
-
-            </div>
-            <div class="row align-items-center product-slider product-slider-4">
-            {% for product in section_items %}
-                <div class="col-lg-6">
-                    <div class="product-item">
-                        <div class="product-title">
-                            <a href="#">{{product.name}}</a>
+          {% if section_items %}
+        <div class="section-header">
+            <h1>
+                {{section_name}}
+            </h1>
+        </div>
+        <div class="row align-items-center product-slider product-slider-4">
+        {% for product in section_items %}
+            <div class="col-lg-6">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="#">{{product.name}}</a>
+                    </div>
+                    <div class="product-image">
+                        <a href="product-detail.html">
+                              {% if product.image %}
+                <img style="width:320px; height:350px;"  src="{{ product.image.url }}" alt="image">
+                {% else %}
+                No Image
+                {% endif %}
+                        </a>
+                        {% if product.price %}
+                        <div class="product-action">
+                            <a href="#"><i class="fa fa-cart-plus"></i></a>
                         </div>
-                        <div class="product-image">
-                            <a href="product-detail.html">
-                                  {% if product.image %}
-                    <img style="width:320px; height:350px;"  src="{{ product.image.url }}" alt="image">
-                    {% else %}
-                    No Image
-                    {% endif %}
-                            </a>
-                            {% if product.price %}
-                            <div class="product-action">
-                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-price">
-                            <h3><span>₹</span>{{product.price}}</h3>
-                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
-                            {% endif %}
-                        </div>
-
+                    </div>
+                    <div class="product-price">
+                        <h3><span>₹</span>{{product.price}}</h3>
+                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                        {% endif %}
                     </div>
 
                 </div>
-
-                {% endfor %}
             </div>
-        </div>
-     </div>
-    {% endif %}
+
             {% endfor %}
- <div class="featured-product product">
-<div>
+        </div>
+     {% endif %}
+     {% endfor %}
+    </div>
 </div>
- {% endblock %}
+
+{% endblock %}
