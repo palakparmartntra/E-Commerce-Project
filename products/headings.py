@@ -23,3 +23,7 @@ class AdminPortalHeadings:
     SECTIONS = 'Section'
     UPDATE_SECTIONS = 'Update Sections'
     ADD_SECTION = 'Add Section'
+    ALL_BANNER = 'Banner'
+    ADD_BANNER = 'Add Banner'
+    UPDATE_BANNER = 'Update Banner'
+    DELETE_BANNER = 'Delete Banner'

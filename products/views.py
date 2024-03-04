@@ -495,6 +495,7 @@ def banner_view(request):
     """ This view is useful to show all banners """
 
     banner_data = Banner.objects.filter(is_active=True)
+    heading = AdminPortalHeadings.ALL_BANNER
     search = request.GET.get('search', "")
     if search:
         banner_data = banner_data.filter(banner_name__icontains=search)
@@ -508,7 +509,8 @@ def banner_view(request):
     except EmptyPage:
         page_obj = page.page(page.num_pages)
     return render(request, 'product/banner/show_banner.html', {'banner_data': page_obj, 'search': search,
-                                                               'banner': banner_data})
+                                                               'banner': banner_data,
+                                                               'heading': heading})
 
 
 @login_required
@@ -516,13 +518,14 @@ def banner_view(request):
 def add_banner(request):
     """ This view is useful to create banner """
 
+    heading = AdminPortalHeadings.ADD_BANNER
     if request.method == "POST":
         form_data = AddBannerForm(request.POST, request.FILES)
         if form_data.is_valid():
             form_data.save()
         return redirect('banner')
     form_data = AddBannerForm()
-    return render(request, 'product/banner/add_banner.html', {'form': form_data})
+    return render(request, 'product/banner/add_banner.html', {'form': form_data, 'heading': heading})
 
 
 @login_required
@@ -531,13 +534,14 @@ def update_banner(request, pk):
     """This view is useful to update banner"""
 
     banner_data = get_object_or_404(Banner, id=pk)
+    heading = AdminPortalHeadings.UPDATE_BANNER
     if request.method == "POST":
         form_data = UpdateBannerForm(request.POST, request.FILES, instance=banner_data)
         if form_data.is_valid():
             form_data.save()
         return redirect('banner')
     form_data = UpdateBannerForm(instance=banner_data)
-    return render(request, 'product/banner/update_banner.html', {'form': form_data})
+    return render(request, 'product/banner/update_banner.html', {'form': form_data, 'heading': heading})
 
 
 @login_required
@@ -546,10 +550,12 @@ def delete_banner(request, pk):
     """ This view is useful to delete banner """
 
     banner_data = Banner.objects.get(id=pk)
+    heading = AdminPortalHeadings.DELETE_BANNER
     if request.method == "POST":
         banner_data.delete()
         return redirect('banner')
-    return render(request, 'product/banner/delete_confirm.html', {'banner': banner_data})
+    return render(request, 'product/banner/delete_confirm.html', {'banner': banner_data,
+                                                                  'heading': heading})
 
 
 @login_required

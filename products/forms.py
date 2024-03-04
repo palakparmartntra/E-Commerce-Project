@@ -167,6 +167,7 @@ class AddSectionForm(forms.ModelForm):
     )
 
     content_type = forms.IntegerField(
+        label='Choose Type',
         required=True,
         widget=forms.Select(
             choices=SectionFormConstants.MODELS,
