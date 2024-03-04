@@ -9,45 +9,65 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-3 mb-4">
+        <div class="col-lg-4 mb-4">
+            <a href="{% url 'banner' %}">
             <div class="card">
                 <div class="card-body">
-                    <div class="dashboard-card"> 0 </div>
+                    <div class="dashboard-card">{{ banner_count }}</div>
                     <p class="card-text">
                         Banner
                     </p>
                 </div>
             </div>
+            </a>
         </div>
-        <div class="col-lg-3 mb-4">
+        <div class="col-lg-4 mb-4">
+            <a href="{% url 'view-category' %}">
             <div class="card">
                 <div class="card-body">
-                    <div class="dashboard-card">{{ categories_count.count }}</div>
+                    <div class="dashboard-card">{{ category_count }}</div>
                     <p class="card-text">
                         Categories
                     </p>
                 </div>
             </div>
+            </a>
         </div>
-        <div class="col-lg-3 mb-4">
+        <div class="col-lg-4 mb-4">
+            <a href="{% url 'view-brand' %}">
             <div class="card">
                 <div class="card-body">
-                    <div class="dashboard-card">{{ brands_count.count }}</div>
+                    <div class="dashboard-card">{{ banner_count }}</div>
                     <p class="card-text">
                         Brands
                     </p>
                 </div>
             </div>
+            </a>
         </div>
-        <div class="col-lg-3 mb-4">
+        <div class="col-lg-4 mb-4">
+            <a href="{% url 'view-product' %}">
             <div class="card">
                 <div class="card-body">
-                    <div class="dashboard-card">{{ products_count.count }}</div>
+                    <div class="dashboard-card">{{ product_count }}</div>
                     <p class="card-text">
                         Products
                     </p>
                 </div>
             </div>
+            </a>
+        </div>
+        <div class="col-lg-4 mb-4">
+            <a href="{% url 'view-section' %}" class="card-href">
+            <div class="card">
+                <div class="card-body">
+                    <div class="dashboard-card">{{ section_count }}</div>
+                    <p class="card-text">
+                        Sections
+                    </p>
+                </div>
+            </div>
+            </a>
         </div>
     </div>
 </div>

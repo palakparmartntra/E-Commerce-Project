@@ -5,18 +5,18 @@ from .models import (Product, Category, Brand, BrandProduct,
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'quantity',
+    list_display = ('id', 'name', 'description', 'quantity',
                     'price', 'image', 'category', 'is_active', 'is_deleted')
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image', 'parent')
+    list_display = ('id', 'name', 'image', 'parent')
 
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ('name', 'image')
+    list_display = ('id', 'name', 'image')
 
 
 @admin.register(BrandProduct)
@@ -26,12 +26,12 @@ class BrandProductAdmin(admin.ModelAdmin):
 
 @admin.register(SectionItems)
 class SectionItemsAdmin(admin.ModelAdmin):
-    list_display = ('content_type', 'object_id', 'content_object')
+    list_display = ('id', 'content_type', 'object_id', 'content_object')
 
 
 @admin.register(SectionSectionItemsThrough)
 class SectionSectionItemsThroughAdmin(admin.ModelAdmin):
-    list_display = ('section_items', 'section')
+    list_display = ('id', 'section_items', 'section')
 
 
 @admin.register(Banner)
@@ -46,7 +46,7 @@ class SectionItemsInline(admin.TabularInline):
 
 @admin.register(Section)
 class SectionAdmin(admin.ModelAdmin):
-    list_display = ('name', 'order', 'is_active', 'section_file')
+    list_display = ('id', 'name', 'order', 'is_active', 'section_file')
     inlines = (SectionItemsInline,)
 
 

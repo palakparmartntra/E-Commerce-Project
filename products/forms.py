@@ -1,6 +1,7 @@
 from django import forms
-from .models import Product, Category, Brand, Banner
-from .messages import BrandFormErrorMessages
+from .constants import SectionFormConstants
+from .messages import BrandFormErrorMessages, SectionFormErrorMessages
+from .models import Product, Category, Brand, Section, SectionItems, Banner
 
 
 class AddProductForm(forms.ModelForm):
@@ -126,3 +127,94 @@ class UpdateBannerForm(forms.ModelForm):
         widgets = {
             'banner_name': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class AddSectionForm(forms.ModelForm):
+    """" form to add section details """
+
+    CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
+
+    name = forms.CharField(
+        max_length=40,
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.SECTION_NAME},
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Section Name',
+                'class': 'form-control'
+            }
+        )
+    )
+
+    order = forms.IntegerField(
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.ORDER},
+        widget=forms.Select(
+            choices=CHOICES,
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    section_file = forms.FileField(
+        required=True,
+        widget=forms.FileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    content_type = forms.IntegerField(
+        label='Choose Type',
+        required=True,
+        widget=forms.Select(
+            choices=SectionFormConstants.MODELS,
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    class Meta:
+        model = Section
+        fields = [
+            'name', 'order', 'section_file'
+        ]
+
+
+class UpdateSectionForm(forms.ModelForm):
+    """" form to update section details """
+
+    CHOICES = (('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'),)
+
+    name = forms.CharField(
+        max_length=100,
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.SECTION_NAME},
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Section Name',
+                'class': 'form-control'
+            }
+        )
+    )
+
+    order = forms.IntegerField(
+        label="Priority",
+        required=True,
+        error_messages={'invalid': SectionFormErrorMessages.ORDER},
+        widget=forms.Select(
+            choices=CHOICES,
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
+
+    class Meta:
+        model = Section
+        fields = [
+            'name', 'order', 'section_file'
+        ]
