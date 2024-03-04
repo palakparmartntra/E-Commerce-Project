@@ -109,7 +109,7 @@ class Cart(models.Model):
     """this model is useful to add products into cart """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
