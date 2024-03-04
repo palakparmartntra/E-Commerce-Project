@@ -1,11 +1,11 @@
 import pandas as pd
-import openpyxl
+from functools import wraps
+from django.db.models import Q
 from django.http import Http404
 from django.contrib import messages
-from django.db.models import Q, Count
 from .headings import AdminPortalHeadings
 from .constants import SectionFormConstants
-from .exceptions import CannotDeleteBrandException
+from .exceptions import CannotDeleteBrandException, InvalidFileTypeException
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import (Category, Brand, Product, BrandProduct, Banner,
@@ -14,9 +14,19 @@ from .forms import (AddBrandForm, UpdateBrandForm, AddCategoryForm,
                     AddProductForm, UpdateProductForm, AddBannerForm,
                     UpdateBannerForm, UpdateSectionForm, AddSectionForm)
 from .messages import (BrandFormSuccessMessages, BrandFormErrorMessages,
-                       SectionFormSuccessMessages)
+                       SectionFormSuccessMessages, SectionFormErrorMessages)
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.contenttypes.models import ContentType
+
+
+def superuser_required(view_func):
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise Http404
+        return view_func(request, *args, **kwargs)
+
+    return _wrapped_view
 
 
 def home_page(request):
@@ -27,7 +37,7 @@ def home_page(request):
     section_data = Section.objects.filter(is_active=True)
     section_items_list = []
     section_name_list = []
-    section_zip = zip(section_name_list,section_items_list)
+    section_zip = zip(section_name_list, section_items_list)
     for section in section_data:
         section_content_type = section.section_items.values_list('content_type__model', flat=True).distinct()
         content_type = ContentType.objects.get(model=section_content_type[0])
@@ -42,39 +52,37 @@ def home_page(request):
     if search:
         section_data = section_data.filter(name__icontains=search)
     return render(request, 'index.html', {'section_data': section_data, 'banner_data': banner_data,
-                                          'section_items_list': section_items_list,'section_name':section_name_list,
-                                          'section_zip':section_zip, 'category_data': category_data})
+                                          'section_zip': section_zip, 'category_data': category_data})
 
 
+@login_required
+@superuser_required
 def dashboard(request):
     """" To redirect admin to dashboard """
 
-    if not request.user.is_superuser:
-        raise Http404
-
-    banner = Banner.objects.annotate(banner_count=Count("banner_name")).all()
-    categories = Category.objects.annotate(catogory_count=Count("name")).all()
-    brands = Brand.objects.annotate(brands_count=Count("name")).all()
-    products = Product.objects.annotate(product_count=Count("name")).all()
+    banner_count = Banner.objects.all().count()
+    category_count = Category.objects.all().count()
+    brand_count = Brand.objects.all().count()
+    product_count = Product.objects.all().count()
+    section_count = Section.objects.all().count()
     heading = AdminPortalHeadings.DASHBOARD
 
     context = {
         "heading": heading,
-        "banner_count": banner,
-        "categories_count": categories,
-        "brands_count": brands,
-        "products_count": products
+        "banner_count": banner_count,
+        "category_count": category_count,
+        "brand_count": brand_count,
+        "product_count": product_count,
+        "section_count": section_count
     }
 
     return render(request, "product/dashboard.html", context)
 
 
 @login_required
+@superuser_required
 def add_product(request):
     """ this view is useful to add products """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     context = {}
     if request.method == "POST":
@@ -95,11 +103,9 @@ def add_product(request):
 
 
 @login_required
+@superuser_required
 def update_product(request, pk):
     """ this view is useful for update product product """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
@@ -126,24 +132,18 @@ def update_product(request, pk):
 
 
 @login_required
+@superuser_required
 def view_product(request):
     """ this view is useful to display all product """
 
-    if not request.user.is_superuser:
-        raise Http404
     product = Product.objects.filter(is_deleted=False)
-    if request.GET.get('search'):
-        product = product.filter(name__icontains=request.GET.get('search'))
 
-    search = request.GET.get('search')
-    if search is None:
-        search = ""
+    search = request.GET.get('search', "")
     if search:
-        if search is not None:
-            product = product.filter(Q(name__icontains=search) | Q(category__name__icontains=search)
-                                     | Q(brand__name__icontains=search))
-        else:
-            product = product.all()
+        product = product.filter(
+            Q(name__icontains=search) | Q(category__name__icontains=search)
+            | Q(brand__name__icontains=search)
+        )
 
     page = Paginator(product, 3)
     page_number = request.GET.get('page')
@@ -160,11 +160,9 @@ def view_product(request):
 
 
 @login_required
+@superuser_required
 def delete_product(request, pk):
     """ this view is useful to delete product """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     product = Product.objects.get(id=pk)
     if request.method == "POST":
@@ -176,21 +174,17 @@ def delete_product(request, pk):
 
 
 @login_required
+@superuser_required
 def trash_product(request):
     """ this view is useful to view all trash products """
 
-    if not request.user.is_superuser:
-        raise Http404
-
     product = Product.objects.filter(is_deleted=True)
-    search = request.GET.get('search')
-    if search is None:
-        search = ""
+    search = request.GET.get('search', "")
     if search:
-        product = product.filter(Q(name__icontains=search) | Q(brand__name__icontains=search)
-                                 | Q(category__name__icontains=search))
-    else:
-        product = product
+        product = product.filter(
+            Q(name__icontains=search) | Q(brand__name__icontains=search)
+            | Q(category__name__icontains=search)
+        )
 
     page = Paginator(product, 3)
     page_number = request.GET.get('page')
@@ -206,11 +200,9 @@ def trash_product(request):
 
 
 @login_required
+@superuser_required
 def soft_delete(request, pk):
     """ this view is useful to for soft delete and product goes to trash """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     product = Product.objects.get(id=pk)
     product.is_deleted = True
@@ -220,6 +212,7 @@ def soft_delete(request, pk):
 
 
 @login_required
+@superuser_required
 def restore(request, pk):
     """ this view is useful to restore product from trash """
 
@@ -234,11 +227,9 @@ def restore(request, pk):
 
 
 @login_required
+@superuser_required
 def add_category(request):
     """ this view is useful to add category """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     context = {}
     if request.method == "POST":
@@ -255,11 +246,9 @@ def add_category(request):
 
 
 @login_required
+@superuser_required
 def update_category(request, pk):
     """ this view is useful for update product category """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     context = {}
     category_instance = get_object_or_404(Category, pk=pk)
@@ -277,21 +266,15 @@ def update_category(request, pk):
 
 
 @login_required
+@superuser_required
 def view_categroy(request):
     """ this view is useful to display all categories """
 
-    if not request.user.is_superuser:
-        raise Http404
-
     category = Category.objects.all()
-    search = request.GET.get('search')
-    if search is None:
-        search = ""
+    search = request.GET.get('search', "")
     if search:
-        if search is not None:
-            category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
-        else:
-            category = category.all()
+        category = category.filter(Q(name__icontains=search) | Q(parent__name__icontains=search))
+
     page = Paginator(category, 3)
     page_number = request.GET.get('page')
     try:
@@ -306,11 +289,9 @@ def view_categroy(request):
 
 
 @login_required
+@superuser_required
 def delete_category(request, pk):
     """ this view is useful to delete category """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     categorydata = get_object_or_404(Category, pk=pk)
     if request.method == "POST":
@@ -330,13 +311,10 @@ def delete_category(request, pk):
 
 
 @login_required
+@superuser_required
 def add_brand(request):
     """ To add a new brand in brand model """
 
-    if not request.user.is_superuser:
-        raise Http404
-
-    context = {}
     if request.method == "POST":
         brand = AddBrandForm(request.POST, request.FILES)
         if brand.is_valid():
@@ -354,13 +332,9 @@ def add_brand(request):
 
 
 @login_required
+@superuser_required
 def update_brands(request, pk):
     """ To update brand details """
-
-    if not request.user.is_superuser:
-        raise Http404
-
-    context = {}
 
     selected_brand = get_object_or_404(Brand, id=pk)
     if request.method == "POST":
@@ -383,16 +357,12 @@ def update_brands(request, pk):
 
 
 @login_required
+@superuser_required
 def view_brands(request):
     """ To display all brands """
 
-    if not request.user.is_superuser:
-        raise Http404
-
     brand = Brand.objects.all()
-    search = request.GET.get('search')
-    if search is None:
-        search = ""
+    search = request.GET.get('search', "")
     if search:
         brand = brand.filter(name__icontains=search)
     else:
@@ -416,11 +386,9 @@ def view_brands(request):
 
 
 @login_required
+@superuser_required
 def delete_brand(request, pk):
     """ To delete a brand from model """
-
-    if not request.user.is_superuser:
-        raise Http404
 
     brand = Brand.objects.get(id=pk)
     heading = AdminPortalHeadings.DELETE_BRAND
@@ -446,8 +414,9 @@ def category_data(request):
     """" To Display all category data """
 
     category = Category.objects.filter(parent=None)
-    if request.GET.get('search'):
-        category = category.filter(name__icontains=request.GET.get('search'))
+    search = request.GET.get('search', "")
+    if search:
+        category = category.filter(name__icontains=search)
     page = Paginator(category, 10)
     page_number = request.GET.get('page')
     try:
@@ -465,8 +434,10 @@ def subcategory_data(request, pk):
 
     id_parent = get_object_or_404(Category, pk=pk)
     subcategory = Category.objects.filter(parent=id_parent.pk)
-    if request.GET.get('search'):
-        subcategory = subcategory.filter(name__icontains=request.GET.get('search'))
+    search = request.GET.get('search', "")
+    if search:
+        subcategory = subcategory.filter(name__icontains=search)
+
     page = Paginator(subcategory, 10)
     page_number = request.GET.get('page')
     try:
@@ -483,8 +454,10 @@ def product_data(request, pk):
 
     id_parent = get_object_or_404(Category, pk=pk)
     product = Product.objects.filter(category=id_parent.id, is_active=True, is_deleted=False)
-    if request.GET.get('search'):
-        product = product.filter(name__icontains=request.GET.get('search'))
+    search = request.GET.get('search', "")
+    if search:
+        product = product.filter(name__icontains=search)
+
     page = Paginator(product, 10)
     page_number = request.GET.get('page')
     try:
@@ -501,8 +474,10 @@ def all_products(request):
     """ to display all the Products """
 
     product = Product.objects.filter(is_active=True, is_deleted=False)
-    if request.GET.get('search'):
-        product = product.filter(name__icontains=request.GET.get('search'))
+    search = request.GET.get('search', "")
+    if search:
+        product = product.filter(name__icontains=search)
+
     page = Paginator(product, 10)
     page_number = request.GET.get('page')
     try:
@@ -515,15 +490,15 @@ def all_products(request):
 
 
 @login_required
+@superuser_required
 def banner_view(request):
     """ This view is useful to show all banners """
 
     banner_data = Banner.objects.filter(is_active=True)
-    search = request.GET.get('search')
-    if search is None:
-        search = ""
+    search = request.GET.get('search', "")
     if search:
         banner_data = banner_data.filter(banner_name__icontains=search)
+
     page = Paginator(banner_data, 3)
     page_number = request.GET.get('page')
     try:
@@ -537,6 +512,7 @@ def banner_view(request):
 
 
 @login_required
+@superuser_required
 def add_banner(request):
     """ This view is useful to create banner """
 
@@ -550,6 +526,7 @@ def add_banner(request):
 
 
 @login_required
+@superuser_required
 def update_banner(request, pk):
     """This view is useful to update banner"""
 
@@ -564,6 +541,7 @@ def update_banner(request, pk):
 
 
 @login_required
+@superuser_required
 def delete_banner(request, pk):
     """ This view is useful to delete banner """
 
@@ -575,21 +553,18 @@ def delete_banner(request, pk):
 
 
 @login_required
-def view_sections(request):
+@superuser_required
+def view_sections(request, pk=None):
     """ to display all the sections """
 
-    if not request.user.is_superuser:
-        raise Http404
+    sections = Section.objects.all().order_by('name')
 
-    sections = Section.objects.all().order_by('order')
-    search = request.GET.get('search')
-    if search is None:
-        search = ""
+    search = request.GET.get('search', "")
     if search:
-        sections = Section.objects.filter(Q(name__icontains=search) | Q(order__icontains=search)
-                                          | Q(is_active__icontains=search))
-    else:
-        sections = sections
+        sections = sections.filter(
+            Q(name__icontains=search) | Q(order__icontains=search)
+            | Q(is_active__icontains=search)
+        )
 
     page = Paginator(sections, 3)
     page_number = request.GET.get('page')
@@ -609,104 +584,142 @@ def view_sections(request):
 
 
 @login_required
+@superuser_required
 def update_section(request, pk):
-    """ To update section details """
+    """
+    To update section details:
 
-    if not request.user.is_superuser:
-        raise Http404
+    It updates Section Name, Order and File Uploaded
+    Reads old file and new file uploaded in the section item related to section, compares them both
+    Deletes the section items not present in file, ignores already created ones and creates remaining one
 
-    context = {}
+    """
 
     selected_section = get_object_or_404(Section, id=pk)
-    selected_file = selected_section.section_file
-    file_content = pd.read_excel(selected_file)
-    old_data_list = []
-    for old_data in file_content.values:
-        old_data_list.append(*(old_data))
+
+    # Get ContentType model name of selected section
+    content_type_model = Section.objects.get(id=pk).section_items.values_list('content_type', flat=True).first()
+
+    # Get model name of fetched ContentType
+    model = ContentType.objects.values_list('model', flat=True).get(id=content_type_model)
 
     if request.method == "POST":
         section_form = UpdateSectionForm(
             request.POST, request.FILES, instance=selected_section
         )
-        model = request.POST.get('content_type')
-        model_id = ContentType.objects.values_list(
-            'id', flat=True
-        ).filter(app_label=SectionFormConstants.APP_LABEL, model=model)
+
+        # Read the content of the previously uploaded file
+        selected_file = selected_section.section_file
+        file_content = pd.read_excel(selected_file)
+        old_data_list = []
+        for old_data in file_content.values:
+            old_data_list.append(*old_data)
+
         if section_form.is_valid():
             if request.FILES:
+
+                # Read the uploaded Excel file
                 uploaded_file = request.FILES['section_file']
                 update_data = pd.read_excel(uploaded_file)
                 new_data_list = []
                 for new_data in update_data.values:
-                    new_data_list.append(*(new_data))
+                    new_data_list.append(*new_data)
 
             old_data_set = set(old_data_list)
             new_data_set = set(new_data_list)
-            to_delete_data = list(old_data_set.difference(new_data_set))
-            to_create_data = list(new_data_set.difference(old_data_set))
-            print(to_delete_data, '+++++++++++++++++++++++++++')
-            print(to_create_data, '------------------------------')
 
-            section_item_to_delete = Section.objects.filter(id__in=to_delete_data)
+            # Create a list of ids to be deleted
+            to_delete_data = list(old_data_set.difference(new_data_set))
+
+            # Create a list of ids tp be created
+            to_create_data = list(new_data_set.difference(old_data_set))
+
+            # Get records to be deleted
+            section_item_to_delete = SectionItems.objects.filter(object_id__in=to_delete_data)
             section_item_to_delete.delete()
 
-            static = Section.objects.filter(id=5)
-
+            # Create new section items in SectionItems model
             section_item_list = []
             for create_data in to_create_data:
-                section_item = SectionItems(object_id=create_data, content_type_id=model_id[0])
+                section_item = SectionItems(object_id=create_data, content_type_id=content_type_model)
                 section_item_list.append(section_item)
+                section_item.save()
+
+            section_form.save()
+
+            #  Get last created section and add section items to many-to-many field
             section_id = Section.objects.values_list('id', flat=True).order_by('-id')[0]
             last_created_section = Section.objects.get(id=section_id)
             last_created_section.section_items.add(*section_item_list)
 
-            section_form.save()
             messages.success(request, SectionFormSuccessMessages.SECTION_UPDATED)
         return redirect('view-section')
 
+    # If the request method is not POST, render t he form
     section_form = UpdateSectionForm(instance=selected_section)
 
     context = {
         "form": section_form,
-        "heading": AdminPortalHeadings.UPDATE_SECTIONS
+        "heading": AdminPortalHeadings.UPDATE_SECTIONS,
+        "model": model
     }
     return render(request, "section/update_section.html", context)
 
 
 @login_required
+@superuser_required
 def add_section(request):
-    """ To add a new section in section model """
+    """
+    To add a new section in section model.
+    Creates a new section in section model
 
-    if not request.user.is_superuser:
-        raise Http404
+    """
 
-    context = {}
+    # Check if the request method is POST
     if request.method == "POST":
-        section_form = AddSectionForm(request.POST, request.FILES)
         name = request.POST.get('name')
         order = request.POST.get('order')
         section_file = request.FILES.get('section_file')
         model = request.POST.get('content_type')
 
+        # Get the ContentType model instance
         model_instance = ContentType.objects.get(app_label=SectionFormConstants.APP_LABEL, model=model)
+
+        # Create a new Section object
         Section.objects.create(name=name, order=order,
                                section_file=section_file)
 
+        # Check the file extension
         uploaded_file = request.FILES['section_file']
+        file_extension = uploaded_file.name.split(".")
+        try:
+            if file_extension[1] not in SectionFormConstants.valid_extensions:
+                raise InvalidFileTypeException
+        except InvalidFileTypeException:
+            messages.error(request, SectionFormErrorMessages.INVALID_FILE_TYPE)
+            return redirect(to='add-section')
+
+        # Read the content of the uploaded file
         file_content = pd.read_excel(uploaded_file)
         section_item_object = []
+
+        # Create SectionItems objects for each row in the file
         for index, ids in file_content.iterrows():
             section_item = SectionItems(object_id=ids, content_type=model_instance)
             section_item_object.append(section_item)
             section_item.save()
 
+        # Add the SectionItems to the last created Section object
         section_id = Section.objects.values_list('id', flat=True).order_by('-id')[0]
         last_created_section = Section.objects.get(id=section_id)
         last_created_section.section_items.add(*section_item_object)
         last_created_section.save()
+
+        # Display success message and redirect to view-section page
         messages.success(request, SectionFormSuccessMessages.NEW_SECTION_ADDED)
         return redirect('view-section')
 
+    # If the request method is not POST, render the form
     section_form = AddSectionForm()
     context = {
         "section_form": section_form,
@@ -715,18 +728,18 @@ def add_section(request):
     return render(request, "section/add_section.html", context)
 
 
-# @view_sections
-def toggle_button(request, pk):
-    breakpoint()
+@login_required
+@superuser_required
+def update_section_status(request, pk):
+    """
+    To update the status of a section and return to view section page.
+    """
+
     section = get_object_or_404(Section, id=pk)
-    print(section)
-    status = "status" + pk
-    print(status)
-    if request.method == "POST":
-        toggle_button = request.POST.get('')
-        print(toggle_button)
-        if toggle_button == 'checked':
-            section.is_active = True
-        else:
+    if pk:
+        if section.is_active:
             section.is_active = False
-    return render(request, 'section/view_section.html')
+        else:
+            section.is_active = True
+        section.save()
+        return redirect(to='view-section')

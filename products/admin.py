@@ -31,7 +31,7 @@ class SectionItemsAdmin(admin.ModelAdmin):
 
 @admin.register(SectionSectionItemsThrough)
 class SectionSectionItemsThroughAdmin(admin.ModelAdmin):
-    list_display = ('section_items', 'section')
+    list_display = ('id', 'section_items', 'section')
 
 
 @admin.register(Banner)

@@ -59,3 +59,17 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+<<<<<<< HEAD
+=======
+
+
+.alert {
+    position: absolute;
+    width: 80%;
+    z-index: 6;
+    padding: 5px;
+    margin-left: 120px;
+    margin-top: 120px;
+    text-align: center;
+}
+>>>>>>> d143f9f46c1dfb7474481117b83e93aa4d3607b8

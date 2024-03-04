@@ -6,7 +6,8 @@ from .views import (home_page, add_product, update_product, view_product,
                     add_category, update_category, view_categroy, delete_category,
                     add_brand, update_brands, view_brands, delete_brand, category_data, subcategory_data,
                     product_data, all_products, view_sections, update_section, add_section, dashboard,
-                    add_banner, update_banner, delete_banner, banner_view, toggle_button)
+
+                    add_banner, update_banner, delete_banner, banner_view, update_section_status)
 
 urlpatterns = [
     path('', home_page, name='homepage'),
@@ -34,11 +35,10 @@ urlpatterns = [
     path('addbanner/', add_banner, name='add-banner'),
     path('update-banner/<int:pk>/', update_banner, name='update-banner'),
     path('delete-banner/<int:pk>/', delete_banner, name='delete-banner'),
-    path('allproducts/', all_products, name='all-products'),
     path('view-section/', view_sections, name='view-section'),
+    path('update-section-status/<int:pk>/', update_section_status, name='update-section-status'),
     path('update-section/<int:pk>/', update_section, name='update-section'),
     path('add-section/', add_section, name='add-section'),
-    path('toggle/', toggle_button, name='toggle'),
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(

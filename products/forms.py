@@ -199,7 +199,9 @@ class UpdateSectionForm(forms.ModelForm):
             }
         )
     )
+
     order = forms.IntegerField(
+        label="Priority",
         required=True,
         error_messages={'invalid': SectionFormErrorMessages.ORDER},
         widget=forms.Select(
@@ -213,5 +215,5 @@ class UpdateSectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = [
-            'name', 'is_active', 'order', 'section_file'
+            'name', 'order', 'section_file'
         ]

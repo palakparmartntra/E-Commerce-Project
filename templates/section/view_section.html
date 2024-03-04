@@ -5,8 +5,11 @@
   .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
   .toggle.ios .toggle-handle { border-radius: 20px; }
 </style>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d143f9f46c1dfb7474481117b83e93aa4d3607b8
 <body>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -42,6 +45,7 @@
         <tr>
             <td>{{ section.name }}</td>
             <td>{{ section.order }}</td>
+<<<<<<< HEAD
             <td>{{section.section_items.content_type}}</td>
 
             <td>
@@ -49,6 +53,14 @@
                   <input type="checkbox" id="status"  value="{{section.is_active}}" name="{{section.id}}"
                          {% if section.is_active %}checked {% endif %}>
                   <span class="slider round"></span>
+=======
+            <td>
+                <label class="switch">
+                  <a href="{% url 'update-section-status' section.id %}">
+                  <input type="checkbox" id="status" name="status" {% if section.is_active %}checked {% endif %}>
+                  <span class="slider round"></span>
+                  </a>
+>>>>>>> d143f9f46c1dfb7474481117b83e93aa4d3607b8
                 </label>
             </td>
             <td>
@@ -75,6 +87,7 @@ sdcswsd
 <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
+<<<<<<< HEAD
 <script>
 
 $(document).ready(function() {
@@ -84,5 +97,7 @@ $(document).ready(function() {
 });
 </script>
 
+=======
+>>>>>>> d143f9f46c1dfb7474481117b83e93aa4d3607b8
 
 {% endblock %}

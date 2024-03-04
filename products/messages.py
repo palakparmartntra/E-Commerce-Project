@@ -15,6 +15,7 @@ class SectionFormErrorMessages:
     SECTION_NAME = "Section name is required"
     ORDER = "Section priority is required"
     ORDER_NOT_UNIQUE = "Priority of the section should be unique!"
+    INVALID_FILE_TYPE = "Invalid file type! Please upload excel files only"
 
 
 class SectionFormSuccessMessages:

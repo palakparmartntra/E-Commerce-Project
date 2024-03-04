@@ -24,3 +24,10 @@
     margin-top: 10px;
     text-align: center;
 }
+
+
+a {
+    color: #353535;
+    outline: none;
+    text-decoration: none;
+}
