@@ -6,7 +6,7 @@ class AdminPortalHeadings:
     PRODUCT_UPDATED = "Product Updated Successfully"
     PRODUCT_DELETED = "Product Deleted Successfully"
     PRODUCT_HEADING = "Product"
-    PRODUCT_UPDATE_HEADING = 'Product Update'
+    PRODUCT_UPDATE_HEADING = 'Update Product'
     PRODUCT_MOVE_TO_TRASH = "Product has been moved to trash"
     PRODUCT_RESTORED = "Product Restored"
     PRODUCT_TRASH_HEADING = "Trash Products"
@@ -27,3 +27,4 @@ class AdminPortalHeadings:
     ADD_BANNER = 'Add Banner'
     UPDATE_BANNER = 'Update Banner'
     DELETE_BANNER = 'Delete Banner'
+    ADD_CATEGORY = 'Add Category'

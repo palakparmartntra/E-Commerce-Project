@@ -105,7 +105,7 @@ def add_product(request):
 @login_required
 @superuser_required
 def update_product(request, pk):
-    """ this view is useful for update product product """
+    """ this view is useful for update product """
 
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
@@ -261,7 +261,7 @@ def update_category(request, pk):
 
     category = AddCategoryForm(instance=category_instance)
     context['form'] = category
-    context['heading'] = ' Update Category'
+    context['heading'] = AdminPortalHeadings.ADD_CATEGORY
     return render(request, "product/category/update_category.html", context)
 
 
@@ -749,3 +749,19 @@ def update_section_status(request, pk):
             section.is_active = True
         section.save()
         return redirect(to='view-section')
+
+
+def product_detail(request, product_pk):
+    """ Show details of a product """
+
+    product = Product.objects.get(is_deleted=False, is_active=True, id=product_pk)
+    brand_of_product = BrandProduct.objects.get(product=product_pk)
+    categories = Category.objects.filter(parent=None)
+
+    context = {
+        "heading": product.name,
+        "product": product,
+        "categories": categories,
+        "brand_of_product": brand_of_product
+    }
+    return render(request, 'user_product/product_details.html', context)

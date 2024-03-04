@@ -1,0 +1,18 @@
+<html>
+<body>
+<div class="sidebar-widget category">
+    <h2 class="title">Category</h2>
+    <nav class="navbar bg-light">
+        <ul class="navbar-nav">
+            {% for category in categories %}
+                <li class="nav-item">
+                    <li class="nav-link">{% if product.image %}
+                    <img src="{{ category.image.url }}" alt="image" width="20px" height="20px">
+                    {% endif %} {{ category.name }}</li>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
