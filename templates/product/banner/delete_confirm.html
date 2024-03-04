@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static 'css/category.css' %}" rel="stylesheet">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<body>
+<div class="container">
+    <h1>Are you sure you want to delete {{banner.banner_name}} ?</h1>
+    <div class="btn-container">
+        <form method="POST" action="{% url 'delete-banner' banner.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary">Delete Banner</button>
+            <a class="btn" href="{% url 'banner' %}"> cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

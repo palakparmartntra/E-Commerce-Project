@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+<body class="view-category">
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/product.css' %}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+<div class="container mt-4">
+    <div class="top">
+
+<div class="search-container">
+        <form method="get">
+            {% csrf_token %}
+    <input type="text" size="60"name="search" placeholder="Search" value="{{ search }}">
+    <button type="submit"><i class="fa fa-search"></i></button>
+</div>
+        </form>
+          <button class="btn-add" onclick="window.location.href='{% url 'add-product' %}'">Add Product</button>
+          <button class="btn" onclick="window.location.href='{% url 'trashview' %}'">trash</button>
+
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for product in page_obj.object_list %}
+            <tr>
+                <td>
+                    {% if product.image %}
+                    <img style="height:100px; width:100px" class="recipe-image" src="{{ product.image.url }}" alt="image">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category }}</td>
+<td>
+ {% for brand in product.brandproduct_set.all %}
+    {{ brand.brand.name }}
+                    {% endfor %}
+</td>
+
+                <td>{{ product.price }}</td>
+                <td>
+                    {{product.is_active}}
+                </td>
+                <td>
+                    <a class="btn" href="{% url 'update-product' product.pk  %}">Edit</a>
+                    <a class="btn-danger" href="{% url 'trash-product' product.pk %}">Delete</a>
+
+
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+       <center>
+        {%if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}"><</a>
+        {% endif %}
+        <span>{{page_obj.number}}</span>
+
+        {%if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">></a>
+        {% endif %}
+    </center>
+<script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+</div>
+{% endblock %}
+

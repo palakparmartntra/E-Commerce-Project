@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<div class="container">
+    <div class="form-container">
+        <div id="abc">
+        <form id="updateproduct" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <br>Name  {{ form.name}}
+                        <br>Description {{form.description}}
+                        <br>Quantity {{form.quantity}}
+                        <br>Price {{form.price}}
+                        <br>image {{form.image}}
+                        <br><br>Category {{ form.category }}
+
+                        <br>Brand
+                        <select name="brand" class="form-control" required="" id="id_brand">
+                        {% for b in brands_list %}
+                          <option value={{b.id}}>{{b}}</option>
+                        {% endfor %}
+                        </select>
+                        <br>Is active {{ form.is_active }}
+                         <br><br>  <input class="btn" type="submit" value="Update Category">
+                <a  class="btn" style="margin-left:20px" href= "{% url 'view-product' %}"> Cancel</a>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+        </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="{% static 'js/update_product.js' %}"></script>
+{% endblock %}

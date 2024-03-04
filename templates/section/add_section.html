@@ -1,0 +1,25 @@
+{% extends 'base/admin_header.html' %}
+{% load static %}
+{% block content %}
+
+<link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <form id="add-section" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          {{ section_form.as_p }}
+<!--          {{ model_form.as_p }}-->
+          <input class="btn" type="submit" value="Create">
+          <a href= "{% url 'view-section' %}" style="margin-left:20px" class="btn">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </form>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+ <script src="{% static 'js/add_section.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+
+
+{% endblock %}

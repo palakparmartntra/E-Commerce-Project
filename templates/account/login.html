@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+    <head>
+        <meta charset="utf-8">
+        <title>E Store - eCommerce HTML Template</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="eCommerce HTML Template Free Download" name="keywords">
+        <meta content="eCommerce HTML Template Free Download" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap" rel="stylesheet">
+
+        <!-- CSS Libraries -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="lib/slick/slick.css" rel="stylesheet">
+        <link href="lib/slick/slick-theme.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+          <link href="{% static 'css/style.css' %}" rel="stylesheet">
+          <link href="{% static 'css/login.css' %}" rel="stylesheet">
+
+    </head>
+
+    <body class="body-login">
+       <div class="login-div">
+        {% if messages %}
+            <div id="success-alert" style="overflow: " class="alert alert-success alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                <p{% if message.tags %} class="{{ message.tags }}"{% endif %}> {{ message }}</p>
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+           <h3><strong>Login Page</strong></h3>
+           <br>
+           <form  class="login-form" id="loginform" method="post" action="{% url 'account_login' %}">
+           {% csrf_token %}
+                <p>
+                <input type="text" name="login"  class="form-control" placeholder="Username" autocomplete="username" maxlength="150" required id="id_login">
+                </p>
+                <p>
+                <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="current-password" required aria-describedby="id_password_helptext" id="id_password">
+                <br>
+                <span class="helptext" id="id_password_helptext"><a href="/password/reset/">Forgot your password?</a></span>
+                </p>
+                <br>
+                <button class="btn" type="submit">Login</button>
+            </form>
+            <hr>
+            Don't have account?<a href="{% url 'account_signup' %}"> Signup </a>
+            <br><a href="{% url 'homepage' %}"> Back to Home </a>
+            </div>
+            <br>
+
+        <!-- Template Javascript -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+       <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
+       <script type="text/javascript" src="{% static 'js/alert.js' %}"></script>
+
+
+    </body>
+</html>

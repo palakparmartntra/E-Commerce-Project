@@ -4,7 +4,7 @@
 {% block title %}
     <head>
         <meta charset="utf-8">
-        <title>{% if request.user.is_superuser %} Admin {% else %} Dash Clothes {% endif %} | {{ heading }} </title>
+        <title>Dash Clothes</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="eCommerce HTML Template Free Download" name="keywords">
         <meta content="eCommerce HTML Template Free Download" name="description">
@@ -36,6 +36,7 @@
             </button>
         </div>
         {% endif %}
+
         <!-- Nav Bar Start -->
         <div class="nav">
             <div class="container-fluid">
@@ -47,7 +48,7 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
-                            <a href="#" class="nav-item nav-link">Home</a>
+                            <a href="{% url 'homepage' %}" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                         </div>
                         <div class="navbar-nav ml-auto">
@@ -57,18 +58,22 @@
                         <a href="#" class="nav-link dropdown-toggle" style="width:130px;" data-toggle="dropdown">{{request.user}} </a>
 
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">{{request.user}} </a>
-                            <a href="#" class="dropdown-item">Change Password </a>
-                            <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                            <form id="logout-form" action="#" method="post" style="display: none;">
+                            {%  if request.user.is_superuser %}
+                            <a href="{% url 'dashboard' %}" class="dropdown-item">Dashboard </a>
+                            {% else %}
+                            <a href="{% url 'profile' %}" class="dropdown-item">{{request.user}} </a>
+                            {% endif %}
+                            <a href="{% url 'account_change_password' %}" class="dropdown-item">Change Password </a>
+                            <a href="{% url 'account_logout' %}?next={% url 'account_login' %}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            <form id="logout-form" action="{% url 'account_logout' %}?next={% url 'account_login' %}" method="post" style="display: none;">
                                 {% csrf_token %}
                             </form>
                         {% else %}
                          <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
+                            <a href="{% url 'account_login' %}" class="nav-link dropdown-toggle" data-toggle="dropdown"> Profile</a>
                             <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Sign in</a>
-                            <a href="#" class="dropdown-item">Sign up</a>
+                            <a href="{% url 'account_login' %}" class="dropdown-item">Sign in</a>
+                            <a href="{% url 'account_signup' %}" class="dropdown-item">Sign up</a>
                             </div>
                          </div>
                         {% endif %}
@@ -87,15 +92,18 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="#">
+                            <a href="{% url 'homepage' %}">
                              <img src="{% static 'img/DashClothes.png' %}" alt="Logo">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="search">
-                            <input type="text" placeholder="Search">
-                            <button><i class="fa fa-search"></i></button>
+                           <form method="get">
+                        {% csrf_token %}
+                    <input class="search" size="50" name="search" type="text"  placeholder="search">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -118,7 +126,9 @@
 
 {% endblock %}
 {% block content %}
+
 {% endblock %}
+
 
         <!-- Footer Start -->
         <div class="footer">
@@ -180,7 +190,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 copyright">
-                        <p>Copyright &copy; {% now "Y" %} <a href="https://htmlcodex.com">Dash Clothes</a>. All Rights Reserved</p>
+                        <p>Copyright &copy; {% now "Y" %} <a href="{% url 'homepage' %}">Dash Clothes</a>. All Rights Reserved</p>
                     </div>
 
                     <div class="col-md-6 template-by">
@@ -198,7 +208,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/slick/slick.min.js"></script>
+        <script src="{% static 'lib/slick/slick.min.js' %}"></script>
 
         <!-- Template Javascript -->
        <script type="text/javascript" src="{% static 'js/main.js' %}"></script>

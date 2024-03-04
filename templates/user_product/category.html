@@ -1,0 +1,44 @@
+{% extends 'base/header.html' %}
+{% load static %}
+{% block content %}
+
+ <div class="featured-product product">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h3>Our Category</h3>
+        </div>
+        <div class="col-lg-12">
+        <div class="row">
+            {% for category in categorydata.object_list %}
+            <div  class="col-lg-3 mb-5">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="#">{{category.name}}</a>
+                    </div>
+                    <div class="product-image">
+                        <a href="{% url 'subcategory' category.id %}">
+                                 {% if category.image %}
+                    <img style="width:320px; height:250px;" src="{{ category.image.url }}" alt="image">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+      <center>
+        {%if categorydata.has_previous %}
+            <a href="?page={{categorydata.previous_page_number}}"><</a>
+        {% endif %}
+        <span>{{categorydata.number}}</span>
+
+        {%if categorydata.has_next %}
+            <a href="?page={{categorydata.next_page_number}}">></a>
+        {% endif %}
+    </center>
+ </div>
+    </div>
+ </div>
+{% endblock %}
