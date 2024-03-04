@@ -105,7 +105,7 @@ def add_product(request):
 @login_required
 @superuser_required
 def update_product(request, pk):
-    """ this view is useful for update product product """
+    """ this view is useful for update product """
 
     context = {}
     product_instance = get_object_or_404(Product, pk=pk)
@@ -261,7 +261,7 @@ def update_category(request, pk):
 
     category = AddCategoryForm(instance=category_instance)
     context['form'] = category
-    context['heading'] = ' Update Category'
+    context['heading'] = AdminPortalHeadings.ADD_CATEGORY
     return render(request, "product/category/update_category.html", context)
 
 
