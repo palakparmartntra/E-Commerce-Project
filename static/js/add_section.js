@@ -9,7 +9,7 @@ $("#add-section").validate({
     },
     messages: {
         name: {
-            required: "Please enter brand name"
+            required: "Please enter section name"
         },
         section_file: {
             required: "Please upload excel file for this section"
