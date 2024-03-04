@@ -6,9 +6,9 @@
         <ul class="navbar-nav">
             {% for category in categories %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{% if product.image %}
+                    <li class="nav-link">{% if product.image %}
                     <img src="{{ category.image.url }}" alt="image" width="20px" height="20px">
-                    {% endif %} {{ category.name }}</a>
+                    {% endif %} {{ category.name }}</li>
                 </li>
             {% endfor %}
         </ul>

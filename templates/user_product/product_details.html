@@ -34,6 +34,12 @@
                                     <h4>Price:</h4>
                                     <p>₹ {{ product.price }}</p>
                                 </div>
+                                <div class="quantity">
+                                    <form method="post" id="update_address_form">
+                                        <h4>Quantity:</h4>
+                                        <input type="number" name="purchase_quantity" min="1" max="5" value="1" id="quality"/>
+                                    </form>
+                                </div>
                                 <p><b>inclusive of all taxes</b></p>
                                 <div class="action">
                                     <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Add to Cart</a>

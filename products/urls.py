@@ -39,7 +39,7 @@ urlpatterns = [
     path('update-section-status/<int:pk>/', update_section_status, name='update-section-status'),
     path('update-section/<int:pk>/', update_section, name='update-section'),
     path('add-section/', add_section, name='add-section'),
-    path('product/<int:product_pk>/', product_detail, name='product-detail')
+    path('product-detail/<int:product_pk>/', product_detail, name='product-detail')
 ] + static(
     settings.STATIC_URL, document_root=settings.STATIC_ROOT
 ) + static(
