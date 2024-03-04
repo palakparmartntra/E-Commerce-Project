@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (Product, Category, Brand, BrandProduct,
-                     Section, SectionItems, SectionSectionItemsThrough, Banner)
+                     Section, SectionItems, SectionSectionItemsThrough, Banner, Cart)
 
 
 @admin.register(Product)
@@ -48,3 +48,8 @@ class SectionItemsInline(admin.TabularInline):
 class SectionAdmin(admin.ModelAdmin):
     list_display = ('name', 'order', 'is_active', 'section_file')
     inlines = (SectionItemsInline,)
+
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'date')
