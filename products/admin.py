@@ -52,4 +52,4 @@ class SectionAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product')
+    list_display = ('user', 'product', 'date')
