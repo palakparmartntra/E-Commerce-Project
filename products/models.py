@@ -113,9 +113,37 @@ class Cart(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return f'{self.user} {self.product}'
 
 
+class Order(models.Model):
+    """ Model for order details of a product. """
+
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_price = models.PositiveBigIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
+
+    def __str__(self):
+        return f'{self.customer}'
+
+
+class OrderItems(models.Model):
+    """ Model for order items in an order. """
+
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.product}'

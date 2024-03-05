@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (Product, Category, Brand, BrandProduct,
-                     Section, SectionItems, SectionSectionItemsThrough, Banner, Cart)
+                     Section, SectionItems, SectionSectionItemsThrough, Banner, Cart,
+                     Order, OrderItems)
 
 
 @admin.register(Product)
@@ -52,4 +53,20 @@ class SectionAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'product', 'date')
+    list_display = ('user', 'product', 'created_at')
+
+
+@admin.register(OrderItems)
+class OrderItemsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order', 'product', 'quantity', 'created_at')
+
+
+class OrderInline(admin.TabularInline):
+    model = OrderItems
+    extra = 0
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'customer', 'total_price', 'created_at')
+    inlines = (OrderInline,)
