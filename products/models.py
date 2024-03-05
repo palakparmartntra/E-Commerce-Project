@@ -122,7 +122,6 @@ class Order(models.Model):
 
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.PositiveBigIntegerField()
-    order_items = models.ManyToManyField('OrderItems', through='OrderManager')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -135,6 +134,7 @@ class Order(models.Model):
 class OrderItems(models.Model):
     """ Model for order items in an order. """
 
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.PROTECT, null=True, blank=True)
     quantity = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -144,13 +144,3 @@ class OrderItems(models.Model):
 
     def __str__(self):
         return f'{self.product}'
-
-
-class OrderManager(models.Model):
-    """ Model to manage order item and order detail. """
-
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
-    order_items = models.ForeignKey(OrderItems, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.order} x {self.order_items}'
